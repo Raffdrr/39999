@@ -12,8 +12,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "lucide-react": "^0.511.0",
-    "zustand": "^4.5.4",
-    "create-react-context": "^0.3.0"
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
