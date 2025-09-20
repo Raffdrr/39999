@@ -1,4 +1,4 @@
-// Fix: Changed import from default to named.
+
 import { create } from 'zustand';
 import { FavoriteItem, Locale, Event } from '../types';
 import { useUIStore } from './useUIStore';

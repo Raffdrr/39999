@@ -1,4 +1,4 @@
-// Fix: Changed import from default to named.
+
 import { create } from 'zustand';
 import { NotificationItem, ChatMessage } from '../types';
 import { initialNotifications, initialChatMessages } from '../constants';

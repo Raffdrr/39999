@@ -1,6 +1,6 @@
-// Fix: Changed import from default to named.
+
 import { create } from 'zustand';
-import { calculateLevelDetails, GAMIFICATION_OBJECTIVES_LIST_CORE, initialEventData, USER_AVATARS, PANDA_AVATAR_REWARD_URL } from '../constants';
+import { calculateLevelDetails, GAMIFICATION_OBJECTIVES_LIST_CORE, AVAILABLE_BADGES, USER_AVATARS } from '../constants';
 import { LevelDetails, GamificationObjective, GamificationActionType, Event, Locale, Reward } from '../types';
 import { useUIStore } from './useUIStore';
 import { useDataStore } from './useDataStore';
@@ -16,6 +16,8 @@ interface UserState {
   claimedRewards: Set<string>;
   avatar: string;
   isPremium: boolean;
+  actionProgress: Map<GamificationActionType, number>;
+  unlockedBadges: Set<string>;
   
   addXP: (amount: number) => void;
   updateCredit: (amount: number) => void;
@@ -34,18 +36,32 @@ interface UserState {
   processGamificationAction: (actionType: GamificationActionType) => void;
 }
 
-const initializeObjectives = (joinedTablesCount: number): GamificationObjective[] => {
-    return GAMIFICATION_OBJECTIVES_LIST_CORE.map(obj => {
-        let isCompleted = false;
-        if (obj.actionType === 'JOIN_TABLE' && joinedTablesCount > 0) {
-            isCompleted = true;
-        }
-        return { ...obj, isCompleted };
-    });
-};
-
 const initialJoinedEvents = new Set(['event_past1', 'event_past2', 'event_yoga']);
 const initialJoinedTables = new Set(['loc1', 'loc2']);
+
+// Helper to initialize user's gamification state based on mock data
+const initializeGamificationState = () => {
+    const actionProgress = new Map<GamificationActionType, number>();
+    actionProgress.set('JOIN_EVENT', initialJoinedEvents.size);
+    actionProgress.set('JOIN_TABLE', initialJoinedTables.size);
+
+    const objectives = GAMIFICATION_OBJECTIVES_LIST_CORE.map(obj => {
+        const progress = actionProgress.get(obj.actionType) || 0;
+        return {
+            ...obj,
+            isCompleted: progress >= obj.targetCount,
+            currentProgress: progress
+        };
+    });
+
+    const unlockedBadges = new Set<string>();
+    if ((actionProgress.get('JOIN_EVENT') || 0) >= 5) unlockedBadges.add('badge1');
+    // Add other initial badge checks if necessary
+
+    return { actionProgress, objectives, unlockedBadges };
+};
+
+const initialGamificationState = initializeGamificationState();
 
 export const useUserStore = create<UserState>((set, get) => ({
   xp: 165,
@@ -53,11 +69,13 @@ export const useUserStore = create<UserState>((set, get) => ({
   credit: 125.50,
   joinedEvents: initialJoinedEvents,
   joinedTables: initialJoinedTables,
-  objectives: initializeObjectives(initialJoinedTables.size),
+  objectives: initialGamificationState.objectives,
   rewards: [], // Assuming rewards are fetched or static
   claimedRewards: new Set(),
   avatar: USER_AVATARS[8],
   isPremium: false,
+  actionProgress: initialGamificationState.actionProgress,
+  unlockedBadges: initialGamificationState.unlockedBadges,
 
   addXP: (amount) => {
     const currentXP = get().xp;
@@ -149,20 +167,62 @@ export const useUserStore = create<UserState>((set, get) => ({
   setPremium: (isPremium) => set({ isPremium }),
 
   processGamificationAction: (actionType) => {
-    let xpGained = 0;
-    const newObjectives = get().objectives.map(obj => {
-      if (obj.actionType === actionType && !obj.isCompleted) {
-        xpGained += obj.xpValue;
-        useUIStore.getState().showToast(`Obiettivo: ${obj.title} (+${obj.xpValue} XP)`, "success");
-        return { ...obj, isCompleted: true };
-      }
-      return obj;
+    const { actionProgress, objectives, addXP, unlockedBadges } = get();
+    const showToast = useUIStore.getState().showToast;
+
+    const newProgress = (actionProgress.get(actionType) || 0) + 1;
+    const newActionProgress = new Map(actionProgress).set(actionType, newProgress);
+    
+    let totalXpGained = 0;
+
+    const updatedObjectives = objectives.map(obj => {
+        if (!obj.isCompleted && obj.actionType === actionType && newProgress >= obj.targetCount) {
+            totalXpGained += obj.xpValue;
+            showToast(`Obiettivo: ${obj.title} (+${obj.xpValue} XP)`, "success");
+            return { ...obj, isCompleted: true, currentProgress: newProgress };
+        }
+        return obj;
     });
 
-    if (xpGained > 0) {
-      get().addXP(xpGained);
+    if (totalXpGained > 0) {
+        addXP(totalXpGained);
     }
-    set({ objectives: newObjectives });
+    
+    const newUnlockedBadges = new Set(unlockedBadges);
+    let newBadgeWasUnlocked = false;
+
+    if (!newUnlockedBadges.has('badge1') && actionType === 'JOIN_EVENT' && newProgress >= 5) {
+        newUnlockedBadges.add('badge1');
+        newBadgeWasUnlocked = true;
+    }
+    if (!newUnlockedBadges.has('badge2') && actionType === 'ADD_REVIEW_LOCALE' && newProgress >= 3) {
+        newUnlockedBadges.add('badge2');
+        newBadgeWasUnlocked = true;
+    }
+    if (!newUnlockedBadges.has('badge3') && actionType === 'MAKE_DONATION' && newProgress >= 1) {
+        newUnlockedBadges.add('badge3');
+        newBadgeWasUnlocked = true;
+    }
+    if (!newUnlockedBadges.has('badge4') && actionType === 'CREATE_EVENT' && newProgress >= 1) {
+        newUnlockedBadges.add('badge4');
+        newBadgeWasUnlocked = true;
+    }
+    
+    if (newBadgeWasUnlocked) {
+        const newlyUnlockedBadgeId = [...newUnlockedBadges].find(id => !unlockedBadges.has(id));
+        const badgeInfo = AVAILABLE_BADGES.find(b => b.id === newlyUnlockedBadgeId);
+        if(badgeInfo) {
+             setTimeout(() => {
+                showToast(`Badge Sbloccato: ${badgeInfo.name}!`, "success");
+             }, 600);
+        }
+    }
+    
+    set({ 
+        actionProgress: newActionProgress,
+        objectives: updatedObjectives,
+        unlockedBadges: newUnlockedBadges
+    });
   },
 
 }));

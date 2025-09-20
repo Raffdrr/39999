@@ -8,7 +8,7 @@ const MapPreview: React.FC = () => {
 
   return (
     <div
-      className="mb-6 h-48 sm:h-56 w-full rounded-2xl overflow-hidden relative shadow-xl group bg-slate-400 cursor-pointer transition-all duration-300 hover:shadow-2xl"
+      className="h-48 sm:h-56 w-full rounded-2xl overflow-hidden relative shadow-xl group bg-slate-400 cursor-pointer transition-all duration-300 hover:shadow-2xl"
       onClick={() => openModal('isGlobalMapOpen', true)}
     >
       <img

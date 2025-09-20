@@ -3,7 +3,8 @@ import { Heart } from 'lucide-react';
 
 interface FavoriteButtonProps {
   isFavorite: boolean;
-  onToggle: () => void;
+  // FIX: Changed onToggle signature to accept the mouse event to fix type incompatibility.
+  onToggle: (e: React.MouseEvent) => void;
   className?: string;
   "aria-label"?: string;
   iconSize?: number;
@@ -26,7 +27,8 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     if (!isFavorite) {
       setIsAnimating(true);
     }
-    onToggle();
+    // FIX: Pass the event to the onToggle handler.
+    onToggle(e);
   };
 
   const defaultAriaLabel = isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti";

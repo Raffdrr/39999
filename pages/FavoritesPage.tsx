@@ -32,14 +32,21 @@ const FavoritesPage: React.FC = () => {
                                 index={index}
                                 isCharity={!isLocale && (item as Event).isCharityEvent}
                             >
-                                <ImageWithFallback itemKey={`fav_img_${item.id}`} src={item.img!} alt={`Foto di ${item.name}`} imgClassName="h-28 sm:h-32 w-full sm:w-28 rounded-xl object-cover" containerClassName="h-28 sm:h-32 w-full sm:w-28 rounded-xl" />
-                                <div className="flex flex-col justify-center py-1 flex-1 min-w-0">
-                                    <h3 className="font-bold text-md sm:text-lg text-slate-800 truncate">{item.name}</h3>
+                                <ImageWithFallback 
+                                    itemKey={`fav_img_${item.id}`} 
+                                    src={item.img!} 
+                                    alt={`Foto di ${item.name}`} 
+                                    imgClassName="w-full h-full object-cover"
+                                    containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
+                                />
+                                <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
+                                    <h3 className="font-bold text-base text-slate-800 truncate">{item.name}</h3>
                                     {isLocale ? (
                                         <>
                                             <p className="text-xs text-slate-500 truncate">{(item as Locale).cuisine} • {(item as Locale).price}</p>
-                                            <div className="flex items-center text-xs text-amber-600 font-bold mt-1">
-                                                <Star size={16} className="mr-1 fill-amber-500 text-amber-500" /> {(item as Locale).rating?.toFixed(1)}
+                                            <div className="flex items-center text-xs">
+                                                <Star size={14} className="mr-1 fill-amber-500 text-amber-500 flex-shrink-0" />
+                                                <span className="text-amber-600 font-bold">{(item as Locale).rating?.toFixed(1)}</span>
                                             </div>
                                         </>
                                     ) : (
@@ -49,8 +56,12 @@ const FavoritesPage: React.FC = () => {
                                         </>
                                     )}
                                 </div>
-                                <button onClick={(e) => { e.stopPropagation(); toggleFavorite(item); }} className="p-2.5 rounded-full hover:bg-red-100/80 self-center">
-                                    <Trash2 size={20} className="text-red-500" />
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); toggleFavorite(item); }} 
+                                    className="p-2 rounded-full hover:bg-red-100/80 self-center ml-2 flex-shrink-0"
+                                    aria-label={`Rimuovi ${item.name} dai preferiti`}
+                                >
+                                    <Trash2 size={18} className="text-red-500" />
                                 </button>
                             </ListCard>
                         );

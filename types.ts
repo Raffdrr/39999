@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { LucideIcon, LucideProps } from 'lucide-react';
 
@@ -104,7 +103,9 @@ export type GamificationActionType =
   | 'PAY_EVENT_WITH_CREDIT'
   | 'JOIN_TABLE'
   | 'CLAIM_REWARD'
-  | 'PAY_LOCALE_BILL_WITH_CREDIT'; // Added for pay at table
+  | 'PAY_LOCALE_BILL_WITH_CREDIT' // Added for pay at table
+  | 'VOTE_REVIEW_UP' // New action for useful reviews
+  | 'INVITE_FRIEND_ACCEPTED'; // New action for accepted invitations
 
 export interface GamificationObjectiveCore {
   id: string;
@@ -230,4 +231,19 @@ export interface Reward {
   // Fix: Changed from React.ReactElement to LucideIcon component type for better type safety and to fix cloneElement error.
   icon: LucideIcon;
   color: string;
+}
+
+export interface Story {
+  id: string;
+  image: string;
+  title: string;
+  type: 'promo' | 'friend_join';
+}
+
+export interface SocialCard {
+  itemType: 'social';
+  id: string;
+  text: string;
+  friendAvatars: string[];
+  relatedEventId?: string;
 }

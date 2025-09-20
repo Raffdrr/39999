@@ -1,4 +1,4 @@
-// Fix: Changed import from default to named.
+
 import { create } from 'zustand';
 import { initialLocaleData, initialEventData, MENU_PHOTO_PRESETS, CHARITY_EVENT_PRESET_IMG, EVENT_IMAGE_PRESETS } from '../constants';
 import { Locale, Event, UserReview, BillDetails, GamificationActionType } from '../types';
@@ -25,7 +25,6 @@ export const useDataStore = create<DataState>((set, get) => ({
   events: initialEventData,
 
   addReview: (itemType, itemId, rating, text) => {
-    // Fix: Corrected property name from `userAvatar` to `avatar`.
     const { avatar, processGamificationAction } = useUserStore.getState();
     const review: UserReview = {
       userId: 'currentUser',
@@ -128,7 +127,6 @@ export const useDataStore = create<DataState>((set, get) => ({
   },
 
   applyCreditToBill: (localeId, amountToApply) => {
-    // Fix: Corrected property names from `userCredit`, `updateUserCredit` to `credit`, `updateCredit`.
     const { credit, updateCredit, processGamificationAction } = useUserStore.getState();
     const locale = get().locales.find(l => l.id === localeId);
     const bill = locale?.billDetails;
@@ -177,7 +175,6 @@ export const useDataStore = create<DataState>((set, get) => ({
       if (!bill || bill.status === 'paid_with_credit') return;
 
       if (bill.creditContributed > 0) {
-          // Fix: Corrected method name from `updateUserCredit` to `updateCredit`.
           useUserStore.getState().updateCredit(bill.creditContributed);
           useUIStore.getState().showToast(`Credito di €${bill.creditContributed.toFixed(2)} rimborsato.`, "info");
       }

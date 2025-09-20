@@ -1,9 +1,6 @@
 
-
-// Fix: Changed import from default to named.
 import { create } from 'zustand';
-// Fix: Added missing InputModalData import.
-import { ToastMessage, TabId, ReviewModalData, PaymentCodeModalData, PayWithCreditAmountModalData, InputModalData } from '../types';
+import { ToastMessage, TabId, ReviewModalData, PaymentCodeModalData, PayWithCreditAmountModalData, InputModalData, DisplayCategory } from '../types';
 
 // Data types for modals that carry specific information
 type ModalData = {
@@ -43,16 +40,24 @@ interface UIState extends ModalState {
   activeTab: TabId;
   toastMessage: ToastMessage | null;
   showFilterPanel: boolean;
+  searchTerm: string;
+  displayCategory: DisplayCategory;
+  activeLocaleFilters: Set<string>;
+  activeEventFilters: Set<string>;
   
   setActiveTab: (tabId: TabId) => void;
   showToast: (text: string, type?: "success" | "error" | "info", icon?: React.ReactNode) => void;
   hideToast: () => void;
   
-  // Generic modal handler
   openModal: <K extends ModalName>(modal: K, data?: ModalState[K]) => void;
   closeAllModals: () => void;
 
   toggleFilterPanel: () => void;
+  setSearchTerm: (term: string) => void;
+  setDisplayCategory: (category: DisplayCategory) => void;
+  toggleLocaleFilter: (filter: string) => void;
+  toggleEventFilter: (filter: string) => void;
+  resetAllFilters: () => void;
 }
 
 const initialModalState: ModalState = {
@@ -84,9 +89,12 @@ export const useUIStore = create<UIState>((set, get) => ({
   activeTab: 'home',
   toastMessage: null,
   showFilterPanel: false,
+  searchTerm: '',
+  displayCategory: 'all',
+  activeLocaleFilters: new Set(),
+  activeEventFilters: new Set(),
 
   setActiveTab: (tabId) => {
-    // When changing tabs, close the filter panel if it's open
     if (get().showFilterPanel) {
       set({ showFilterPanel: false });
     }
@@ -101,9 +109,6 @@ export const useUIStore = create<UIState>((set, get) => ({
   hideToast: () => set({ toastMessage: null }),
 
   openModal: (modal, data) => {
-    // If the data is a boolean (for flag-based modals) or any other value
-    // We set the corresponding key in the state.
-    // The `any` cast is a pragmatic choice here for this generic function.
     set({ [modal]: data } as any);
   },
 
@@ -112,4 +117,24 @@ export const useUIStore = create<UIState>((set, get) => ({
   },
 
   toggleFilterPanel: () => set(state => ({ showFilterPanel: !state.showFilterPanel })),
+  
+  setSearchTerm: (term) => set({ searchTerm: term }),
+  
+  setDisplayCategory: (category) => set({ displayCategory: category }),
+  
+  toggleLocaleFilter: (filter) => set(state => {
+    const newSet = new Set(state.activeLocaleFilters);
+    if (newSet.has(filter)) newSet.delete(filter);
+    else newSet.add(filter);
+    return { activeLocaleFilters: newSet };
+  }),
+
+  toggleEventFilter: (filter) => set(state => {
+    const newSet = new Set(state.activeEventFilters);
+    if (newSet.has(filter)) newSet.delete(filter);
+    else newSet.add(filter);
+    return { activeEventFilters: newSet };
+  }),
+  
+  resetAllFilters: () => set({ activeLocaleFilters: new Set(), activeEventFilters: new Set() }),
 }));

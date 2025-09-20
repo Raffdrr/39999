@@ -122,26 +122,41 @@
       to { opacity: 1; transform: translateY(0); max-height: 1000px; /* Large enough value */ } 
     }
 
-    /* Styles for bottom search bar visibility based on class */
-    .bottom-search-bar-visible {
-      max-height: 70px; /* Adjust if content exceeds this, e.g. based on App.tsx values */
-      opacity: 1;
-      visibility: visible;
-      padding-top: 0.625rem; /* py-2.5 */
-      padding-bottom: 0.625rem; /* py-2.5 */
-      border-top-width: 1px;
+    .bottom-search-bar {
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
     .bottom-search-bar-hidden {
-      max-height: 0;
+      transform: translateY(100%);
       opacity: 0;
-      visibility: hidden;
-      padding-top: 0;
-      padding-bottom: 0;
-      border-top-width: 0;
-      margin-bottom: 0; /* Important to prevent layout shift */
+      pointer-events: none;
     }
     
-    /* NEW MICRO-INTERACTION ANIMATIONS */
+    .filter-panel-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 35; /* Below modals (50) but above content */
+        animation: fade-in 0.3s ease-out forwards;
+    }
+    .filter-panel-content {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f8fafc; /* slate-50 */
+        border-top-left-radius: 1.5rem; /* rounded-t-3xl */
+        border-top-right-radius: 1.5rem;
+        padding: 1.25rem 1.25rem 7rem 1.25rem; /* bottom padding to clear nav bar */
+        z-index: 40;
+        box-shadow: 0 -10px 25px -5px rgb(0 0 0 / 0.1), 0 -8px 10px -6px rgb(0 0 0 / 0.1); /* shadow-top-strong */
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        animation: slide-up 0.35s ease-out forwards;
+    }
+    @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    /* NEW MICRO-INTERACTION & SOCIAL FEED ANIMATIONS */
     @keyframes heart-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
     .animate-heart-pulse { animation: heart-pulse 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     
@@ -150,7 +165,27 @@
     
     @keyframes objective-complete-bg { 0% { background-color: transparent; } 50% { background-color: #dcfce7; } 100% { background-color: transparent; } } /* green-100 */
     .animate-objective-complete { animation: objective-complete-bg 1.5s ease-out; }
+    
+    .animate-story-enter { animation: story-enter 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+    @keyframes story-enter { to { opacity: 1; transform: translateY(0); } }
 
+    @keyframes social-card-gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-social-card-gradient {
+      background: linear-gradient(-45deg, #e0e7ff, #c7d2fe, #e0f2fe, #e0e7ff);
+      background-size: 400% 400%;
+      animation: social-card-gradient 15s ease infinite;
+    }
+
+    .story-item-gradient-border {
+      position: relative;
+      padding: 2px;
+      border-radius: 9999px;
+      background: linear-gradient(45deg, #f43f5e, #f97316, #eab308);
+    }
 
     /* Tailwind Safelist per colori dinamici (comment for context, CDN scans for literal classes) */
     /* from-amber-100 via-amber-50 to-white border-amber-200 border-amber-300 bg-amber-500/20 text-amber-700 text-amber-500 text-amber-400 text-amber-600 text-amber-800 bg-amber-500 hover:bg-amber-600 bg-amber-50/50 */

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
   Award, ChevronRight, Gift, HelpCircle,
-  LogOut, PlusCircle, Shield, Target, TrendingUp, CalendarCheck
+  LogOut, PlusCircle, Shield, Target, TrendingUp, CalendarCheck, Lock
 } from 'lucide-react';
 import { useUserStore, useUIStore, useDataStore } from '../stores';
-import { USER_BADGES, INITIAL_REWARDS_DATA } from '../constants';
+// FIX: Imported INITIAL_REWARDS_DATA to resolve reference error.
+import { AVAILABLE_BADGES, INITIAL_REWARDS_DATA } from '../constants';
 import { GamificationObjective, Badge as BadgeType, Reward as RewardType } from '../types';
 import { CheckCircle } from 'lucide-react';
 import ImageWithFallback from '../components/ImageWithFallback';
@@ -16,6 +17,7 @@ const ProfilePage: React.FC = () => {
     avatar,
     objectives,
     claimedRewards,
+    unlockedBadges,
     setAvatar,
     joinedEvents
   } = useUserStore();
@@ -93,14 +95,20 @@ const ProfilePage: React.FC = () => {
           {isBadgesOpen && (
             <div className="px-4 pb-4 animate-slide-down">
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                {USER_BADGES.map((badge: BadgeType) => {
+                {AVAILABLE_BADGES.map((badge: BadgeType) => {
                     const Icon = badge.icon;
+                    const isUnlocked = unlockedBadges.has(badge.id);
                     return (
-                        <div key={badge.id} className="flex flex-col items-center flex-shrink-0 w-20 text-center" title={badge.description}>
-                            <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-${badge.color}-100`}>
-                              <Icon size={32} className={`text-${badge.color}-500`} />
+                        <div key={badge.id} className="flex flex-col items-center flex-shrink-0 w-20 text-center" title={isUnlocked ? badge.name : `Sblocca: ${badge.description}`}>
+                            <div className={`relative w-14 h-14 rounded-full flex items-center justify-center ${isUnlocked ? `bg-${badge.color}-100` : 'bg-slate-200'}`}>
+                              <Icon size={32} className={`${isUnlocked ? `text-${badge.color}-500` : 'text-slate-400'}`} />
+                               {!isUnlocked && (
+                                <div className="absolute inset-0 bg-black/30 rounded-full flex items-center justify-center">
+                                  <Lock size={20} className="text-white/80" />
+                                </div>
+                              )}
                             </div>
-                            <p className="text-xs text-slate-600 mt-2 truncate w-full">{badge.name}</p>
+                            <p className={`text-xs mt-2 truncate w-full font-medium ${isUnlocked ? 'text-slate-600' : 'text-slate-400'}`}>{badge.name}</p>
                         </div>
                     )
                 })}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Calendar, MessageSquare, Heart, User } from 'lucide-react';
+import { Calendar, MessageSquare, Home, Heart, User } from 'lucide-react';
 
 import HomePage from './pages/HomePage';
 import CalendarPage from './pages/CalendarPage';
@@ -7,6 +7,9 @@ import ChatPage from './pages/ChatPage';
 import FavoritesPage from './pages/FavoritesPage';
 import ProfilePage from './pages/ProfilePage';
 import Toast from './components/ui/Toast';
+import FilterPanel from './components/ui/FilterPanel';
+import FabMenu from './components/ui/FabMenu';
+import HomeSearchBar from './components/ui/SearchBar';
 
 import RestaurantModal from './components/modals/RestaurantModal';
 import EventModal from './components/modals/EventModal';
@@ -64,6 +67,8 @@ const App: React.FC = () => {
   const selectedLocaleData = locales.find(l => l.id === selectedLocale);
   const selectedEventData = events.find(e => e.id === selectedEvent);
   const donationEventData = events.find(e => e.id === donationModal);
+  
+  const isHomePage = activeTab === 'home';
   
   useEffect(() => {
     if (initiatePayBill) {
@@ -131,11 +136,12 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen bg-transparent flex flex-col font-sans antialiased overflow-hidden">
-      <main className="flex-1 overflow-y-auto p-4 sm:p-5 pb-24 flex flex-col">
+      <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-40' : 'pb-24'}`}>
         {<ActivePageComponent />}
       </main>
       
-      {/* Modals */}
+      {/* Modals & Overlays */}
+      <FilterPanel />
       {selectedLocaleData && <RestaurantModal locale={selectedLocaleData} onClose={() => openModal('selectedLocale', null)} />}
       {selectedEventData && <EventModal event={selectedEventData} onClose={() => openModal('selectedEvent', null)} />}
       {isGlobalMapOpen && <GlobalMapModal onClose={() => openModal('isGlobalMapOpen', false)} />}
@@ -153,20 +159,45 @@ const App: React.FC = () => {
       {paymentCodeModal && <PaymentCodeModal data={paymentCodeModal} onClose={() => openModal('paymentCodeModal', null)} />}
       {payWithCreditAmountModal && <PayWithCreditAmountModal data={payWithCreditAmountModal} onClose={() => openModal('payWithCreditAmountModal', null)} />}
       {inputModal && <InputModal {...inputModal} showToast={showToast} />}
+      
+      {/* Bottom Search Bar for Home Page */}
+      {isHomePage && (
+        <div className="fixed bottom-[80px] left-0 right-0 bg-white/90 backdrop-blur-lg z-20 border-t border-slate-200/80 shadow-top">
+          <div className="px-2.5 py-2 flex items-center gap-2">
+            <div className="flex-grow">
+              <HomeSearchBar />
+            </div>
+            <FabMenu />
+          </div>
+        </div>
+      )}
 
-
-      <nav className="fixed bottom-0 left-0 right-0 h-[68px] bg-white/90 backdrop-blur-lg border-t border-slate-200/80 flex justify-around items-center z-30 shadow-top">
-        {navTabs.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)} className="flex flex-col items-center justify-center gap-1 w-16 h-full transition-colors duration-200" aria-label={tab.label}>
-            <tab.icon size={24} className={activeTab === tab.id ? CORAL_ICON_ACTIVE : 'text-slate-500'} />
-            <span className={`text-xs font-medium ${activeTab === tab.id ? CORAL_TEXT_ACTIVE : 'text-slate-600'}`}>
-              {tab.label}
-            </span>
-          </button>
-        ))}
+      {/* Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200/80 z-30 shadow-top">
+        <div className="flex justify-around items-center h-20 px-2">
+            {navTabs.map(tab => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex flex-col items-center justify-center gap-1.5 p-2 w-16 h-16 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-300 ${
+                    isActive ? 'bg-rose-100' : 'bg-transparent'
+                  }`}
+                  aria-label={tab.label}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <tab.icon size={24} className={`transition-colors ${isActive ? CORAL_ICON_ACTIVE : 'text-slate-500'}`} />
+                  <span className={`text-[11px] leading-tight transition-colors ${isActive ? `${CORAL_TEXT_ACTIVE} font-semibold` : 'text-slate-600 font-medium'}`}>
+                    {tab.label}
+                  </span>
+                </button>
+              );
+            })}
+        </div>
       </nav>
 
-      {toastMessage && <Toast message={toastMessage} onHide={hideToast} />}
+      {toastMessage && <Toast message={toastMessage} onHide={hideToast} onHomePage={isHomePage} />}
     </div>
   );
 };
