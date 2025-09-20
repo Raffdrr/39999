@@ -1,4 +1,5 @@
-import create from 'zustand';
+// Fix: Changed import from default to named.
+import { create } from 'zustand';
 import { initialLocaleData, initialEventData, MENU_PHOTO_PRESETS, CHARITY_EVENT_PRESET_IMG, EVENT_IMAGE_PRESETS } from '../constants';
 import { Locale, Event, UserReview, BillDetails, GamificationActionType } from '../types';
 import { useUserStore } from './useUserStore';
@@ -24,11 +25,12 @@ export const useDataStore = create<DataState>((set, get) => ({
   events: initialEventData,
 
   addReview: (itemType, itemId, rating, text) => {
-    const { userAvatar, processGamificationAction } = useUserStore.getState();
+    // Fix: Corrected property name from `userAvatar` to `avatar`.
+    const { avatar, processGamificationAction } = useUserStore.getState();
     const review: UserReview = {
       userId: 'currentUser',
       name: 'Mario Rossi',
-      avatar: userAvatar,
+      avatar: avatar,
       rating,
       text,
       date: new Date().toISOString().split('T')[0]
@@ -126,12 +128,13 @@ export const useDataStore = create<DataState>((set, get) => ({
   },
 
   applyCreditToBill: (localeId, amountToApply) => {
-    const { userCredit, updateUserCredit, processGamificationAction } = useUserStore.getState();
+    // Fix: Corrected property names from `userCredit`, `updateUserCredit` to `credit`, `updateCredit`.
+    const { credit, updateCredit, processGamificationAction } = useUserStore.getState();
     const locale = get().locales.find(l => l.id === localeId);
     const bill = locale?.billDetails;
     
     if (!bill || !locale) return;
-    if (amountToApply > userCredit) {
+    if (amountToApply > credit) {
       useUIStore.getState().showToast("Credito insufficiente.", "error");
       return;
     }
@@ -140,7 +143,7 @@ export const useDataStore = create<DataState>((set, get) => ({
     const remainingOnBill = bill.totalAmount - newCreditContributed;
     const newStatus: BillDetails['status'] = remainingOnBill <= 0 ? 'ready_to_finalize' : 'awaiting_credit_application';
 
-    updateUserCredit(-amountToApply);
+    updateCredit(-amountToApply);
     get().setBillDetails(localeId, { ...bill, creditContributed: newCreditContributed, status: newStatus });
     
     useUIStore.getState().showToast(`€${amountToApply.toFixed(2)} di credito applicati.`, "success");
@@ -174,7 +177,8 @@ export const useDataStore = create<DataState>((set, get) => ({
       if (!bill || bill.status === 'paid_with_credit') return;
 
       if (bill.creditContributed > 0) {
-          useUserStore.getState().updateUserCredit(bill.creditContributed);
+          // Fix: Corrected method name from `updateUserCredit` to `updateCredit`.
+          useUserStore.getState().updateCredit(bill.creditContributed);
           useUIStore.getState().showToast(`Credito di €${bill.creditContributed.toFixed(2)} rimborsato.`, "info");
       }
       get().setBillDetails(localeId, undefined);

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   Badge, GamificationObjectiveCore, LevelDetails, Locale, Event, NotificationItem,
@@ -49,8 +50,8 @@ export const initialLocaleData: Locale[] = [
 export const initialEventData: Event[] = [
     { id: 'event1', name: 'Serata Jazz & Wine', date: new Date('2025-12-05T21:00:00').toISOString(), time: '21:00', location: 'Jazz Club Milano', category: 'Musica', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80', description: 'Una serata di grande musica jazz accompagnata da una selezione di vini pregiati.', maxParticipants: 50, currentParticipants: 35, hashtags: ['jazz', 'livemusic', 'wine'], isUserCreated: false, userReviews: [], pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0 },
     { id: 'event_yoga', name: 'Yoga al Parco', date: new Date('2025-12-10T09:00:00').toISOString(), time: '09:00', location: 'Parco Sempione', category: 'Benessere', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1220&q=80', description: 'Sessione di yoga all\'aperto per iniziare la giornata con energia.', maxParticipants: 30, currentParticipants: 22, hashtags: ['yoga', 'outdoor', 'relax'], isUserCreated: false, userReviews: [], pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0, partecipationFee: "€10" },
-    { id: 'event_past1', name: 'Corso di Cucina', date: new Date('2025-12-15T18:00:00').toISOString(), time: '18:00', location: 'Scuola Culinaria', category: 'Cibo', img: 'https://images.unsplash.com/photo-1556910110-a5a6350d3950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80', description: 'Impara i segreti della pasta fresca.', maxParticipants: 15, currentParticipants: 15, hashtags: ['food', 'workshop'], isUserCreated: false, userReviews: [], pastAttendees: ["Mario Rossi"], isCharityEvent: false, donationsReceived: 0, donationGoal: 0 },
-    { id: 'event_past2', name: 'Maratona Benefica', date: new Date('2025-12-20T09:30:00').toISOString(), time: '09:30', location: 'Centro Città', category: 'Beneficenza', img: CHARITY_EVENT_PRESET_IMG, description: 'Corri per una buona causa!', maxParticipants: 500, currentParticipants: 450, hashtags: ['running', 'charity'], isUserCreated: false, userReviews: [], pastAttendees: ["Mario Rossi"], isCharityEvent: true, donationsReceived: 5250, donationGoal: 5000, paidWithCredit: true, partecipationFee: "€25" },
+    { id: 'event_past1', name: 'Corso di Cucina', date: new Date('2024-05-15T18:00:00').toISOString(), time: '18:00', location: 'Scuola Culinaria', category: 'Cibo', img: 'https://images.unsplash.com/photo-1556910110-a5a6350d3950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80', description: 'Impara i segreti della pasta fresca.', maxParticipants: 15, currentParticipants: 15, hashtags: ['food', 'workshop'], isUserCreated: false, userReviews: [], pastAttendees: ["Mario Rossi"], isCharityEvent: false, donationsReceived: 0, donationGoal: 0 },
+    { id: 'event_past2', name: 'Maratona Benefica', date: new Date('2024-04-20T09:30:00').toISOString(), time: '09:30', location: 'Centro Città', category: 'Beneficenza', img: CHARITY_EVENT_PRESET_IMG, description: 'Corri per una buona causa!', maxParticipants: 500, currentParticipants: 450, hashtags: ['running', 'charity'], isUserCreated: false, userReviews: [], pastAttendees: ["Mario Rossi"], isCharityEvent: true, donationsReceived: 5250, donationGoal: 5000, paidWithCredit: true, partecipationFee: "€25" },
 ];
 
 export const NEARBY_FRIENDS_DATA: FriendData[] = [
@@ -59,12 +60,13 @@ export const NEARBY_FRIENDS_DATA: FriendData[] = [
     { id: 'friend3', name: 'Sara Conti', distance: '1.5km', avatar: USER_AVATARS[4] },
 ];
 
+// Fix: Changed icon from JSX element to component reference to fix cloneElement error.
 export const USER_BADGES: Badge[] = [
-    { id: 'badge1', name: 'Recensore Locale', icon: <Star />, description: 'Hai recensito 3 locali.', color: 'amber' },
-    { id: 'badge2', name: 'Critico di Eventi', icon: <Ticket />, description: 'Hai recensito 3 eventi.', color: 'indigo' },
-    { id: 'badge3', name: 'Partecipante Top', icon: <Users />, description: 'Hai partecipato a 3 eventi.', color: 'blue' },
-    { id: 'badge4', name: 'Animo Nobile', icon: <Gift />, description: 'Hai fatto una donazione.', color: 'pink' },
-    { id: 'badge5', name: 'Socializer', icon: <UserCheck />, description: 'Ti sei unito al tuo primo tavolo.', color: 'teal' },
+    { id: 'badge1', name: 'Recensore Locale', icon: Star, description: 'Hai recensito 3 locali.', color: 'amber' },
+    { id: 'badge2', name: 'Critico di Eventi', icon: Ticket, description: 'Hai recensito 3 eventi.', color: 'indigo' },
+    { id: 'badge3', name: 'Partecipante Top', icon: Users, description: 'Hai partecipato a 3 eventi.', color: 'blue' },
+    { id: 'badge4', name: 'Animo Nobile', icon: Gift, description: 'Hai fatto una donazione.', color: 'pink' },
+    { id: 'badge5', name: 'Socializer', icon: UserCheck, description: 'Ti sei unito al tuo primo tavolo.', color: 'teal' },
 ];
 
 export const XP_THRESHOLDS_FOR_LEVELS: number[] = [0, 100, 250, 500, 1000, 2000]; // XP per iniziare il livello 1, 2, 3, etc.
@@ -126,8 +128,9 @@ export const initialChatMessages: ChatMessage[] = [
     { id: 'chat3', senderId: 'group1', senderName: 'Gruppo "Cena Sabato"', avatar: 'https://img.icons8.com/clouds/100/000000/group.png', lastMessage: 'Sara: Io ci sono!', timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(), unreadCount: 3, isTyping: true },
 ];
 
+// Fix: Changed icon from JSX element to component reference to fix cloneElement error.
 export const INITIAL_REWARDS_DATA: Reward[] = [
-    { id: 'reward_premium_month', name: 'Mese Premium Gratuito', description: 'Goditi un mese di SocialMix Premium, offerto da noi!', xpCost: 500, icon: <Sparkles />, color: 'purple' },
-    { id: 'reward_discount_partner', name: 'Sconto 20% Partner', description: 'Ottieni un codice sconto del 20% da usare presso un locale partner.', xpCost: 350, icon: <Percent />, color: 'teal' },
-    { id: 'reward_exclusive_avatar', name: 'Avatar Esclusivo', description: 'Sblocca un avatar a tema panda per il tuo profilo.', xpCost: 200, icon: <Smile />, color: 'emerald' },
+    { id: 'reward_premium_month', name: 'Mese Premium Gratuito', description: 'Goditi un mese di SocialMix Premium, offerto da noi!', xpCost: 500, icon: Sparkles, color: 'purple' },
+    { id: 'reward_discount_partner', name: 'Sconto 20% Partner', description: 'Ottieni un codice sconto del 20% da usare presso un locale partner.', xpCost: 350, icon: Percent, color: 'teal' },
+    { id: 'reward_exclusive_avatar', name: 'Avatar Esclusivo', description: 'Sblocca un avatar a tema panda per il tuo profilo.', xpCost: 200, icon: Smile, color: 'emerald' },
 ];

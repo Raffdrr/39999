@@ -1,191 +1,224 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Edit, PiggyBank, PlusSquare, Banknote, Ticket, Clock, Star, Target, BadgePercent, ShoppingBag, Settings, Award, Shield, UsersRound, HelpCircle, LogOut, ChevronUp, ChevronDown, CheckCircle, CreditCard, UtensilsCrossed, ChevronRight, Sparkles, PlusCircle } from 'lucide-react';
-import { useUserStore, useDataStore, useUIStore } from '../stores';
-import { USER_BADGES, INITIAL_REWARDS_DATA } from '../../constants';
-import { GamificationObjective } from '../types';
+import React, { useState } from 'react';
+import {
+  Award, ChevronRight, Gift, HelpCircle,
+  LogOut, PlusCircle, Shield, Target, TrendingUp, CalendarCheck
+} from 'lucide-react';
+import { useUserStore, useUIStore, useDataStore } from '../stores';
+import { USER_BADGES, INITIAL_REWARDS_DATA } from '../constants';
+import { GamificationObjective, Badge as BadgeType, Reward as RewardType } from '../types';
+import { CheckCircle } from 'lucide-react';
 import ImageWithFallback from '../components/ImageWithFallback';
 
-const ObjectiveRow: React.FC<{ objective: GamificationObjective }> = ({ objective }) => {
-  const [isJustCompleted, setIsJustCompleted] = useState(false);
-  const prevIsCompleted = useRef(objective.isCompleted);
+const ProfilePage: React.FC = () => {
+  const {
+    levelDetails,
+    credit,
+    avatar,
+    objectives,
+    claimedRewards,
+    setAvatar,
+    joinedEvents
+  } = useUserStore();
+  const { events } = useDataStore();
+  const { openModal, showToast } = useUIStore();
 
-  useEffect(() => {
-    if (objective.isCompleted && !prevIsCompleted.current) {
-      setIsJustCompleted(true);
-      const timer = setTimeout(() => setIsJustCompleted(false), 2000); // Animation duration (2s)
-      prevIsCompleted.current = objective.isCompleted;
-      return () => clearTimeout(timer);
-    }
-  }, [objective.isCompleted]);
-  
-  const isCompleted = objective.isCompleted;
+  const [isBadgesOpen, setIsBadgesOpen] = useState(false);
+  const [isObjectivesOpen, setIsObjectivesOpen] = useState(false);
+  const [isRewardsOpen, setIsRewardsOpen] = useState(false);
+  const [isPastEventsOpen, setIsPastEventsOpen] = useState(false);
+
+  const handleAvatarChange = () => {
+    const newAvatar = avatar.includes('men/32.jpg') ? 'https://randomuser.me/api/portraits/women/48.jpg' : 'https://randomuser.me/api/portraits/men/32.jpg';
+    setAvatar(newAvatar);
+    showToast("Avatar aggiornato!", "success");
+  };
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const pastEvents = events
+    .filter(event => {
+        const eventDate = new Date(event.date);
+        return joinedEvents.has(event.id) && eventDate < today;
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 
   return (
-    <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-500 ${isJustCompleted ? 'animate-objective-complete' : ''} ${isCompleted ? 'bg-slate-50' : 'bg-white shadow-sm border'}`}>
-      <div className={`p-2 rounded-full transition-colors duration-500 ${isCompleted ? 'bg-slate-200' : 'bg-green-100'}`}>
-        {isCompleted ? <CheckCircle size={20} className="text-slate-400" /> : objective.icon}
+    <div className="animate-page-content-enter flex flex-col flex-1 h-full overflow-y-auto no-scrollbar pb-8">
+      
+      {/* User Info Header */}
+      <div className="relative flex flex-col items-center p-5 bg-white rounded-2xl shadow-lg mb-5">
+        <button onClick={handleAvatarChange} className="relative group">
+          <img src={avatar} alt="User Avatar" className="w-24 h-24 rounded-full border-4 border-rose-400 object-cover shadow-md transition-transform group-hover:scale-105" />
+          <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold">
+            Cambia
+          </div>
+        </button>
+        <h2 className="text-xl font-bold text-slate-800 mt-3">Mario Rossi</h2>
+        <p className="text-sm text-slate-500">Livello {levelDetails.level}</p>
+
+        {/* XP Progress Bar */}
+        <div className="w-full mt-4">
+          <div className="flex justify-between text-xs text-slate-500 mb-1">
+            <span>{levelDetails.xpIntoCurrentLevel} XP</span>
+            <span>{levelDetails.xpForNextLevelStart} XP per Liv. {levelDetails.level + 1}</span>
+          </div>
+          <div className="w-full bg-slate-200 rounded-full h-2.5">
+            <div className="bg-gradient-to-r from-amber-400 to-orange-500 h-2.5 rounded-full" style={{ width: `${levelDetails.progressPercentage}%` }}></div>
+          </div>
+        </div>
       </div>
-      <div className={`flex-1 transition-opacity duration-500 ${isCompleted ? 'opacity-60' : 'opacity-100'}`}>
-        <p className={`font-semibold text-sm ${isCompleted ? 'text-slate-600 line-through' : 'text-slate-800'}`}>
-          {objective.title}
-        </p>
-        <p className={`text-xs ${isCompleted ? 'text-slate-500 line-through' : 'text-slate-500'}`}>
-          {objective.description}
-        </p>
+
+      {/* Credit Section */}
+      <div className="bg-white p-4 rounded-2xl shadow-lg mb-5">
+        <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-3">Credito SocialMix</h3>
+        <div className="flex items-center justify-between">
+          <p className="text-3xl font-bold text-emerald-600">€{credit.toFixed(2)}</p>
+          <div className="flex gap-2">
+            <button onClick={() => openModal('isAddCreditOpen', true)} className="p-2.5 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 transition-colors" aria-label="Aggiungi Credito"><PlusCircle size={20} /></button>
+            <button onClick={() => openModal('isWithdrawCreditOpen', true)} className="p-2.5 bg-orange-100 text-orange-600 rounded-lg hover:bg-orange-200 transition-colors" aria-label="Ritira Credito"><TrendingUp size={20} /></button>
+          </div>
+        </div>
       </div>
-      {!isCompleted && (
-        <span className="font-bold text-sm text-green-600">+{objective.xpValue} XP</span>
-      )}
-    </div>
-  );
-};
 
-
-const ProfilePage: React.FC = () => {
-    const { xp, levelDetails, credit, joinedEvents, joinedTables, objectives, claimedRewards, avatar, isPremium, claimReward } = useUserStore();
-    const { events, locales } = useDataStore();
-    const { openModal, showToast } = useUIStore();
-    
-    const [showPastJoinedEvents, setShowPastJoinedEvents] = useState(false);
-    const [showActiveObjectives, setShowActiveObjectives] = useState(true);
-    const [showUserBadgesSection, setShowUserBadgesSection] = useState(false);
-    const [showRewardsSection, setShowRewardsSection] = useState(false); 
-    const [levelUp, setLevelUp] = useState(false);
-    const prevLevel = useRef(levelDetails.level);
-
-    useEffect(() => {
-        if (levelDetails.level > prevLevel.current) {
-            setLevelUp(true);
-            const timer = setTimeout(() => setLevelUp(false), 2000);
-            prevLevel.current = levelDetails.level;
-            return () => clearTimeout(timer);
-        }
-    }, [levelDetails.level]);
-
-
-    const joinedUpcomingEvents = events.filter(e => joinedEvents.has(e.id) && new Date(e.date) >= new Date()).sort((a,b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
-    const pastJoinedEvents = events.filter(e => joinedEvents.has(e.id) && new Date(e.date) < new Date()).sort((a,b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
-    const activeJoinedTables = locales.filter(l => joinedTables.has(l.id));
-
-    return (
-        <div className="animate-page-content-enter flex-1 overflow-y-auto space-y-5 sm:space-y-6 pb-24">
-             <div className="bg-gradient-to-br from-slate-700 via-slate-800 to-gray-900 p-5 sm:p-6 rounded-b-3xl shadow-xl text-white">
-                <div className="flex items-center gap-4">
-                    <img src={avatar} alt="User Avatar" className="w-20 h-20 rounded-full border-3 border-white/50"/>
-                    <div>
-                        <h2 className="text-2xl font-bold">Mario Rossi {isPremium && <Sparkles size={18} className="inline fill-yellow-300 text-yellow-400 ml-1" />}</h2>
-                        <p className="text-sm text-slate-300">mario.rossi@example.com</p>
-                    </div>
-                </div>
-                <div className="mt-5">
-                    <div className="flex justify-between items-center mb-1">
-                        <h3 className="text-sm font-semibold text-slate-200">Livello & Progresso</h3>
-                        <span className={`text-sm font-bold text-amber-400 ${levelUp ? 'animate-level-up' : ''}`}>Liv. {levelDetails.level}</span>
-                    </div>
-                    <div className="w-full bg-slate-600/70 rounded-full h-3.5">
-                        <div className="bg-gradient-to-r from-amber-400 to-orange-500 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${levelDetails.progressPercentage}%` }}></div>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1 text-right">{levelDetails.xpNeededForNextLevel - levelDetails.xpIntoCurrentLevel} XP al Liv. {levelDetails.level + 1}</p>
-                </div>
-            </div>
-
-            <div className="bg-white shadow-lg rounded-xl p-4 mx-1">
-                <h3 className="font-semibold text-slate-700 mb-2 flex items-center gap-1.5"><PiggyBank size={20} className="text-sky-500"/>Il Mio Credito</h3>
-                <div className="flex items-center justify-between mb-2.5">
-                    <p className="text-4xl font-bold text-sky-600">€{credit.toFixed(2)}</p>
-                    <div className="flex gap-2.5">
-                        <button onClick={() => openModal('isAddCreditModal', true)} className="p-2.5 rounded-full bg-sky-100"><PlusSquare size={20}/></button>
-                        <button onClick={() => openModal('isWithdrawModal', true)} className="p-2.5 rounded-full bg-sky-100"><Banknote size={20}/></button>
-                    </div>
-                </div>
-            </div>
-
-            {activeJoinedTables.length > 0 && (
-                <div className="bg-white shadow-lg rounded-xl p-4 mx-1">
-                    <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-1.5"><UtensilsCrossed size={20} className="text-amber-500" />Tavoli a cui sei Unito</h3>
-                    {activeJoinedTables.map(locale => (
-                        <div key={locale.id} onClick={() => openModal('selectedLocale', locale.id)} className="mb-3 p-2.5 bg-slate-50 rounded-lg border flex items-center gap-3 cursor-pointer">
-                            <ImageWithFallback src={locale.img} alt={locale.name} imgClassName="h-16 w-16 rounded-md object-cover" containerClassName="h-16 w-16 rounded-md" />
-                            <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-slate-800 truncate">{locale.name}</p>
-                                <p className="text-xs text-slate-500">{locale.currentGuests}/{locale.capacity} persone</p>
+      {/* Accordion Sections */}
+      <div className="space-y-4">
+        {/* Badges Section */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsBadgesOpen(!isBadgesOpen)}>
+            <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5"><Award size={16}/> I Tuoi Badge</h3>
+            <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isBadgesOpen ? 'rotate-90' : ''}`} />
+          </div>
+          {isBadgesOpen && (
+            <div className="px-4 pb-4 animate-slide-down">
+              <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                {USER_BADGES.map((badge: BadgeType) => {
+                    const Icon = badge.icon;
+                    return (
+                        <div key={badge.id} className="flex flex-col items-center flex-shrink-0 w-20 text-center" title={badge.description}>
+                            <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-${badge.color}-100`}>
+                              <Icon size={32} className={`text-${badge.color}-500`} />
                             </div>
-                            <ChevronRight size={20} className="text-slate-400" />
+                            <p className="text-xs text-slate-600 mt-2 truncate w-full">{badge.name}</p>
                         </div>
-                    ))}
-                </div>
-            )}
-
-            {joinedUpcomingEvents.length > 0 && (
-                <div className="bg-white shadow-lg rounded-xl p-4 mx-1">
-                     <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-1.5"><Ticket size={20} className="text-rose-500"/>Prossimi Eventi</h3>
-                     {joinedUpcomingEvents.map(event => (
-                         <div key={event.id} onClick={() => openModal('selectedEvent', event.id)} className="mb-3 p-2.5 bg-slate-50 rounded-lg border flex items-center gap-3 cursor-pointer">
-                           <ImageWithFallback src={event.img} alt={event.name} imgClassName="h-16 w-16 rounded-md object-cover" containerClassName="h-16 w-16 rounded-md" />
-                           <div className="flex-1 min-w-0">
-                               <p className="font-semibold text-slate-800 truncate">{event.name}</p>
-                               <p className="text-xs text-slate-500">{new Date(event.date).toLocaleDateString()}</p>
-                           </div>
-                           <ChevronRight size={20} className="text-slate-400" />
-                        </div>
-                     ))}
-                </div>
-            )}
-            
-            <div className="bg-white shadow-lg rounded-xl mx-1 overflow-hidden">
-                <button onClick={() => setShowPastJoinedEvents(!showPastJoinedEvents)} className="w-full flex justify-between items-center p-4 text-left">
-                    <h3 className="font-semibold text-slate-700 flex items-center gap-1.5"><Clock size={20} className="text-indigo-500"/>Eventi Passati</h3>
-                    <ChevronDown size={20} className={`transition-transform ${showPastJoinedEvents ? 'rotate-180' : ''}`} />
-                </button>
-                {showPastJoinedEvents && <div className="p-4 border-t animate-slide-down"><p>Lista eventi passati...</p></div>}
+                    )
+                })}
+              </div>
             </div>
-            
-            <div className="bg-white shadow-lg rounded-xl mx-1 overflow-hidden">
-                <button onClick={() => setShowActiveObjectives(!showActiveObjectives)} className="w-full flex justify-between items-center p-4 text-left">
-                    <h3 className="font-semibold text-slate-700 flex items-center gap-1.5"><Target size={20} className="text-green-500"/>Obiettivi</h3>
-                    <ChevronDown size={20} className={`transition-transform ${showActiveObjectives ? 'rotate-180' : ''}`} />
-                </button>
-                {showActiveObjectives && (
-                    <div className="p-4 border-t animate-slide-down space-y-2.5">
-                        {objectives.length > 0 ? (
-                           objectives
-                             .sort((a, b) => (a.isCompleted ? 1 : -1) - (b.isCompleted ? 1 : -1))
-                             .map(obj => <ObjectiveRow key={obj.id} objective={obj} />)
-                        ) : (
-                            <p className="text-sm text-center text-slate-500 py-2">Nessun obiettivo disponibile.</p>
-                        )}
+          )}
+        </div>
+        
+        {/* Objectives Section */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsObjectivesOpen(!isObjectivesOpen)}>
+            <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5"><Target size={16}/> Obiettivi</h3>
+            <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isObjectivesOpen ? 'rotate-90' : ''}`} />
+          </div>
+          {isObjectivesOpen && (
+            <div className="px-4 pb-4 animate-slide-down space-y-3">
+              {objectives.slice(0, 3).map((obj: GamificationObjective) => (
+                  <div key={obj.id} className={`flex items-center p-3 rounded-lg ${obj.isCompleted ? 'bg-green-50' : 'bg-slate-100'}`}>
+                      <div className={`mr-3 ${obj.isCompleted ? 'text-green-500' : ''}`}>{obj.isCompleted ? <CheckCircle size={24} /> : obj.icon}</div>
+                      <div className="flex-1">
+                          <p className={`text-sm font-semibold ${obj.isCompleted ? 'text-green-800' : 'text-slate-800'}`}>{obj.title}</p>
+                          <p className="text-xs text-slate-500">{obj.description}</p>
+                      </div>
+                      {!obj.isCompleted && <span className="text-xs font-bold text-amber-600">+{obj.xpValue} XP</span>}
+                  </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Rewards Section */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsRewardsOpen(!isRewardsOpen)}>
+            <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5"><Gift size={16}/> Premi Disponibili</h3>
+            <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isRewardsOpen ? 'rotate-90' : ''}`} />
+          </div>
+          {isRewardsOpen && (
+            <div className="px-4 pb-4 animate-slide-down space-y-3">
+              {INITIAL_REWARDS_DATA.map((reward: RewardType) => {
+                  const Icon = reward.icon;
+                  const canAfford = levelDetails.xp >= reward.xpCost;
+                  const isClaimed = claimedRewards.has(reward.id);
+                  return (
+                      <div key={reward.id} className={`flex items-center gap-3 p-3 rounded-lg ${isClaimed ? 'bg-slate-200' : 'bg-white border'}`}>
+                          <div className={`w-10 h-10 flex-shrink-0 rounded-lg flex items-center justify-center bg-${reward.color}-100`}>
+                            <Icon size={24} className={`text-${reward.color}-500`} />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-sm text-slate-800">{reward.name}</p>
+                            <p className="text-xs text-slate-500">{reward.xpCost} XP</p>
+                          </div>
+                          <button 
+                              disabled={!canAfford || isClaimed}
+                              onClick={() => showToast("Funzionalità Premi in arrivo!", "info")}
+                              className={`text-xs font-semibold px-3 py-1.5 rounded-md transition-colors
+                              ${isClaimed ? 'bg-slate-400 text-white cursor-not-allowed' :
+                              canAfford ? `bg-${reward.color}-500 text-white hover:bg-${reward.color}-600` :
+                              'bg-slate-300 text-slate-500 cursor-not-allowed'}`}
+                          >
+                              {isClaimed ? 'Riscattato' : 'Riscatta'}
+                          </button>
+                      </div>
+                  );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Past Events Section */}
+        {pastEvents.length > 0 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsPastEventsOpen(!isPastEventsOpen)}>
+                    <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5"><CalendarCheck size={16}/> Eventi Passati</h3>
+                    <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isPastEventsOpen ? 'rotate-90' : ''}`} />
+                </div>
+                {isPastEventsOpen && (
+                    <div className="px-4 pb-4 animate-slide-down space-y-3">
+                        {pastEvents.map(event => (
+                            <div 
+                                key={event.id}
+                                onClick={() => openModal('selectedEvent', event.id)}
+                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors"
+                            >
+                                <ImageWithFallback 
+                                    src={event.img} 
+                                    alt={event.name}
+                                    containerClassName="w-12 h-12 rounded-md flex-shrink-0"
+                                    imgClassName="w-full h-full object-cover rounded-md"
+                                />
+                                <div className="flex-1 min-w-0">
+                                    <p className="font-semibold text-sm text-slate-800 truncate">{event.name}</p>
+                                    <p className="text-xs text-slate-500">{new Date(event.date).toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
-            
-            <div className="bg-white shadow-lg rounded-xl mx-1 overflow-hidden">
-                <button onClick={() => setShowUserBadgesSection(!showUserBadgesSection)} className="w-full flex justify-between items-center p-4 text-left">
-                    <h3 className="font-semibold text-slate-700 flex items-center gap-1.5"><BadgePercent size={20} className="text-blue-500"/>I Tuoi Badge</h3>
-                    <ChevronDown size={20} className={`transition-transform ${showUserBadgesSection ? 'rotate-180' : ''}`} />
-                </button>
-                {showUserBadgesSection && <div className="p-4 border-t animate-slide-down"><p>Lista badge...</p></div>}
-            </div>
+        )}
+      </div>
 
-            <div className="bg-white shadow-lg rounded-xl mx-1 overflow-hidden">
-                <button onClick={() => setShowRewardsSection(!showRewardsSection)} className="w-full flex justify-between items-center p-4 text-left">
-                    <h3 className="font-semibold text-slate-700 flex items-center gap-1.5"><ShoppingBag size={20} className="text-rose-500"/>Premi (XP: {xp})</h3>
-                    <ChevronDown size={20} className={`transition-transform ${showRewardsSection ? 'rotate-180' : ''}`} />
-                </button>
-                {showRewardsSection && <div className="p-4 border-t animate-slide-down"><p>Lista premi...</p></div>}
-            </div>
-
-            <div className="bg-white shadow-lg rounded-xl p-4 mx-1">
-                <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-1.5"><Settings size={20}/>Impostazioni</h3>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                    <button onClick={() => openModal('isAmbassadorModal', true)} className="p-3 rounded-lg border bg-amber-50 text-amber-700">Diventa Ambassador</button>
-                    <button onClick={() => openModal('isSubscriptionModal', true)} className="p-3 rounded-lg border bg-purple-50 text-purple-700">Abbonamento</button>
-                    <button onClick={() => showToast("Invita Amici (Demo)", "info")} className="p-3 rounded-lg border bg-indigo-50 text-indigo-700">Invita Amici</button>
-                    <button onClick={() => showToast("Supporto (Demo)", "info")} className="p-3 rounded-lg border bg-green-50 text-green-700">Supporto</button>
-                    <button onClick={() => showToast("Logout (Demo)", "info")} className="p-3 rounded-lg border bg-red-50 text-red-700 col-span-2">Esci</button>
-                </div>
-            </div>
-        </div>
-    );
+      {/* Action Links */}
+      <div className="space-y-2 mt-5">
+        <button onClick={() => openModal('isAmbassadorModalOpen', true)} className="profile-action-button">
+          <Award className="text-amber-500" /> <span>Diventa Ambassador</span> <ChevronRight className="ml-auto text-slate-400" />
+        </button>
+        <button onClick={() => openModal('isSubscriptionModalOpen', true)} className="profile-action-button">
+          <Shield className="text-purple-500" /> <span>SocialMix Premium</span> <ChevronRight className="ml-auto text-slate-400" />
+        </button>
+        <button onClick={() => openModal('isSupportModalOpen', true)} className="profile-action-button">
+          <HelpCircle className="text-sky-500" /> <span>Centro Assistenza</span> <ChevronRight className="ml-auto text-slate-400" />
+        </button>
+        <button onClick={() => openModal('isLogoutModalOpen', true)} className="profile-action-button">
+          <LogOut className="text-red-500" /> <span>Logout</span> <ChevronRight className="ml-auto text-slate-400" />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default ProfilePage;

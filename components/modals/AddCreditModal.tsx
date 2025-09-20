@@ -8,7 +8,8 @@ interface AddCreditModalProps {
 }
 
 const AddCreditModal: React.FC<AddCreditModalProps> = ({ onClose }) => {
-  const { userCredit, updateUserCredit } = useUserStore();
+  // Fix: Corrected property names from `userCredit` and `updateUserCredit` to `credit` and `updateCredit`.
+  const { credit, updateCredit } = useUserStore();
   const { showToast } = useUIStore();
   const [addAmount, setAddAmount] = useState("");
 
@@ -19,8 +20,8 @@ const AddCreditModal: React.FC<AddCreditModalProps> = ({ onClose }) => {
       showToast("Inserisci un importo valido da aggiungere.", "error", <AlertTriangle size={18}/>);
       return;
     }
-    updateUserCredit(amount);
-    showToast(`Hai aggiunto €${amount.toFixed(2)} al tuo credito. Nuovo saldo: €${(userCredit + amount).toFixed(2)}. (Simulazione)`, "success", <PlusSquare size={18} />);
+    updateCredit(amount);
+    showToast(`Hai aggiunto €${amount.toFixed(2)} al tuo credito. Nuovo saldo: €${(credit + amount).toFixed(2)}. (Simulazione)`, "success", <PlusSquare size={18} />);
     onClose();
   };
 

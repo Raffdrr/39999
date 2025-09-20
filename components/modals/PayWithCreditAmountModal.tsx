@@ -12,7 +12,8 @@ interface PayWithCreditAmountModalProps {
 const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({ 
     data, onClose 
 }) => {
-  const { userCredit, payEventFeeWithCredit } = useUserStore();
+  // Fix: Corrected property name from `userCredit` to `credit`.
+  const { credit, payEventFeeWithCredit } = useUserStore();
   const { applyCreditToBill } = useDataStore();
   const { showToast } = useUIStore();
   const [amountToPay, setAmountToPay] = useState("");
@@ -43,7 +44,7 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
       showToast("Inserisci un importo valido.", "error", <AlertTriangle size={18}/>);
       return;
     }
-    if (amount > userCredit) {
+    if (amount > credit) {
       showToast("Credito insufficiente per questo importo.", "error", <AlertTriangle size={18}/>);
       return;
     }
@@ -75,7 +76,7 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
   if (data.isEventFee && data.maxAmount) { // Event Fee
     titleText = "Paga Quota Evento";
     itemDetailsText = `Quota per ${data.itemName}: €${data.maxAmount.toFixed(2)}`;
-    maxAllowedInput = Math.min(userCredit, data.maxAmount);
+    maxAllowedInput = Math.min(credit, data.maxAmount);
     placeholderText = `€${data.maxAmount.toFixed(2)}`; 
   } else if (!data.isEventFee && data.maxAmount !== undefined) { // Locale Bill
     titleText = "Applica Credito al Conto";
@@ -83,11 +84,11 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
     const alreadyContributedByPlayer = data.currentContribution || 0;
     const remainingOnBill = totalBill - alreadyContributedByPlayer;
     itemDetailsText = `Conto per ${data.itemName}: €${totalBill.toFixed(2)} (Già applicato da te: €${alreadyContributedByPlayer.toFixed(2)})`;
-    maxAllowedInput = Math.min(userCredit, remainingOnBill);
+    maxAllowedInput = Math.min(credit, remainingOnBill);
     placeholderText = `Max €${maxAllowedInput.toFixed(2)} (Rimanente: €${remainingOnBill.toFixed(2)})`;
   } else { // Fallback
-    maxAllowedInput = userCredit;
-    placeholderText = `Max €${userCredit.toFixed(2)}`;
+    maxAllowedInput = credit;
+    placeholderText = `Max €${credit.toFixed(2)}`;
   }
 
   return (
@@ -106,7 +107,7 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
             {itemDetailsText}
           </p>
           <p className="text-xs sm:text-sm text-slate-600">
-            Credito disponibile: <span className="font-bold text-emerald-600">€{userCredit.toFixed(2)}</span>
+            Credito disponibile: <span className="font-bold text-emerald-600">€{credit.toFixed(2)}</span>
           </p>
           <div>
             <label htmlFor="amountToPay" className="block text-xs sm:text-sm font-medium text-slate-700 mb-1">

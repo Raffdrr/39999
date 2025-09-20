@@ -1,93 +1,114 @@
-import create from 'zustand';
-import { TabId, ReviewModalData, PaymentCodeModalData, PayWithCreditAmountModalData, ToastMessage } from '../types';
-import React from 'react';
 
-type ModalPayload = string | boolean | ReviewModalData | PaymentCodeModalData | PayWithCreditAmountModalData | { [key: string]: any } | null;
 
-interface UIState {
-  activeTab: TabId;
-  selectedLocaleId: string | null;
-  selectedEventId: string | null;
-  
+// Fix: Changed import from default to named.
+import { create } from 'zustand';
+// Fix: Added missing InputModalData import.
+import { ToastMessage, TabId, ReviewModalData, PaymentCodeModalData, PayWithCreditAmountModalData, InputModalData } from '../types';
+
+// Data types for modals that carry specific information
+type ModalData = {
+  selectedLocale: string | null;
+  selectedEvent: string | null;
+  reviewModal: ReviewModalData | null;
+  donationModal: string | null; // eventId
+  paymentCodeModal: PaymentCodeModalData | null;
+  payWithCreditAmountModal: PayWithCreditAmountModalData | null;
+  inputModal: InputModalData | null;
+  finalizeBill: string | null; // localeId
+  initiatePayBill: string | null; // localeId
+  cancelPayment: string | null; // localeId
+};
+
+// Boolean flags for simple open/close modals
+type ModalFlags = {
   isGlobalMapOpen: boolean;
-  isCreateEventModalOpen: boolean;
-  isProposeTableModalOpen: boolean;
-  isInviteFriendsModalOpen: boolean;
+  isAddCreditOpen: boolean;
+  isWithdrawCreditOpen: boolean;
   isAmbassadorModalOpen: boolean;
   isSubscriptionModalOpen: boolean;
-  reviewModalData: ReviewModalData | null;
-  donationModalEventId: string | null;
-  isWithdrawModalOpen: boolean;
-  isAddCreditModalOpen: boolean;
-  paymentCodeModalData: PaymentCodeModalData | null;
-  payWithCreditAmountModalData: PayWithCreditAmountModalData | null;
-  inputModalConfig: any; // Simplified for brevity
-  
-  toast: ToastMessage | null;
+  isProposeTableModalOpen: boolean;
+  isCreateEventModalOpen: boolean;
+  isInviteFriendsModalOpen: boolean;
+  isSupportModalOpen: boolean;
+  isLogoutModalOpen: boolean;
+};
+
+// Combining all modal states
+type ModalState = ModalData & ModalFlags;
+
+// Define the name for each modal type
+type ModalName = keyof ModalState;
+
+interface UIState extends ModalState {
+  activeTab: TabId;
+  toastMessage: ToastMessage | null;
   showFilterPanel: boolean;
   
   setActiveTab: (tabId: TabId) => void;
-  openModal: (modal: keyof UIState, payload: ModalPayload) => void;
+  showToast: (text: string, type?: "success" | "error" | "info", icon?: React.ReactNode) => void;
+  hideToast: () => void;
+  
+  // Generic modal handler
+  openModal: <K extends ModalName>(modal: K, data?: ModalState[K]) => void;
   closeAllModals: () => void;
-  showToast: (text: string, type?: ToastMessage['type'], icon?: React.ReactNode) => void;
+
   toggleFilterPanel: () => void;
 }
 
-export const useUIStore = create<UIState>((set) => ({
-  activeTab: 'home',
-  selectedLocaleId: null,
-  selectedEventId: null,
+const initialModalState: ModalState = {
+  selectedLocale: null,
+  selectedEvent: null,
+  reviewModal: null,
+  donationModal: null,
+  paymentCodeModal: null,
+  payWithCreditAmountModal: null,
+  inputModal: null,
+  finalizeBill: null,
+  initiatePayBill: null,
+  cancelPayment: null,
   isGlobalMapOpen: false,
-  isCreateEventModalOpen: false,
-  isProposeTableModalOpen: false,
-  isInviteFriendsModalOpen: false,
+  isAddCreditOpen: false,
+  isWithdrawCreditOpen: false,
   isAmbassadorModalOpen: false,
   isSubscriptionModalOpen: false,
-  reviewModalData: null,
-  donationModalEventId: null,
-  isWithdrawModalOpen: false,
-  isAddCreditModalOpen: false,
-  paymentCodeModalData: null,
-  payWithCreditAmountModalData: null,
-  inputModalConfig: null,
-  toast: null,
+  isProposeTableModalOpen: false,
+  isCreateEventModalOpen: false,
+  isInviteFriendsModalOpen: false,
+  isSupportModalOpen: false,
+  isLogoutModalOpen: false,
+};
+
+
+export const useUIStore = create<UIState>((set, get) => ({
+  ...initialModalState,
+  activeTab: 'home',
+  toastMessage: null,
   showFilterPanel: false,
 
-  setActiveTab: (tabId) => set({ activeTab: tabId }),
+  setActiveTab: (tabId) => {
+    // When changing tabs, close the filter panel if it's open
+    if (get().showFilterPanel) {
+      set({ showFilterPanel: false });
+    }
+    set({ activeTab: tabId });
+  },
+  
+  showToast: (text, type = 'info', icon) => {
+    set({ toastMessage: { text, type, icon } });
+    setTimeout(() => get().hideToast(), 3000);
+  },
+  
+  hideToast: () => set({ toastMessage: null }),
 
-  openModal: (modal, payload) => {
-    // This is a generic modal opener. It can be more type-safe with overloads.
-    if (modal === 'selectedLocale') set({ selectedLocaleId: payload as string });
-    else if (modal === 'selectedEvent') set({ selectedEventId: payload as string });
-    else if (modal === 'reviewModal') set({ reviewModalData: payload as ReviewModalData });
-    else if (modal === 'donationModal') set({ donationModalEventId: payload as string });
-    else if (modal === 'paymentCodeModal') set({ paymentCodeModalData: payload as PaymentCodeModalData });
-    else if (modal === 'payWithCreditAmountModal') set({ payWithCreditAmountModalData: payload as PayWithCreditAmountModalData });
-    else if (modal === 'inputModalConfig') set({ inputModalConfig: payload as any });
-    else set({ [modal as any]: payload });
+  openModal: (modal, data) => {
+    // If the data is a boolean (for flag-based modals) or any other value
+    // We set the corresponding key in the state.
+    // The `any` cast is a pragmatic choice here for this generic function.
+    set({ [modal]: data } as any);
   },
 
-  closeAllModals: () => set({
-    selectedLocaleId: null,
-    selectedEventId: null,
-    isGlobalMapOpen: false,
-    isCreateEventModalOpen: false,
-    isProposeTableModalOpen: false,
-    isInviteFriendsModalOpen: false,
-    isAmbassadorModalOpen: false,
-    isSubscriptionModalOpen: false,
-    reviewModalData: null,
-    donationModalEventId: null,
-    isWithdrawModalOpen: false,
-    isAddCreditModalOpen: false,
-    paymentCodeModalData: null,
-    payWithCreditAmountModalData: null,
-    inputModalConfig: null,
-  }),
-  
-  showToast: (text, type = "success", icon = null) => {
-    set({ toast: { text, type, icon } });
-    setTimeout(() => set({ toast: null }), 3500);
+  closeAllModals: () => {
+    set({ ...initialModalState });
   },
 
   toggleFilterPanel: () => set(state => ({ showFilterPanel: !state.showFilterPanel })),

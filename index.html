@@ -71,6 +71,31 @@
       --tw-ring-color: #f43f5e; /* focus:ring-rose-500 */
       border-color: #f43f5e; /* focus:border-rose-500 */
     }
+    
+    .profile-action-button {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem; /* gap-3 */
+      width: 100%;
+      padding: 0.875rem 1rem; /* px-4 py-3.5 */
+      background-color: white;
+      border-radius: 0.75rem; /* rounded-xl */
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+      font-weight: 500; /* font-medium */
+      color: #334155; /* text-slate-700 */
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .profile-action-button:hover {
+      background-color: #f8fafc; /* hover:bg-slate-50 */
+    }
+    .profile-action-button:active {
+      transform: scale(0.98);
+      background-color: #f1f5f9; /* active:bg-slate-100 */
+    }
+    .profile-action-button svg {
+      width: 1.25rem; /* h-5 w-5 */
+      height: 1.25rem;
+    }
 
     .animate-toast-pop { animation: toast-pop 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
     @keyframes toast-pop { 0% { transform: translateX(-50%) translateY(100%) scale(0.5); opacity: 0; } 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; } }

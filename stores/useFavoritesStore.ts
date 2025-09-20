@@ -1,4 +1,5 @@
-import create from 'zustand';
+// Fix: Changed import from default to named.
+import { create } from 'zustand';
 import { FavoriteItem, Locale, Event } from '../types';
 import { useUIStore } from './useUIStore';
 import { initialLocaleData, initialEventData } from '../constants';

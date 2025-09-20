@@ -88,7 +88,8 @@ export interface Event {
 export interface Badge {
   id: string;
   name: string;
-  icon: React.ReactElement<LucideProps>; // Changed from React.ReactElement
+  // Fix: Changed from React.ReactElement to LucideIcon component type for better type safety and to fix cloneElement error.
+  icon: LucideIcon;
   description: string;
   color: string;
 }
@@ -128,7 +129,8 @@ export interface FriendData {
 }
 
 export interface NavTabType {
-  id: string;
+  // Fix: Changed id type from string to TabId to enforce type safety.
+  id: TabId;
   label: string;
   icon: LucideIcon; // Changed from React.ElementType to LucideIcon
 }
@@ -162,6 +164,22 @@ export interface FavoriteItem extends Partial<Locale>, Partial<Event> { // Resta
   id: string; 
   name: string; 
   img: string; 
+}
+
+// Fix: Added missing InputModalData type definition.
+export interface InputModalData {
+  title: string;
+  message?: string;
+  inputLabel: string;
+  inputType?: string;
+  inputMode?: 'numeric' | 'decimal' | 'text' | 'tel' | 'search' | 'email' | 'url';
+  placeholder?: string;
+  initialValue?: string;
+  confirmText?: string;
+  min?: string;
+  step?: string;
+  onClose: () => void;
+  onConfirm: (value: string) => void;
 }
 
 export interface PaymentCodeModalData {
@@ -209,6 +227,7 @@ export interface Reward {
   name: string;
   description: string;
   xpCost: number;
-  icon: React.ReactElement;
+  // Fix: Changed from React.ReactElement to LucideIcon component type for better type safety and to fix cloneElement error.
+  icon: LucideIcon;
   color: string;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Event, UserReview as UserReviewType, Locale, FriendData } from '../../types';
 import { GOOGLE_PAY_LOGO_URL, USER_AVATARS, MAP_PLACEHOLDER_LOCALE_MODAL, MAP_PLACEHOLDER, NEARBY_FRIENDS_DATA } from '../../constants';
 import { useDataStore, useUserStore, useFavoritesStore, useUIStore } from '../../stores';
+import useSwipe from '../../hooks/useSwipe'; // Import the new hook
 
 import ImageWithFallback from '../ImageWithFallback';
 import FavoriteButton from '../ui/FavoriteButton';
@@ -16,7 +17,8 @@ type EventDetailTabId = 'details' | 'participants';
 
 const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const { locales } = useDataStore();
-  const { joinedEvents, userCredit, userAvatar, joinEvent, leaveEvent } = useUserStore();
+  // Fix: Corrected property names from `userCredit` and `userAvatar` to `credit` and `avatar`.
+  const { joinedEvents, credit, avatar, joinEvent, leaveEvent } = useUserStore();
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const { showToast, openModal } = useUIStore();
 
@@ -24,6 +26,23 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const [headerLocale, setHeaderLocale] = useState<Locale | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
+
+  const TABS: EventDetailTabId[] = ['details', 'participants'];
+  
+  const handleSwipeLeft = () => {
+    const currentIndex = TABS.indexOf(activeDetailTab);
+    const nextIndex = (currentIndex + 1) % TABS.length;
+    setActiveDetailTab(TABS[nextIndex]);
+  };
+
+  const handleSwipeRight = () => {
+    const currentIndex = TABS.indexOf(activeDetailTab);
+    const prevIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+    setActiveDetailTab(TABS[prevIndex]);
+  };
+  
+  const swipeHandlers = useSwipe({ onSwipedLeft: handleSwipeLeft, onSwipedRight: handleSwipeRight });
+
 
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -72,7 +91,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const eventFeeAmount = event.partecipationFee ? parseFloat(event.partecipationFee.replace('€', '').replace(',', '.')) : 0;
   
   const canPayFeeWithCreditConditionsMet = event.partecipationFee && 
-                                 userCredit >= eventFeeAmount && 
+                                 credit >= eventFeeAmount && 
                                  isPayableTodayOrTomorrow(event.date) &&
                                  !event.paidWithCredit;
 
@@ -86,7 +105,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const handleOpenPayFeeWithCreditModal = () => {
     if (event.paidWithCredit) { showToast("Quota già pagata con credito.", "info"); return; }
     if (!event.partecipationFee) { showToast("Questo evento è gratuito.", "info"); return; }
-    if (userCredit < eventFeeAmount) { showToast("Credito insufficiente per pagare la quota.", "error", <AlertTriangle size={18}/>); return; }
+    if (credit < eventFeeAmount) { showToast("Credito insufficiente per pagare la quota.", "error", <AlertTriangle size={18}/>); return; }
     if (!isPayableTodayOrTomorrow(event.date)) { showToast("Puoi pagare la quota con credito solo nei giorni vicini all'evento.", "info"); return; }
     openModal('payWithCreditAmountModal', { itemType: 'event', itemId: event.id, itemName: event.name, maxAmount: eventFeeAmount, isEventFee: true });
   };
@@ -98,6 +117,30 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
     { id: 'details' as EventDetailTabId, label: headerLocale ? "Locale" : "Evento" },
     { id: 'participants' as EventDetailTabId, label: "Partecipanti" }
   ];
+
+  const handleShare = async () => {
+    // In a real app, this would be a deep link to the event page
+    const eventUrl = window.location.href; 
+    const shareData = {
+      title: `Sei invitato: ${event.name}`,
+      text: `Partecipa con me a "${event.name}" il ${new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long' })} alle ${event.time}! Scopri di più su SocialMix.`,
+      url: eventUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        // Use Web Share API if available (mobile)
+        await navigator.share(shareData);
+      } else {
+        // Fallback for desktop: copy link to clipboard
+        await navigator.clipboard.writeText(eventUrl);
+        showToast("Link dell'evento copiato negli appunti!", "success");
+      }
+    } catch (error) {
+      console.error("Errore nella condivisione:", error);
+      showToast("Impossibile condividere l'evento.", "error");
+    }
+  };
 
   const renderParticipants = () => {
     let allAttendeesNames = [...(event.pastAttendees || [])];
@@ -114,7 +157,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         return { 
             id: friend?.id || (isCurrentUser ? 'currentUser' : name), 
             name, 
-            avatar: isCurrentUser ? userAvatar : (friend?.avatar || USER_AVATARS[Math.floor(Math.random() * USER_AVATARS.length)]),
+            avatar: isCurrentUser ? avatar : (friend?.avatar || USER_AVATARS[Math.floor(Math.random() * USER_AVATARS.length)]),
             isHost: event.isUserCreated && isCurrentUser,
             age,
             city
@@ -353,7 +396,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         </div>
       </div>
 
-      <div className="bg-slate-100 pb-[10rem]">
+      <div {...swipeHandlers} className="bg-slate-100 pb-[10rem]">
         {activeDetailTab === 'details' && (headerLocale ? renderLocaleDetailsContent() : renderEventDetailsContent())}
         {activeDetailTab === 'participants' && renderParticipants()}
       </div>
@@ -375,7 +418,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
             iconSize={24}
             iconClassName={isFavorite(favId) ? 'fill-rose-500 text-rose-500' : 'text-slate-600'}
           />
-          <button onClick={() => showToast(`Condividi: ${headerTitle} (Demo)`, "info")} className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto" aria-label="Condividi">
+          <button onClick={handleShare} className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto" aria-label="Condividi">
               <Share2 size={24} />
           </button>
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Locale, UserReview as UserReviewType, FriendData, BillDetails } from '../../types'; 
 import { MAP_PLACEHOLDER_LOCALE_MODAL, MENU_PHOTO_PRESETS, USER_AVATARS, NEARBY_FRIENDS_DATA } from '../../constants'; 
 import { useDataStore, useUserStore, useFavoritesStore, useUIStore } from '../../stores';
+import useSwipe from '../../hooks/useSwipe'; // Import the new hook
 
 import ImageWithFallback from '../ImageWithFallback';
 import FavoriteButton from '../ui/FavoriteButton';
@@ -14,23 +15,40 @@ interface LocaleModalProps {
 
 type LocaleDetailTabId = 'info' | 'menu' | 'reviews' | 'participants';
 
-
-const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
-  const { addMenuPhoto } = useDataStore();
-  const { joinedTables, joinTable, leaveTable, userAvatar } = useUserStore();
-  const { isFavorite, toggleFavorite } = useFavoritesStore();
-  const { showToast, openModal } = useUIStore();
-  
-  const TABS_CONFIG: { id: LocaleDetailTabId; label: string; icon: React.ElementType }[] = [
+const TABS_CONFIG: { id: LocaleDetailTabId; label: string; icon: React.ElementType }[] = [
     { id: 'info', label: "Info", icon: InfoIcon },
     { id: 'menu', label: "Menu", icon: MenuSquare },
     { id: 'reviews', label: `Recensioni`, icon: MessageSquareText },
     { id: 'participants', label: "Partecipanti", icon: Users2 },
-  ];
+];
+const TAB_IDS = TABS_CONFIG.map(t => t.id);
+
+const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
+  const { addMenuPhoto } = useDataStore();
+  // Fix: Corrected property name from `userAvatar` to `avatar`.
+  const { joinedTables, joinTable, leaveTable, avatar } = useUserStore();
+  const { isFavorite, toggleFavorite } = useFavoritesStore();
+  const { showToast, openModal } = useUIStore();
+  
   const [activeDetailTab, setActiveDetailTab] = useState<LocaleDetailTabId>(TABS_CONFIG[0].id);
   
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
+
+  const handleSwipeLeft = () => {
+    const currentIndex = TAB_IDS.indexOf(activeDetailTab);
+    const nextIndex = (currentIndex + 1) % TAB_IDS.length;
+    setActiveDetailTab(TAB_IDS[nextIndex]);
+  };
+
+  const handleSwipeRight = () => {
+    const currentIndex = TAB_IDS.indexOf(activeDetailTab);
+    const prevIndex = (currentIndex - 1 + TAB_IDS.length) % TAB_IDS.length;
+    setActiveDetailTab(TAB_IDS[prevIndex]);
+  };
+
+  const swipeHandlers = useSwipe({ onSwipedLeft: handleSwipeLeft, onSwipedRight: handleSwipeRight });
+
 
   const handleScroll = () => {
       if (scrollRef.current) {
@@ -62,7 +80,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
     .map(attendeeName => {
         const friendDetail = NEARBY_FRIENDS_DATA.find(friend => friend.name === attendeeName);
         if (attendeeName === "Mario Rossi") { 
-            return { id: "currentUser", name: "Mario Rossi", avatar: userAvatar};
+            return { id: "currentUser", name: "Mario Rossi", avatar: avatar};
         }
         return friendDetail ? 
                { id: friendDetail.id, name: friendDetail.name, avatar: friendDetail.avatar} : 
@@ -79,7 +97,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
         return {
             id: friend?.id || (isCurrentUser ? 'currentUser' : name),
             name,
-            avatar: isCurrentUser ? userAvatar : (friend?.avatar || USER_AVATARS[Math.floor(Math.random() * USER_AVATARS.length)]),
+            avatar: isCurrentUser ? avatar : (friend?.avatar || USER_AVATARS[Math.floor(Math.random() * USER_AVATARS.length)]),
             age,
             city,
         };
@@ -342,7 +360,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
         </div>
       </div>
 
-      <div className="bg-slate-900 pb-[10rem]">
+      <div {...swipeHandlers} className="bg-slate-900 pb-[10rem]">
         {activeDetailTab === 'info' && renderInfoTab()}
         {activeDetailTab === 'menu' && renderMenuTab()}
         {activeDetailTab === 'reviews' && renderReviewsTab()}

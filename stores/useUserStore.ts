@@ -1,4 +1,5 @@
-import create from 'zustand';
+// Fix: Changed import from default to named.
+import { create } from 'zustand';
 import { calculateLevelDetails, GAMIFICATION_OBJECTIVES_LIST_CORE, initialEventData, USER_AVATARS, PANDA_AVATAR_REWARD_URL } from '../constants';
 import { LevelDetails, GamificationObjective, GamificationActionType, Event, Locale, Reward } from '../types';
 import { useUIStore } from './useUIStore';

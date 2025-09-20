@@ -9,7 +9,8 @@ interface WithdrawCreditModalProps {
 }
 
 const WithdrawCreditModal: React.FC<WithdrawCreditModalProps> = ({ currentCredit, onClose }) => {
-  const { updateUserCredit } = useUserStore();
+  // Fix: Corrected property name from `updateUserCredit` to `updateCredit`.
+  const { updateCredit } = useUserStore();
   const { showToast } = useUIStore();
   const [withdrawAmount, setWithdrawAmount] = useState("");
 
@@ -24,7 +25,7 @@ const WithdrawCreditModal: React.FC<WithdrawCreditModalProps> = ({ currentCredit
       showToast("L'importo da ritirare non può superare il tuo credito disponibile.", "error", <AlertTriangle size={18}/>);
       return;
     }
-    updateUserCredit(-amount);
+    updateCredit(-amount);
     showToast(`Hai ritirato €${amount.toFixed(2)}. Il tuo novo saldo è €${(currentCredit - amount).toFixed(2)}. (Simulazione)`, "success", <Banknote size={18}/>);
     onClose();
   };
