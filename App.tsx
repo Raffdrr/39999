@@ -130,7 +130,7 @@ const App: React.FC = () => {
   const ActivePageComponent = pageComponents[activeTab];
 
   return (
-    <div className="h-screen w-screen bg-slate-100 flex flex-col font-sans antialiased overflow-hidden">
+    <div className="h-screen w-screen bg-transparent flex flex-col font-sans antialiased overflow-hidden">
       <main className="flex-1 overflow-y-auto p-4 sm:p-5 pb-24 flex flex-col">
         {<ActivePageComponent />}
       </main>

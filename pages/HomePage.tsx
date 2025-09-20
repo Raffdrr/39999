@@ -132,7 +132,7 @@ const HomePage: React.FC = () => {
 
             {/* Bottom Controls specific to Home */}
             <div 
-              className="fixed left-0 right-0 bg-slate-100 shadow-lg z-10 transition-all duration-300 ease-in-out overflow-y-auto no-scrollbar border-t border-b border-slate-200"
+              className="fixed left-0 right-0 bg-slate-50/90 backdrop-blur-md shadow-lg z-10 transition-all duration-300 ease-in-out overflow-y-auto no-scrollbar border-t border-b border-slate-200"
               style={{
                 bottom: `${68 + BOTTOM_SEARCH_BAR_HEIGHT_PX}px`,
                 maxHeight: showFilterPanel ? `${HOME_FILTER_PANEL_MAX_HEIGHT_PX}px` : '0px',

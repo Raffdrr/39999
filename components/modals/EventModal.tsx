@@ -347,8 +347,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
 
   return (
-    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-slate-100 text-slate-900 overflow-y-auto no-scrollbar animate-fade-in">
-        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-slate-100/80 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-gradient-to-b from-white to-slate-50 text-slate-900 overflow-y-auto no-scrollbar animate-fade-in">
+        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
              <button onClick={onClose} className="p-2 rounded-full text-slate-700 hover:bg-black/10" aria-label="Chiudi">
                 <ChevronLeft size={24} />
              </button>
@@ -396,7 +396,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         </div>
       </div>
 
-      <div {...swipeHandlers} className="bg-slate-100 pb-[10rem]">
+      <div {...swipeHandlers} className="bg-transparent pb-[10rem]">
         {activeDetailTab === 'details' && (headerLocale ? renderLocaleDetailsContent() : renderEventDetailsContent())}
         {activeDetailTab === 'participants' && renderParticipants()}
       </div>
@@ -405,7 +405,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         {renderActionButton()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/90 via-white/80 to-transparent z-30 pointer-events-none" />
+      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent z-30 pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 p-4 z-40 flex items-center justify-center gap-x-8">
           <button onClick={onClose} className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto" aria-label="Indietro">
               <ChevronLeft size={24} />
