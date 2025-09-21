@@ -3,7 +3,7 @@ import {
   ChevronRight, Gift, Target, CalendarCheck, Lock, Settings, Sun, Moon, PlusCircle, TrendingUp
 } from 'lucide-react';
 import { useUserStore, useUIStore, useDataStore } from '../stores';
-import { AVAILABLE_BADGES, INITIAL_REWARDS_DATA } from '../../constants';
+import { AVAILABLE_BADGES, INITIAL_REWARDS_DATA } from '../constants';
 import { GamificationObjective, Badge as BadgeType, Reward as RewardType } from '../types';
 import { CheckCircle } from 'lucide-react';
 import ImageWithFallback from '../components/ImageWithFallback';
