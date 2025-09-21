@@ -10,6 +10,15 @@ const FavoritesPage: React.FC = () => {
     const { favorites, toggleFavorite } = useFavoritesStore();
     const { openModal } = useUIStore();
     const favoriteItems: FavoriteItem[] = Array.from(favorites.values());
+    const favoriteItemIds = favoriteItems.map(item => `${item.itemType}_${item.id}`);
+
+    const handleFavItemClick = (item: FavoriteItem) => {
+        const itemId = `${item.itemType}_${item.id}`;
+        const itemIndex = favoriteItemIds.indexOf(itemId);
+        if (itemIndex !== -1) {
+            openModal('modalView', { list: favoriteItemIds, index: itemIndex });
+        }
+    };
 
     return (
         <div className="animate-page-content-enter flex flex-col flex-1 h-full">
@@ -26,7 +35,7 @@ const FavoritesPage: React.FC = () => {
                         return (
                             <ListCard
                                 key={item.id}
-                                onClick={() => openModal(isLocale ? 'selectedLocale' : 'selectedEvent', item.id!)}
+                                onClick={() => handleFavItemClick(item)}
                                 itemType={item.itemType}
                                 index={index}
                                 isCharity={!isLocale && (item as Event).isCharityEvent}

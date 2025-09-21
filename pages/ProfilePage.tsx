@@ -119,7 +119,7 @@ const ProfilePage: React.FC = () => {
           {isObjectivesOpen && (
             <div className="px-4 pb-4 animate-slide-down space-y-3">
               {objectives.slice(0, 3).map((obj: GamificationObjective) => (
-                  <div key={obj.id} className={`flex items-center p-3 rounded-lg ${obj.isCompleted ? 'bg-green-50 dark:bg-green-500/10' : 'bg-slate-100 dark:bg-slate-700'}`}>
+                  <div key={obj.id} className={`flex items-center p-3 rounded-lg border shadow-sm ${obj.isCompleted ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/20' : 'bg-slate-50 dark:bg-slate-700/50 border-slate-200 dark:border-slate-700'}`}>
                       <div className={`mr-3 ${obj.isCompleted ? 'text-green-500' : 'text-slate-500 dark:text-slate-400'}`}>{obj.isCompleted ? <CheckCircle size={24} /> : obj.icon}</div>
                       <div className="flex-1">
                           <p className={`text-sm font-semibold ${obj.isCompleted ? 'text-green-800 dark:text-green-300' : 'text-slate-800 dark:text-slate-200'}`}>{obj.title}</p>
@@ -144,7 +144,7 @@ const ProfilePage: React.FC = () => {
                   const canAfford = levelDetails.xp >= reward.xpCost;
                   const isClaimed = claimedRewards.has(reward.id);
                   return (
-                      <div key={reward.id} className={`flex items-center gap-3 p-3 rounded-lg ${isClaimed ? 'bg-slate-200 dark:bg-slate-700' : 'bg-white dark:bg-slate-900 border dark:border-slate-700'}`}>
+                      <div key={reward.id} className={`flex items-center gap-3 p-3 rounded-lg ${isClaimed ? 'bg-slate-200 dark:bg-slate-700 opacity-70' : 'bg-white dark:bg-slate-900 border dark:border-slate-700 shadow-sm'}`}>
                           <div className={`w-10 h-10 flex-shrink-0 rounded-lg flex items-center justify-center bg-${reward.color}-100 dark:bg-${reward.color}-500/20`}>
                             <Icon size={24} className={`text-${reward.color}-500 dark:text-${reward.color}-400`} />
                           </div>
@@ -177,11 +177,14 @@ const ProfilePage: React.FC = () => {
                 </div>
                 {isPastEventsOpen && (
                     <div className="px-4 pb-4 animate-slide-down space-y-3">
-                        {pastEvents.map(event => (
+                        {pastEvents.map((event, index) => (
                             <div 
                                 key={event.id}
-                                onClick={() => openModal('selectedEvent', event.id)}
-                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors"
+                                onClick={() => {
+                                    const pastEventIds = pastEvents.map(e => `event_${e.id}`);
+                                    openModal('modalView', { list: pastEventIds, index });
+                                }}
+                                className="flex items-center gap-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-all hover:shadow-md hover:-translate-y-px"
                             >
                                 <ImageWithFallback 
                                     src={event.img} 
@@ -216,16 +219,16 @@ const ProfilePage: React.FC = () => {
 
       <div className="space-y-2 mt-5">
         <button onClick={() => openModal('isAmbassadorModalOpen', true)} className="profile-action-button">
-          <div className="icon-container"><AwardIcon /></div> <span>Diventa Ambassador</span> <ChevronRight className="chevron" />
+          <AwardIcon size={28} /> <span>Diventa Ambassador</span> <ChevronRight className="chevron" />
         </button>
         <button onClick={() => openModal('isSubscriptionModalOpen', true)} className="profile-action-button">
-          <div className="icon-container"><ShieldIcon /></div> <span>SocialMix Premium</span> <ChevronRight className="chevron" />
+          <ShieldIcon size={28} /> <span>SocialMix Premium</span> <ChevronRight className="chevron" />
         </button>
         <button onClick={() => openModal('isSupportModalOpen', true)} className="profile-action-button">
-          <div className="icon-container"><HelpIcon /></div> <span>Centro Assistenza</span> <ChevronRight className="chevron" />
+          <HelpIcon size={28} /> <span>Centro Assistenza</span> <ChevronRight className="chevron" />
         </button>
         <button onClick={() => openModal('isLogoutModalOpen', true)} className="profile-action-button">
-          <div className="icon-container"><LogoutIcon /></div> <span>Logout</span> <ChevronRight className="chevron" />
+          <LogoutIcon size={28} /> <span>Logout</span> <ChevronRight className="chevron" />
         </button>
       </div>
     </div>

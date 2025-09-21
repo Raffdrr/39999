@@ -78,7 +78,7 @@
       color: #64748b; /* placeholder-slate-500 */
     }
     .form-input:focus {
-      box-shadow: 0 0 0 3px var(--app-accent);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.4);
       border-color: var(--app-accent);
     }
     .dark .form-input:focus {
@@ -189,7 +189,10 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #f1f5f9; /* slate-100 */
+        background-color: rgba(241, 245, 249, 0.8); /* slate-100 w/ acrylic */
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(226, 232, 240, 0.7); /* border-slate-200 */
         border-top-left-radius: 1.5rem; /* rounded-t-3xl */
         border-top-right-radius: 1.5rem;
         padding: 1.25rem 1.25rem 7rem 1.25rem; /* bottom padding to clear nav bar */
@@ -201,8 +204,8 @@
         animation: slide-up 0.35s ease-out forwards;
     }
     .dark .filter-panel-content {
-      background-color: #0f172a; /* bg-slate-900 */
-      border-top: 1px solid #1e293b; /* border-t-slate-800 */
+      background-color: rgba(15, 23, 42, 0.8); /* slate-900 w/ acrylic */
+      border-top: 1px solid rgba(30, 41, 59, 0.7); /* border-t-slate-800 */
     }
     @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
@@ -226,6 +229,16 @@
       background: linear-gradient(45deg, #f97316, #fb923c, #f59e0b);
     }
     
+    /* Google Maps InfoWindow Customization */
+    .gm-ui-hover-effect { display: none !important; }
+    .gm-style-iw-d { overflow: hidden !important; }
+    .gm-style-iw-c {
+      padding: 0 !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+      max-width: 220px !important;
+      min-width: 220px !important;
+    }
   </style>
 <script type="importmap">
 {
@@ -233,9 +246,11 @@
     "react/": "https://esm.sh/react@^19.1.0/",
     "react": "https://esm.sh/react@^19.1.0",
     "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react-dom/server": "https://esm.sh/react-dom@^19.1.0/server",
     "lucide-react": "https://esm.sh/lucide-react@^0.511.0",
     "zustand": "https://esm.sh/zustand@^4.5.4",
-    "zustand/": "https://esm.sh/zustand@^4.5.4/"
+    "zustand/": "https://esm.sh/zustand@^4.5.4/",
+    "@react-google-maps/api": "https://esm.sh/@react-google-maps/api@^2.19.3"
   }
 }
 </script>

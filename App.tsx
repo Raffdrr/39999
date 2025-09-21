@@ -61,7 +61,8 @@ const pageComponents: Record<TabId, React.ComponentType> = {
 const App: React.FC = () => {
   const { 
     activeTab, setActiveTab, toastMessage, hideToast, openModal, closeAllModals, showToast,
-    selectedLocale, selectedEvent, isGlobalMapOpen, reviewModal, donationModal, 
+    modalView, goToNextModalItem, goToPrevModalItem,
+    isGlobalMapOpen, reviewModal, donationModal, 
     isAddCreditOpen, isWithdrawCreditOpen, isAmbassadorModalOpen, isSubscriptionModalOpen,
     isProposeTableModalOpen, isCreateEventModalOpen, isInviteFriendsModalOpen, 
     isSupportModalOpen, isLogoutModalOpen, paymentCodeModal, payWithCreditAmountModal,
@@ -74,8 +75,6 @@ const App: React.FC = () => {
 
   const [invitedFriends, setInvitedFriends] = useState<Set<string>>(new Set());
 
-  const selectedLocaleData = locales.find(l => l.id === selectedLocale);
-  const selectedEventData = events.find(e => e.id === selectedEvent);
   const donationEventData = events.find(e => e.id === donationModal);
   
   const isHomePage = activeTab === 'home';
@@ -112,7 +111,7 @@ const App: React.FC = () => {
                 status: 'awaiting_credit_application'
               });
               openModal('initiatePayBill', null); // close this trigger
-              openModal('selectedLocale', initiatePayBill); // Re-open locale modal to show new state
+              openModal('modalView', { list: [`locale_${initiatePayBill}`], index: 0 }); // Re-open locale modal to show new state
             }
           }
         });
@@ -152,6 +151,41 @@ const App: React.FC = () => {
   
   const ActivePageComponent = pageComponents[activeTab];
 
+  let modalToRender = null;
+  if (modalView) {
+      const currentIdString = modalView.list[modalView.index];
+      const [type, id] = currentIdString.split('_');
+      if (type === 'locale') {
+          const itemData = locales.find(l => l.id === id);
+          if (itemData) {
+              modalToRender = (
+                  <RestaurantModal 
+                      locale={itemData} 
+                      onClose={() => openModal('modalView', null)} 
+                      onSwipeLeft={goToNextModalItem}
+                      onSwipeRight={goToPrevModalItem}
+                      isFirstItem={modalView.index === 0}
+                      isLastItem={modalView.index === modalView.list.length - 1}
+                  />
+              );
+          }
+      } else if (type === 'event') {
+          const itemData = events.find(e => e.id === id);
+          if (itemData) {
+              modalToRender = (
+                  <EventModal 
+                      event={itemData} 
+                      onClose={() => openModal('modalView', null)} 
+                      onSwipeLeft={goToNextModalItem}
+                      onSwipeRight={goToPrevModalItem}
+                      isFirstItem={modalView.index === 0}
+                      isLastItem={modalView.index === modalView.list.length - 1}
+                  />
+              );
+          }
+      }
+  }
+
   return (
     <div className="h-screen w-screen bg-slate-100 dark:bg-slate-950 flex flex-col font-sans antialiased overflow-hidden">
       <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-40' : 'pb-24'}`}>
@@ -160,8 +194,7 @@ const App: React.FC = () => {
       
       {/* Modals & Overlays */}
       <FilterPanel />
-      {selectedLocaleData && <RestaurantModal locale={selectedLocaleData} onClose={() => openModal('selectedLocale', null)} />}
-      {selectedEventData && <EventModal event={selectedEventData} onClose={() => openModal('selectedEvent', null)} />}
+      {modalToRender}
       {isGlobalMapOpen && <GlobalMapModal onClose={() => openModal('isGlobalMapOpen', false)} />}
       {reviewModal && <ReviewModal itemType={reviewModal.type} item={reviewModal.item} onClose={() => openModal('reviewModal', null)} />}
       {donationEventData && <DonationModal event={donationEventData} onClose={() => openModal('donationModal', null)} />}

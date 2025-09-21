@@ -12,7 +12,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "lucide-react": "^0.511.0",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "@react-google-maps/api": "^2.19.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

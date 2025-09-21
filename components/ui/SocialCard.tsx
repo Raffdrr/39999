@@ -30,7 +30,11 @@ const SocialCard: React.FC<SocialCardProps> = ({ card, index }) => {
         </div>
         {card.relatedEventId && (
             <button 
-                onClick={() => openModal('selectedEvent', card.relatedEventId)}
+                // FIX: Use 'modalView' to open the event modal.
+                onClick={() => {
+                    const eventId = `event_${card.relatedEventId}`;
+                    openModal('modalView', { list: [eventId], index: 0 });
+                }}
                 className="flex items-center gap-1.5 text-xs font-semibold bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-full shadow-md hover:bg-indigo-50 dark:hover:bg-slate-600 transition-all duration-200 ease-out active:scale-95 hover:shadow-lg hover:-translate-y-0.5"
             >
                 Visualizza <ArrowRight size={14} />

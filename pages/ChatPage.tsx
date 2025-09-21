@@ -30,9 +30,10 @@ const ChatPage: React.FC = () => {
                                 onClick={() => {
                                     markNotificationAsRead(notif.id);
                                     if (notif.link) {
-                                        if (notif.link.itemId) {
-                                            if(notif.link.itemType === 'locale') openModal('selectedLocale', notif.link.itemId)
-                                            else openModal('selectedEvent', notif.link.itemId)
+                                        // FIX: Use 'modalView' to open the correct modal for the linked item.
+                                        if (notif.link.itemId && notif.link.itemType) {
+                                            const modalItemId = `${notif.link.itemType}_${notif.link.itemId}`;
+                                            openModal('modalView', { list: [modalItemId], index: 0 });
                                         }
                                         setActiveTab(notif.link.tabId);
                                     }

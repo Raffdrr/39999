@@ -1,6 +1,5 @@
 import React from 'react';
 
-// FIX: Added size prop to allow dynamic sizing and resolve type error.
 interface IconProps {
   className?: string;
   size?: number;

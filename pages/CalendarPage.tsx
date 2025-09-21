@@ -34,8 +34,9 @@ const CalendarPage: React.FC = () => {
   const handleDayClick = (day: number) => {
     const dayEvents = monthEvents.filter(e => new Date(e.date).getDate() === day);
     if (dayEvents.length > 0) {
-      // For simplicity on mobile, open the first event for the selected day.
-      openModal('selectedEvent', dayEvents[0].id);
+      // FIX: Use 'modalView' to open events, allowing for swiping between multiple events on the same day.
+      const eventIds = dayEvents.map(e => `event_${e.id}`);
+      openModal('modalView', { list: eventIds, index: 0 });
     }
   };
 

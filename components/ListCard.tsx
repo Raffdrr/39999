@@ -24,14 +24,14 @@ const ListCard: React.FC<ListCardProps> = ({
   onToggleFavorite,
 }) => {
   const typeStyles =
-    itemType === 'locale' ? { border: 'border-l-amber-500', text: 'text-amber-700 dark:text-amber-400', icon: MapPin } :
-    itemType === 'event' ? { border: 'border-l-orange-500', text: 'text-orange-700 dark:text-orange-400', icon: Calendar } :
-    itemType === 'past_event' ? { border: 'border-l-indigo-500', text: 'text-indigo-700 dark:text-indigo-400', icon: Calendar } :
-    { border: 'border-l-slate-300 dark:border-l-slate-700', text: 'text-slate-700 dark:text-slate-300', icon: null };
+    itemType === 'locale' ? { bg: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400', icon: MapPin } :
+    itemType === 'event' ? { bg: 'bg-orange-500', text: 'text-orange-700 dark:text-orange-400', icon: Calendar } :
+    itemType === 'past_event' ? { bg: 'bg-indigo-500', text: 'text-indigo-700 dark:text-indigo-400', icon: Calendar } :
+    { bg: 'bg-slate-300 dark:bg-slate-700', text: 'text-slate-700 dark:text-slate-300', icon: null };
   
   let backgroundClass = 'bg-white dark:bg-slate-800';
   if (isCharity) {
-    typeStyles.border = 'border-l-pink-500';
+    typeStyles.bg = 'bg-pink-500';
     typeStyles.text = 'text-pink-700 dark:text-pink-400';
     typeStyles.icon = HandHeart;
     backgroundClass = 'bg-pink-50 dark:bg-pink-900/20';
@@ -45,8 +45,9 @@ const ListCard: React.FC<ListCardProps> = ({
     <div
       onClick={onClick}
       style={{ animationDelay }}
-      className={`relative flex flex-row gap-3 ${backgroundClass} rounded-xl shadow-md dark:shadow-lg dark:shadow-black/25 p-3 transition-all duration-300 ease-out cursor-pointer hover:shadow-2xl dark:hover:shadow-2xl dark:hover:shadow-black/30 hover:-translate-y-1 active:scale-[0.98] active:shadow-lg border border-slate-200/80 dark:border-slate-700/80 border-l-2 ${typeStyles.border} ${className} animate-fade-in-up`}
+      className={`relative flex flex-row gap-3 ${backgroundClass} rounded-xl shadow-lg dark:shadow-lg dark:shadow-black/25 p-3 pl-5 transition-all duration-300 ease-out cursor-pointer hover:shadow-2xl dark:hover:shadow-2xl dark:hover:shadow-black/30 hover:-translate-y-1 active:scale-[0.98] active:shadow-lg border border-slate-200/80 dark:border-slate-700/80 ${className} animate-fade-in-up`}
     >
+      <div className={`absolute left-0 top-1/4 h-1/2 w-1.5 rounded-r-full ${typeStyles.bg}`}></div>
       
       {isFavorite !== undefined && onToggleFavorite && (
         <div className="absolute top-1.5 right-1.5 z-10">

@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
     const { openModal, searchTerm, displayCategory, setDisplayCategory, resetAllFilters, activeLocaleFilters, activeEventFilters } = useUIStore();
     const { isFavorite, toggleFavorite } = useFavoritesStore();
     
-    const filteredItems = useMemo(() => {
+    const { filteredItems, itemIdsForModalView } = useMemo(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -63,9 +63,21 @@ const HomePage: React.FC = () => {
             if (distanceA !== Infinity && distanceB !== Infinity) return distanceA - distanceB;
             return 0;
         });
+
+        const ids = combined
+            .filter(item => item.itemType === 'locale' || item.itemType === 'event')
+            .map(item => `${item.itemType}_${item.id}`);
         
-        return combined;
+        return { filteredItems: combined, itemIdsForModalView: ids };
     }, [locales, events, displayCategory, activeLocaleFilters, activeEventFilters, searchTerm]);
+    
+    const handleItemClick = (clickedItemId: string) => {
+        const itemIndex = itemIdsForModalView.indexOf(clickedItemId);
+        if (itemIndex !== -1) {
+            openModal('modalView', { list: itemIdsForModalView, index: itemIndex });
+        }
+    };
+
 
     return (
         <div className="animate-page-content-enter flex flex-col gap-4">
@@ -90,7 +102,7 @@ const HomePage: React.FC = () => {
                 return (
                     <ListCard
                         key={item.id}
-                        onClick={() => openModal(isLocale ? 'selectedLocale' : 'selectedEvent', item.id!)}
+                        onClick={() => handleItemClick(`${item.itemType}_${item.id}`)}
                         itemType={isLocale ? 'locale' : 'event'}
                         index={index}
                         isCharity={!isLocale && event.isCharityEvent}

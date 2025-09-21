@@ -1,11 +1,9 @@
-
 import { create } from 'zustand';
 import { ToastMessage, TabId, ReviewModalData, PaymentCodeModalData, PayWithCreditAmountModalData, InputModalData, DisplayCategory } from '../types';
 
 // Data types for modals that carry specific information
 type ModalData = {
-  selectedLocale: string | null;
-  selectedEvent: string | null;
+  modalView: { list: string[]; index: number } | null; // Unified state for Locale/Event modals
   reviewModal: ReviewModalData | null;
   donationModal: string | null; // eventId
   paymentCodeModal: PaymentCodeModalData | null;
@@ -54,6 +52,9 @@ interface UIState extends ModalState {
   openModal: <K extends ModalName>(modal: K, data?: ModalState[K]) => void;
   closeAllModals: () => void;
 
+  goToNextModalItem: () => void;
+  goToPrevModalItem: () => void;
+
   toggleFilterPanel: () => void;
   setSearchTerm: (term: string) => void;
   setDisplayCategory: (category: DisplayCategory) => void;
@@ -63,8 +64,7 @@ interface UIState extends ModalState {
 }
 
 const initialModalState: ModalState = {
-  selectedLocale: null,
-  selectedEvent: null,
+  modalView: null,
   reviewModal: null,
   donationModal: null,
   paymentCodeModal: null,
@@ -120,6 +120,24 @@ export const useUIStore = create<UIState>((set, get) => ({
   closeAllModals: () => {
     set({ ...initialModalState });
   },
+
+  goToNextModalItem: () => set(state => {
+    if (!state.modalView) return {};
+    const nextIndex = state.modalView.index + 1;
+    if (nextIndex >= state.modalView.list.length) {
+      return { modalView: null }; // Close modal at the end
+    }
+    return { modalView: { ...state.modalView, index: nextIndex } };
+  }),
+  
+  goToPrevModalItem: () => set(state => {
+    if (!state.modalView) return {};
+    const prevIndex = state.modalView.index - 1;
+    if (prevIndex < 0) {
+      return { modalView: null }; // Close modal at the beginning
+    }
+    return { modalView: { ...state.modalView, index: prevIndex } };
+  }),
 
   toggleFilterPanel: () => set(state => ({ showFilterPanel: !state.showFilterPanel })),
   

@@ -6,16 +6,20 @@ import useSwipe from '../../hooks/useSwipe'; // Import the new hook
 
 import ImageWithFallback from '../ImageWithFallback';
 import FavoriteButton from '../ui/FavoriteButton';
-import { X, Star, Heart, MapPin as MapPinIconLucide, CalendarDays, Clock, DollarSign, Gift, Users, CheckCircle, ThumbsUp, CreditCard, Banknote, AlertTriangle, Edit3, ChevronLeft, Share2, Info as InfoIcon, Ticket as TicketIcon, Users2, Building } from 'lucide-react';
+import { X, Star, Heart, MapPin as MapPinIconLucide, CalendarDays, Clock, DollarSign, Gift, Users, CheckCircle, ThumbsUp, CreditCard, Banknote, AlertTriangle, Edit3, ChevronLeft, Share2, Info as InfoIcon, Ticket as TicketIcon, Users2, Building, ChevronRight } from 'lucide-react';
 
 interface EventModalProps {
   event: Event;
   onClose: () => void;
+  onSwipeLeft: () => void;
+  onSwipeRight: () => void;
+  isFirstItem: boolean;
+  isLastItem: boolean;
 }
 
 type EventDetailTabId = 'details' | 'participants';
 
-const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
+const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, onSwipeRight, isFirstItem, isLastItem }) => {
   const { locales } = useDataStore();
   const { joinedEvents, credit, avatar, joinEvent, leaveEvent } = useUserStore();
   const { isFavorite, toggleFavorite } = useFavoritesStore();
@@ -28,19 +32,20 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
   const TABS: EventDetailTabId[] = ['details', 'participants'];
   
-  const handleSwipeLeft = () => {
+  const handleTabSwipeLeft = () => {
     const currentIndex = TABS.indexOf(activeDetailTab);
     const nextIndex = (currentIndex + 1) % TABS.length;
     setActiveDetailTab(TABS[nextIndex]);
   };
 
-  const handleSwipeRight = () => {
+  const handleTabSwipeRight = () => {
     const currentIndex = TABS.indexOf(activeDetailTab);
     const prevIndex = (currentIndex - 1 + TABS.length) % TABS.length;
     setActiveDetailTab(TABS[prevIndex]);
   };
   
-  const swipeHandlers = useSwipe({ onSwipedLeft: handleSwipeLeft, onSwipedRight: handleSwipeRight });
+  const tabSwipeHandlers = useSwipe({ onSwipedLeft: handleTabSwipeLeft, onSwipedRight: handleTabSwipeRight });
+  const itemSwipeHandlers = useSwipe({ onSwipedLeft: onSwipeLeft, onSwipedRight: onSwipeRight });
 
 
   const handleScroll = () => {
@@ -355,7 +360,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
              <div className="w-10"></div>
         </div>
 
-      <div className="relative h-[45vh] sm:h-[50vh] w-full -mt-16">
+      <div {...itemSwipeHandlers} className="relative h-[45vh] sm:h-[50vh] w-full -mt-16">
         <ImageWithFallback
           src={event.img}
           alt={headerTitle}
@@ -377,6 +382,25 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         </div>
       </div>
 
+      {!isFirstItem && (
+        <button 
+            onClick={onSwipeRight} 
+            className="fixed left-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
+            aria-label="Articolo Precedente"
+        >
+          <ChevronLeft size={28} />
+        </button>
+      )}
+      {!isLastItem && (
+        <button 
+            onClick={onSwipeLeft} 
+            className="fixed right-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
+            aria-label="Articolo Successivo"
+        >
+          <ChevronRight size={28} />
+        </button>
+      )}
+
       <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
         <div className="flex border-b border-slate-200 dark:border-slate-800">
           {tabs.map(tab => {
@@ -395,7 +419,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         </div>
       </div>
 
-      <div {...swipeHandlers} className="bg-transparent pb-[10rem]">
+      <div {...tabSwipeHandlers} className="bg-transparent pb-[10rem]">
         {activeDetailTab === 'details' && (headerLocale ? renderLocaleDetailsContent() : renderEventDetailsContent())}
         {activeDetailTab === 'participants' && renderParticipants()}
       </div>

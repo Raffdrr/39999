@@ -40,7 +40,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     >
       <div
         className={`transition-all duration-300 ease-out ${
-          open ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-10'
+          open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         } ${customClasses}`}
       >
         {children}

@@ -6,11 +6,15 @@ import useSwipe from '../../hooks/useSwipe'; // Import the new hook
 
 import ImageWithFallback from '../ImageWithFallback';
 import FavoriteButton from '../ui/FavoriteButton';
-import { X, Star, Heart, MapPin as MapPinIconLucide, CheckCircle, BookOpen, Camera, ThumbsUp, Edit3, ImagePlus, Users, ChevronDown, ChevronUp, LogOut, AlertTriangle, Receipt, CreditCard as CreditCardIcon, ChevronLeft, Share2, Info as InfoIcon, GalleryThumbnails, MenuSquare, MessageSquareText, Users2, Repeat, Undo2 } from 'lucide-react'; 
+import { X, Star, Heart, MapPin as MapPinIconLucide, CheckCircle, BookOpen, Camera, ThumbsUp, Edit3, ImagePlus, Users, ChevronDown, ChevronUp, LogOut, AlertTriangle, Receipt, CreditCard as CreditCardIcon, ChevronLeft, Share2, Info as InfoIcon, GalleryThumbnails, MenuSquare, MessageSquareText, Users2, Repeat, Undo2, ChevronRight } from 'lucide-react'; 
 
 interface LocaleModalProps { 
   locale: Locale; 
   onClose: () => void;
+  onSwipeLeft: () => void;
+  onSwipeRight: () => void;
+  isFirstItem: boolean;
+  isLastItem: boolean;
 }
 
 type LocaleDetailTabId = 'info' | 'menu' | 'reviews' | 'participants';
@@ -23,7 +27,7 @@ const TABS_CONFIG: { id: LocaleDetailTabId; label: string; icon: React.ElementTy
 ];
 const TAB_IDS = TABS_CONFIG.map(t => t.id);
 
-const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
+const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft, onSwipeRight, isFirstItem, isLastItem }) => {
   const { addMenuPhoto } = useDataStore();
   // Fix: Corrected property name from `userAvatar` to `avatar`.
   const { joinedTables, joinTable, leaveTable, avatar } = useUserStore();
@@ -35,19 +39,20 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
 
-  const handleSwipeLeft = () => {
+  const handleTabSwipeLeft = () => {
     const currentIndex = TAB_IDS.indexOf(activeDetailTab);
     const nextIndex = (currentIndex + 1) % TAB_IDS.length;
     setActiveDetailTab(TAB_IDS[nextIndex]);
   };
 
-  const handleSwipeRight = () => {
+  const handleTabSwipeRight = () => {
     const currentIndex = TAB_IDS.indexOf(activeDetailTab);
     const prevIndex = (currentIndex - 1 + TAB_IDS.length) % TAB_IDS.length;
     setActiveDetailTab(TAB_IDS[prevIndex]);
   };
 
-  const swipeHandlers = useSwipe({ onSwipedLeft: handleSwipeLeft, onSwipedRight: handleSwipeRight });
+  const tabSwipeHandlers = useSwipe({ onSwipedLeft: handleTabSwipeLeft, onSwipedRight: handleTabSwipeRight });
+  const itemSwipeHandlers = useSwipe({ onSwipedLeft: onSwipeLeft, onSwipedRight: onSwipeRight });
 
 
   const handleScroll = () => {
@@ -325,7 +330,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
              <div className="w-10"></div>
         </div>
 
-      <div className="relative h-[45vh] sm:h-[50vh] w-full -mt-16">
+      <div {...itemSwipeHandlers} className="relative h-[45vh] sm:h-[50vh] w-full -mt-16">
         <ImageWithFallback
           src={locale.img}
           alt={locale.name}
@@ -344,6 +349,25 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
           </div>
         </div>
       </div>
+      
+      {!isFirstItem && (
+        <button 
+            onClick={onSwipeRight} 
+            className="fixed left-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
+            aria-label="Articolo Precedente"
+        >
+          <ChevronLeft size={28} />
+        </button>
+      )}
+      {!isLastItem && (
+        <button 
+            onClick={onSwipeLeft} 
+            className="fixed right-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
+            aria-label="Articolo Successivo"
+        >
+          <ChevronRight size={28} />
+        </button>
+      )}
 
       <div className="bg-slate-900 sticky top-16 z-10 shadow-md">
         <div className="flex">
@@ -360,7 +384,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose }) => {
         </div>
       </div>
 
-      <div {...swipeHandlers} className="bg-slate-900 pb-[10rem]">
+      <div {...tabSwipeHandlers} className="bg-slate-900 pb-[10rem]">
         {activeDetailTab === 'info' && renderInfoTab()}
         {activeDetailTab === 'menu' && renderMenuTab()}
         {activeDetailTab === 'reviews' && renderReviewsTab()}
