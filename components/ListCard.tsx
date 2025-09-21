@@ -35,6 +35,8 @@ const ListCard: React.FC<ListCardProps> = ({
     backgroundClass = 'bg-pink-50 dark:bg-pink-900/20';
   } else if (itemType === 'event') {
     backgroundClass = 'bg-orange-50 dark:bg-orange-900/20';
+  } else if (itemType === 'locale') {
+    backgroundClass = 'bg-slate-50 dark:bg-slate-800/70';
   }
 
   const animationDelay = `${index * 75}ms`;
@@ -46,11 +48,11 @@ const ListCard: React.FC<ListCardProps> = ({
       className={`
         relative flex flex-col gap-3 ${backgroundClass} 
         rounded-2xl p-3
-        shadow-lg dark:shadow-md dark:shadow-black/30 
+        shadow-md dark:shadow-md dark:shadow-black/20 
         transition-transform transition-shadow duration-300 ease-out 
         cursor-pointer 
-        hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 
-        active:scale-[0.98] active:shadow-md 
+        hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-black/30 hover:-translate-y-1 
+        active:scale-[0.98] active:shadow-sm 
         border border-slate-200/60 dark:border-slate-700/60 
         ${className} animate-fade-in-up
       `}

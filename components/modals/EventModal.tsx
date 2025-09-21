@@ -174,7 +174,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         {participantsDetails.length > 0 ? (
           <div className="flex flex-col space-y-3">
             {participantsDetails.map(p => (
-              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white dark:bg-slate-800/80 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
                 <div className="relative flex-shrink-0">
                   <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200 dark:border-slate-700" />
                   {p.isHost && (
@@ -198,7 +198,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
   const renderEventDetailsContent = () => (
     <div className="p-4 space-y-4">
       {!event.isPublicVenue && (
-         <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+         <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Luogo Evento</h3>
             <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{event.location || "Luogo non specificato"}</p>
             <ImageWithFallback 
@@ -210,24 +210,24 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
             />
         </div>
       )}
-      <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
         <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Descrizione Evento</h3>
         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{event.description}</p>
       </div>
       {event.whatToBring && (
-        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Cosa Portare</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.whatToBring}</p>
         </div>
       )}
       {event.houseRules && (
-        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Regole</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.houseRules}</p>
         </div>
       )}
       {event.generalInfo && (
-        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Info Generali</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.generalInfo}</p>
         </div>
@@ -242,11 +242,11 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
     if (!headerLocale) return <p className="text-slate-500 dark:text-slate-400 p-4">Dettagli locale non disponibili.</p>;
     return (
       <div className="p-4 space-y-4">
-        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><Building size={20} className="text-orange-500"/>Descrizione Locale</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{headerLocale.description}</p>
         </div>
-        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Indirizzo</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{headerLocale.address}</p>
           <ImageWithFallback 
@@ -258,7 +258,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
           />
         </div>
         {headerLocale.galleryPhotos && headerLocale.galleryPhotos.length > 0 && (
-          <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Galleria Locale</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {headerLocale.galleryPhotos.map((photo, index) => (
@@ -268,7 +268,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
           </div>
         )}
         {headerLocale.openingHours && (
-           <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+           <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Orari</h3>
             <p className="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-line">{headerLocale.openingHours}</p>
           </div>
@@ -369,7 +369,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10"></div>
         
-        <div className={`absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-20 p-2 text-white transition-opacity duration-300 ${isHeaderCollapsed ? 'opacity-0' : 'opacity-100'}`}>
+        <div className={`absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm-right-6 z-20 p-2 text-white transition-opacity duration-300 ${isHeaderCollapsed ? 'opacity-0' : 'opacity-100'}`}>
           {event.isCharityEvent && (
             <span className="inline-block bg-pink-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wide shadow-md">Evento Benefico</span>
           )}
@@ -381,25 +381,6 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
           </div>
         </div>
       </div>
-
-      {!isFirstItem && (
-        <button 
-            onClick={onSwipeRight} 
-            className="fixed left-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
-            aria-label="Articolo Precedente"
-        >
-          <ChevronLeft size={28} />
-        </button>
-      )}
-      {!isLastItem && (
-        <button 
-            onClick={onSwipeLeft} 
-            className="fixed right-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
-            aria-label="Articolo Successivo"
-        >
-          <ChevronRight size={28} />
-        </button>
-      )}
 
       <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
         <div className="flex border-b border-slate-200 dark:border-slate-800">
@@ -424,7 +405,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         {activeDetailTab === 'participants' && renderParticipants()}
       </div>
       
-      <div className="fixed bottom-28 right-6 z-30 flex flex-col items-end space-y-2.5">
+      <div className="fixed bottom-20 right-6 z-30 flex flex-col items-end space-y-2.5">
         {renderActionButton()}
       </div>
 

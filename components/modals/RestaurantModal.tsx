@@ -6,7 +6,7 @@ import useSwipe from '../../hooks/useSwipe'; // Import the new hook
 
 import ImageWithFallback from '../ImageWithFallback';
 import FavoriteButton from '../ui/FavoriteButton';
-import { X, Star, Heart, MapPin as MapPinIconLucide, CheckCircle, BookOpen, Camera, ThumbsUp, Edit3, ImagePlus, Users, ChevronDown, ChevronUp, LogOut, AlertTriangle, Receipt, CreditCard as CreditCardIcon, ChevronLeft, Share2, Info as InfoIcon, GalleryThumbnails, MenuSquare, MessageSquareText, Users2, Repeat, Undo2, ChevronRight } from 'lucide-react'; 
+import { X, Star, Heart, MapPin as MapPinIconLucide, CheckCircle, BookOpen, Camera, ThumbsUp, Edit3, ImagePlus, Users, ChevronDown, ChevronUp, LogOut, AlertTriangle, Receipt, CreditCard as CreditCardIcon, ChevronLeft, Share2, Info as InfoIcon, GalleryThumbnails, MenuSquare, MessageSquareText, Users2, Repeat, Undo2, ChevronRight, Building } from 'lucide-react'; 
 
 interface LocaleModalProps { 
   locale: Locale; 
@@ -20,7 +20,7 @@ interface LocaleModalProps {
 type LocaleDetailTabId = 'info' | 'menu' | 'reviews' | 'participants';
 
 const TABS_CONFIG: { id: LocaleDetailTabId; label: string; icon: React.ElementType }[] = [
-    { id: 'info', label: "Info", icon: InfoIcon },
+    { id: 'info', label: "Info", icon: Building },
     { id: 'menu', label: "Menu", icon: MenuSquare },
     { id: 'reviews', label: `Recensioni`, icon: MessageSquareText },
     { id: 'participants', label: "Partecipanti", icon: Users2 },
@@ -111,10 +111,12 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
 
 
   const renderMainActionButton = () => {
+    const baseButtonClasses = "text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm";
+
     if (locale.billDetails?.status === 'paid_with_credit') {
       return (
-         <button className="bg-green-600 text-white font-semibold p-4 rounded-full shadow-lg flex items-center justify-center gap-2 cursor-default" title="Conto Pagato">
-          <CheckCircle size={24} /> Pagato
+         <button className={`bg-green-600 cursor-default ${baseButtonClasses}`} title="Conto Pagato">
+          <CheckCircle size={20} /> Pagato
         </button>
       );
     }
@@ -123,10 +125,10 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
       return (
         <button
           onClick={() => openModal('finalizeBill', locale.id)}
-          className="bg-sky-500 hover:bg-sky-600 text-white font-semibold p-4 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+          className={`bg-sky-500 hover:bg-sky-600 ${baseButtonClasses}`}
           title={`Finalizza Pagamento (€${locale.billDetails.creditContributed.toFixed(2)})`}
         >
-          <CreditCardIcon size={24} /> Finalizza
+          <CreditCardIcon size={20} /> Finalizza
         </button>
       );
     }
@@ -135,10 +137,10 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
       return (
         <button
           onClick={() => openModal('payWithCreditAmountModal', { itemType: 'locale', itemId: locale.id, itemName: locale.name, maxAmount: locale.billDetails.totalAmount, currentContribution: locale.billDetails.creditContributed, isEventFee: false })}
-          className="bg-purple-500 hover:bg-purple-600 text-white font-semibold p-4 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+          className={`bg-purple-500 hover:bg-purple-600 ${baseButtonClasses}`}
           title={`Applica Credito (Tot: €${locale.billDetails.totalAmount.toFixed(2)})`}
         >
-          <CreditCardIcon size={24} /> Applica Credito
+          <CreditCardIcon size={20} /> Applica Credito
         </button>
       );
     }
@@ -147,10 +149,10 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
        return (
           <button
             onClick={() => openModal('initiatePayBill', locale.id)}
-            className={`bg-rose-500 hover:bg-rose-600 text-white font-semibold p-4 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2`}
+            className={`bg-rose-500 hover:bg-rose-600 ${baseButtonClasses}`}
             title="Paga Conto al Tavolo"
           >
-            <Receipt size={24} /> Paga Conto
+            <Receipt size={20} /> Paga Conto
           </button>
        );
     }
@@ -158,58 +160,58 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
     if (locale.currentGuests >= locale.capacity) {
         return (
             <button
-                className="bg-slate-500 text-white font-semibold p-4 rounded-full shadow-lg cursor-not-allowed flex items-center justify-center gap-2"
+                className={`bg-slate-500 cursor-not-allowed ${baseButtonClasses}`}
                 disabled title="Tavolo Pieno"
-            > <AlertTriangle size={24} /> Completo </button>
+            > <AlertTriangle size={20} /> Completo </button>
         );
     }
     return (
          <button
             onClick={() => joinTable(locale)} 
-            className={`bg-sky-500 hover:bg-sky-600 text-white font-semibold p-4 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2`}
+            className={`bg-sky-500 hover:bg-sky-600 ${baseButtonClasses}`}
             title="Unisciti al Tavolo"
-        > <CheckCircle size={24} /> Unisciti </button>
+        > <CheckCircle size={20} /> Unisciti </button>
     );
   };
   
   const renderInfoTab = () => (
     <div className="p-4 space-y-4">
-      <div className="bg-slate-800 p-4 rounded-lg shadow">
-        <h3 className={`text-lg font-semibold text-rose-400 mb-2`}>Descrizione</h3>
-        <p className="text-slate-300 text-sm leading-relaxed">{locale.description || "Nessuna descrizione fornita."}</p>
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Descrizione</h3>
+        <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{locale.description || "Nessuna descrizione fornita."}</p>
       </div>
        {locale.hashtags && locale.hashtags.length > 0 && ( 
-        <div className="bg-slate-800 p-4 rounded-lg shadow">
-            <h3 className={`text-lg font-semibold text-rose-400 mb-2`}>Tags</h3>
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+            <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Tags</h3>
             <div className="flex flex-wrap gap-2">
-            {locale.hashtags.map(tag => <span key={tag} className={`text-xs bg-rose-700/50 text-rose-300 px-2.5 py-1 rounded-full font-medium`}>#{tag}</span>)} 
+            {locale.hashtags.map(tag => <span key={tag} className={`text-xs bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300 px-2.5 py-1 rounded-full font-medium`}>#{tag}</span>)} 
             </div>
         </div>
       )}
-      <div className="bg-slate-800 p-4 rounded-lg shadow">
-        <h3 className={`text-lg font-semibold text-rose-400 mb-2`}>Indirizzo</h3>
-        <p className="text-slate-300 text-sm mb-2">{locale.address || "Indirizzo non specificato"}</p>
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Indirizzo</h3>
+        <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{locale.address || "Indirizzo non specificato"}</p>
         <ImageWithFallback itemKey={`map_loc_${locale.id}`} src={MAP_PLACEHOLDER_LOCALE_MODAL} alt="Mappa Locale" imgClassName="w-full h-40 object-cover rounded-md" containerClassName="w-full h-40 rounded-md" />
       </div>
       {locale.openingHours && (
-        <div className="bg-slate-800 p-4 rounded-lg shadow">
-          <h3 className={`text-lg font-semibold text-rose-400 mb-2`}>Orari di Apertura</h3>
-          <p className="text-slate-300 text-sm whitespace-pre-line">{locale.openingHours}</p>
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+          <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Orari di Apertura</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-line">{locale.openingHours}</p>
         </div>
       )}
-       <div className="bg-slate-800 p-4 rounded-lg shadow">
-          <h3 className={`text-lg font-semibold text-rose-400 mb-1`}>Persone al Tavolo</h3>
-          <p className="text-slate-300 text-sm mb-2">{locale.currentGuests} / {locale.capacity}</p>
+       <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+          <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-1`}>Persone al Tavolo</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{locale.currentGuests} / {locale.capacity}</p>
           {peopleAtTableForInfoTab.length > 0 ? (
             <div className="flex flex-wrap gap-2">
                 {peopleAtTableForInfoTab.slice(0, 5).map(att => (
-                    <img key={att.id} src={att.avatar} alt={att.name} title={att.name} className="w-8 h-8 rounded-full border-2 border-slate-700 object-cover"/>
+                    <img key={att.id} src={att.avatar} alt={att.name} title={att.name} className="w-8 h-8 rounded-full border-2 border-slate-200 dark:border-slate-700 object-cover"/>
                 ))}
                 {peopleAtTableForInfoTab.length > 5 && (
-                    <span className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs text-slate-300 font-semibold">+{peopleAtTableForInfoTab.length - 5}</span>
+                    <span className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300 font-semibold">+{peopleAtTableForInfoTab.length - 5}</span>
                 )}
             </div>
-          ) : <p className="text-xs text-slate-400">Nessuno attualmente al tavolo.</p>}
+          ) : <p className="text-xs text-slate-500 dark:text-slate-400">Nessuno attualmente al tavolo.</p>}
       </div>
     </div>
   );
@@ -218,24 +220,24 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
      <div className="p-4 space-y-4">
         {Object.keys(menuByCategory).length > 0 ? (
           Object.entries(menuByCategory).map(([category, items]) => (
-            <div key={category} className="bg-slate-800 p-4 rounded-lg shadow">
-              <h3 className={`text-lg font-semibold text-rose-400 mb-3`}>{category}</h3>
+            <div key={category} className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+              <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3`}>{category}</h3>
               <ul className="space-y-2">
                 {items.map(item => (
-                  <li key={item.dish} className="flex justify-between items-center text-sm border-b border-slate-700/50 pb-2 last:border-b-0 last:pb-0">
-                    <span className="text-slate-300">{item.dish}</span>
-                    <span className="font-medium text-slate-200">{item.price}</span>
+                  <li key={item.dish} className="flex justify-between items-center text-sm border-b border-slate-200 dark:border-slate-700/50 pb-2 last:border-b-0 last:pb-0">
+                    <span className="text-slate-600 dark:text-slate-300">{item.dish}</span>
+                    <span className="font-medium text-slate-700 dark:text-slate-200">{item.price}</span>
                   </li>
                 ))}
               </ul>
             </div>
           ))
         ) : (
-          <p className="text-slate-400 text-center py-8">Menu non disponibile.</p>
+          <p className="text-slate-500 dark:text-slate-400 text-center py-8">Menu non disponibile.</p>
         )}
         {locale.menuPhotos && locale.menuPhotos.length > 0 && (
-            <div className="bg-slate-800 p-4 rounded-lg shadow">
-                 <h3 className={`text-lg font-semibold text-rose-400 mb-3`}>Foto del Menu</h3>
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+                 <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3`}>Foto del Menu</h3>
                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {locale.menuPhotos.map((photoUrl, index) => ( 
                         <ImageWithFallback key={`menu_photo_${index}`} src={photoUrl} alt={`Foto menu ${index + 1}`} imgClassName="w-full h-28 object-cover rounded-md" containerClassName="w-full h-28 rounded-md" />
@@ -248,7 +250,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
               const photo = prompt("Inserisci URL foto menu (simulato):", MENU_PHOTO_PRESETS[Math.floor(Math.random() * MENU_PHOTO_PRESETS.length)]);
               if (photo) addMenuPhoto(locale.id, photo); 
             }}
-            className={`w-full mt-2 flex items-center justify-center gap-2 py-2.5 border border-rose-600 text-rose-400 rounded-lg hover:bg-rose-700/30 transition-colors text-sm font-medium`}
+            className={`w-full mt-2 flex items-center justify-center gap-2 py-2.5 border border-orange-500 text-orange-600 dark:text-orange-400 rounded-lg bg-orange-500/5 dark:bg-orange-500/10 hover:bg-orange-500/20 transition-colors text-sm font-medium`}
           >
             <Camera size={18} /> Aggiungi Foto al Menu
         </button>
@@ -259,33 +261,33 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
     <div className="p-4 space-y-4">
         {locale.userReviews && locale.userReviews.length > 0 ? ( 
             locale.userReviews.map((review: UserReviewType) => ( 
-              <div key={review.userId + review.date} className="bg-slate-800 p-3.5 rounded-lg shadow">
+              <div key={review.userId + review.date} className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
                 <div className="flex items-start mb-1.5">
-                  <img src={review.avatar || USER_AVATARS[0]} alt={review.name} className="w-9 h-9 rounded-full mr-3 border-2 border-slate-700" />
+                  <img src={review.avatar || USER_AVATARS[0]} alt={review.name} className="w-9 h-9 rounded-full mr-3 border-2 border-slate-200 dark:border-slate-700" />
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-slate-200">{review.name || "Utente Anonimo"}</p>
+                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{review.name || "Utente Anonimo"}</p>
                     <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={14} className={`mr-0.5 ${i < review.rating ? 'text-amber-400 fill-amber-400' : 'text-slate-600'}`} />)}
+                      {[...Array(5)].map((_, i) => <Star key={i} size={14} className={`mr-0.5 ${i < review.rating ? 'text-amber-400 fill-amber-400' : 'text-slate-400 dark:text-slate-600'}`} />)}
                     </div>
                   </div>
-                  <span className="text-xs text-slate-500">{new Date(review.date).toLocaleDateString('it-IT')}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-500">{new Date(review.date).toLocaleDateString('it-IT')}</span>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">{review.text}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{review.text}</p>
               </div>
             ))
         ) : (
-            <p className="text-slate-400 text-center py-4">Nessuna recensione ancora.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-center py-4">Nessuna recensione ancora.</p>
         )}
         <button
             onClick={() => openModal('reviewModal', { type: 'locale', item: locale })} 
-            className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 border border-amber-600 text-amber-400 rounded-lg hover:bg-amber-700/30 transition-colors text-sm font-medium"
+            className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 border border-orange-500 text-orange-600 dark:text-orange-400 rounded-lg bg-orange-500/5 dark:bg-orange-500/10 hover:bg-orange-500/20 transition-colors text-sm font-medium"
           >
             <Edit3 size={18} /> Lascia una Recensione
         </button>
         
         {locale.galleryPhotos && locale.galleryPhotos.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-slate-700/60">
-                <h3 className={`text-lg font-semibold text-rose-400 mb-3 flex items-center gap-2`}><GalleryThumbnails size={20}/>Galleria Locale</h3>
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700/60">
+                <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2`}><GalleryThumbnails size={20}/>Galleria Locale</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {locale.galleryPhotos.map((photo, index) => (
                     <ImageWithFallback key={`gallery_loc_${index}`} src={photo} alt={`${locale.name} - foto ${index + 1}`} imgClassName="w-full h-32 sm:h-40 object-cover rounded-md" containerClassName="w-full h-32 sm:h-40 rounded-md" />
@@ -301,32 +303,32 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
       {detailedParticipantsList.length > 0 ? (
         <div className="flex flex-col space-y-3">
           {detailedParticipantsList.map(p => (
-            <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-slate-800 rounded-lg shadow">
+            <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
               <div className="relative flex-shrink-0">
-                <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-700" />
+                <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200 dark:border-slate-700" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-md font-semibold text-slate-100 truncate">{p.name}</p>
-                <p className="text-xs text-slate-400">{p.age} anni • {p.city}</p>
+                <p className="text-md font-semibold text-slate-800 dark:text-slate-100 truncate">{p.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{p.age} anni • {p.city}</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-slate-400 text-center py-8">Nessun partecipante al tavolo al momento.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-center py-8">Nessun partecipante al tavolo al momento.</p>
       )}
     </div>
   );
 
 
   return (
-    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-slate-900 text-white overflow-y-auto no-scrollbar animate-fade-in">
+    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in">
         
-        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-slate-900/80 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
-             <button onClick={onClose} className="p-2 rounded-full text-white hover:bg-white/10" aria-label="Chiudi">
+        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+             <button onClick={onClose} className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/10" aria-label="Chiudi">
                 <ChevronLeft size={24} />
              </button>
-             <h2 className="text-lg font-bold text-white truncate mx-4 flex-1 text-center">{locale.name}</h2>
+             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 truncate mx-4 flex-1 text-center">{locale.name}</h2>
              <div className="w-10"></div>
         </div>
 
@@ -339,7 +341,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10"></div>
         
-        <div className={`absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-20 p-2 transition-opacity duration-300 ${isHeaderCollapsed ? 'opacity-0' : 'opacity-100'}`}>
+        <div className={`absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm-right-6 z-20 p-2 text-white transition-opacity duration-300 ${isHeaderCollapsed ? 'opacity-0' : 'opacity-100'}`}>
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight drop-shadow-lg">{locale.name}</h1>
           <p className="text-md sm:text-lg text-slate-200 mt-1.5 drop-shadow-md">{locale.cuisine} • {locale.price}</p>
           <div className="flex items-center text-amber-400 font-bold text-md sm:text-lg mt-2.5 drop-shadow-sm">
@@ -350,33 +352,14 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         </div>
       </div>
       
-      {!isFirstItem && (
-        <button 
-            onClick={onSwipeRight} 
-            className="fixed left-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
-            aria-label="Articolo Precedente"
-        >
-          <ChevronLeft size={28} />
-        </button>
-      )}
-      {!isLastItem && (
-        <button 
-            onClick={onSwipeLeft} 
-            className="fixed right-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 transition-colors"
-            aria-label="Articolo Successivo"
-        >
-          <ChevronRight size={28} />
-        </button>
-      )}
-
-      <div className="bg-slate-900 sticky top-16 z-10 shadow-md">
-        <div className="flex">
+      <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
+        <div className="flex border-b border-slate-200 dark:border-slate-800">
           {TABS_CONFIG.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveDetailTab(tab.id)}
               className={`flex-1 py-3.5 px-2 text-center text-sm font-semibold transition-colors duration-200 focus:outline-none flex items-center justify-center gap-1.5
-                          ${activeDetailTab === tab.id ? `text-rose-400 border-b-2 border-rose-400` : 'text-slate-400 hover:text-slate-200'}`}
+                          ${activeDetailTab === tab.id ? `text-orange-600 dark:text-orange-500 border-b-2 border-orange-500` : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
             >
               <tab.icon size={16} /> {tab.label}
             </button>
@@ -384,53 +367,53 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         </div>
       </div>
 
-      <div {...tabSwipeHandlers} className="bg-slate-900 pb-[10rem]">
+      <div {...tabSwipeHandlers} className="bg-transparent pb-[10rem]">
         {activeDetailTab === 'info' && renderInfoTab()}
         {activeDetailTab === 'menu' && renderMenuTab()}
         {activeDetailTab === 'reviews' && renderReviewsTab()}
         {activeDetailTab === 'participants' && renderParticipantsTab()}
       </div>
       
-      <div className="fixed bottom-28 right-6 z-30 flex items-end gap-3">
+      <div className="fixed bottom-20 right-6 z-30 flex items-end gap-3">
         {isUserJoined && locale.billDetails && (locale.billDetails.status === 'awaiting_credit_application' || locale.billDetails.status === 'ready_to_finalize') && (
           <button
             onClick={() => openModal('cancelPayment', locale.id)}
-            className="bg-amber-600 hover:bg-amber-700 text-white font-semibold p-3 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 text-xs"
+            className="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-3.5 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 text-xs"
             title="Annulla Pagamento e Rimborsa Credito"
             aria-label="Annulla Pagamento e Rimborsa Credito"
           >
-            <Undo2 size={18} /> Annulla
+            <Undo2 size={16} /> Annulla
           </button>
         )}
 
         {isUserJoined && (
           <button
               onClick={() => leaveTable(locale.id)}
-              className="bg-slate-600 hover:bg-slate-700 text-white font-semibold p-3 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 text-xs"
+              className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-3.5 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 text-xs"
               title="Lascia il Tavolo"
               aria-label="Lascia il Tavolo"
             >
-              <LogOut size={18} /> Lascia
+              <LogOut size={16} /> Lascia
             </button>
         )}
         
         {renderMainActionButton()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/70 to-transparent z-30 pointer-events-none" />
+      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-30 pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 p-4 z-40 flex items-center justify-center gap-x-8">
-          <button onClick={onClose} className="p-3 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Indietro">
+          <button onClick={onClose} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Indietro">
               <ChevronLeft size={24} />
           </button>
           <FavoriteButton
             isFavorite={isFavorite(favId)}
             onToggle={() => toggleFavorite({ ...locale, itemType: 'locale' })}
-            className="p-3 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors pointer-events-auto"
+            className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto"
             aria-label={isFavorite(favId) ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
             iconSize={24}
-            iconClassName={isFavorite(favId) ? `fill-rose-500 text-rose-500` : `text-white`}
+            iconClassName={isFavorite(favId) ? `fill-orange-500 text-orange-500` : `text-slate-600 dark:text-slate-300`}
           />
-          <button onClick={() => showToast(`Condividi: ${locale.name} (Demo)`, "info")} className="p-3 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Condividi">
+          <button onClick={() => showToast(`Condividi: ${locale.name} (Demo)`, "info")} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Condividi">
               <Share2 size={24} />
           </button>
       </div>

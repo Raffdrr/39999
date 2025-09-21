@@ -4,9 +4,9 @@ import { useUIStore } from '../../stores';
 
 // Custom fluid icon component for a smoother animation between + and X
 const FluidIcon: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const lineBaseClasses = "absolute h-[3px] w-6 bg-white rounded-full transition-transform duration-300 ease-in-out";
+  const lineBaseClasses = "absolute h-[2px] w-5 bg-white rounded-full transition-transform duration-300 ease-in-out";
   return (
-    <div className="relative w-8 h-8 flex items-center justify-center">
+    <div className="relative w-6 h-6 flex items-center justify-center">
       <div
         className={`${lineBaseClasses} ${isOpen ? 'rotate-45' : 'rotate-0'}`}
       />
@@ -37,7 +37,7 @@ const FabMenu: React.FC = () => {
         {/* Overlay to catch outside clicks and dim the background */}
         {isOpen && (
           <div
-            className="fixed inset-0 z-30 animate-fade-in bg-black/20 dark:bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-30 animate-fade-in"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
@@ -45,29 +45,29 @@ const FabMenu: React.FC = () => {
         
         {/* Menu items container, needs to be above the overlay */}
         {isOpen && (
-          <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end gap-4 w-max animate-fab-menu-open z-40">
+          <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end gap-3 w-max animate-fab-menu-open z-40">
             <div className="flex items-center gap-3">
-              <span className="bg-white dark:bg-slate-700 text-sm text-slate-700 dark:text-slate-200 font-semibold px-4 py-2 rounded-lg shadow-md">
+              <span className="bg-white dark:bg-slate-700 text-xs text-slate-700 dark:text-slate-200 font-semibold px-3 py-1.5 rounded-md shadow-sm">
                 Crea Evento
               </span>
               <button
                 onClick={() => handleActionClick('isCreateEventModalOpen')}
-                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-200 ease-out hover:shadow-xl hover:-translate-y-1 active:scale-95 active:shadow-lg active:translate-y-0"
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 text-white flex items-center justify-center shadow-md transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1 active:scale-95 active:shadow-md active:translate-y-0"
                 aria-label="Crea un nuovo evento"
               >
-                <CalendarPlusIcon size={28} />
+                <CalendarPlusIcon size={20} />
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <span className="bg-white dark:bg-slate-700 text-sm text-slate-700 dark:text-slate-200 font-semibold px-4 py-2 rounded-lg shadow-md">
+              <span className="bg-white dark:bg-slate-700 text-xs text-slate-700 dark:text-slate-200 font-semibold px-3 py-1.5 rounded-md shadow-sm">
                 Proponi Tavolo
               </span>
               <button
                 onClick={() => handleActionClick('isProposeTableModalOpen')}
-                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 text-white flex items-center justify-center shadow-lg transition-all duration-200 ease-out hover:shadow-xl hover:-translate-y-1 active:scale-95 active:shadow-lg active:translate-y-0"
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-blue-500 text-white flex items-center justify-center shadow-md transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1 active:scale-95 active:shadow-md active:translate-y-0"
                 aria-label="Proponi un tavolo"
               >
-                <ClipboardIcon size={28} />
+                <ClipboardIcon size={20} />
               </button>
             </div>
           </div>
@@ -76,7 +76,7 @@ const FabMenu: React.FC = () => {
         {/* The FAB button itself, needs to be above the overlay */}
         <button
           onClick={handleToggle}
-          className="relative z-40 w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:scale-105 active:scale-95 active:shadow-md"
+          className="relative z-40 w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:scale-105 active:scale-95 active:shadow-md"
           aria-expanded={isOpen}
           aria-label={isOpen ? "Chiudi menu azioni" : "Apri menu azioni"}
         >
