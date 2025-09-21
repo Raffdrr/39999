@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, MessageSquare, Home, Heart, User } from 'lucide-react';
+import { Home, CalendarDays, MessagesSquare, Heart, CircleUserRound } from 'lucide-react';
+import { HomeIcon, CalendarIcon, ChatIcon, FavoritesIcon, ProfileIcon } from './components/icons';
 
 import HomePage from './pages/HomePage';
 import CalendarPage from './pages/CalendarPage';
@@ -31,14 +32,22 @@ import InputModal from './components/modals/InputModal';
 
 import { useUIStore, useDataStore, useUserStore } from './stores';
 import { NavTabType, TabId, Event as EventType } from './types';
-import { CORAL_ICON_ACTIVE, CORAL_TEXT_ACTIVE } from './constants';
 
-const navTabs: NavTabType[] = [
-  { id: 'calendar', label: 'Calendario', icon: Calendar },
-  { id: 'chat', label: 'Chat', icon: MessageSquare },
-  { id: 'home', label: 'Home', icon: Home },
-  { id: 'favorites', label: 'Preferiti', icon: Heart },
-  { id: 'profile', label: 'Profilo', icon: User },
+// New interface for nav tabs with gradients
+interface NavTabWithGradient {
+  id: TabId;
+  label: string;
+  icon: React.ComponentType<{isActive: boolean; className?: string}>; // Use the new icon components
+  gradient: string;
+}
+
+
+const navTabs: NavTabWithGradient[] = [
+  { id: 'home', label: 'Home', icon: HomeIcon, gradient: 'from-sky-400 to-blue-500' },
+  { id: 'calendar', label: 'Calendario', icon: CalendarIcon, gradient: 'from-purple-400 to-indigo-500' },
+  { id: 'chat', label: 'Chat', icon: ChatIcon, gradient: 'from-emerald-400 to-green-500' },
+  { id: 'favorites', label: 'Preferiti', icon: FavoritesIcon, gradient: 'from-red-500 to-orange-500' },
+  { id: 'profile', label: 'Profilo', icon: ProfileIcon, gradient: 'from-amber-400 to-yellow-500' },
 ];
 
 const pageComponents: Record<TabId, React.ComponentType> = {
@@ -57,7 +66,8 @@ const App: React.FC = () => {
     isProposeTableModalOpen, isCreateEventModalOpen, isInviteFriendsModalOpen, 
     isSupportModalOpen, isLogoutModalOpen, paymentCodeModal, payWithCreditAmountModal,
     inputModal,
-    initiatePayBill, finalizeBill, cancelPayment
+    initiatePayBill, finalizeBill, cancelPayment,
+    theme
   } = useUIStore();
   const { locales, events, createEvent, setBillDetails, finalizeBillPayment, cancelPaymentAndRefund } = useDataStore();
   const { credit, processGamificationAction } = useUserStore();
@@ -69,6 +79,14 @@ const App: React.FC = () => {
   const donationEventData = events.find(e => e.id === donationModal);
   
   const isHomePage = activeTab === 'home';
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
   
   useEffect(() => {
     if (initiatePayBill) {
@@ -135,7 +153,7 @@ const App: React.FC = () => {
   const ActivePageComponent = pageComponents[activeTab];
 
   return (
-    <div className="h-screen w-screen bg-transparent flex flex-col font-sans antialiased overflow-hidden">
+    <div className="h-screen w-screen bg-slate-100 dark:bg-slate-950 flex flex-col font-sans antialiased overflow-hidden">
       <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-40' : 'pb-24'}`}>
         {<ActivePageComponent />}
       </main>
@@ -162,7 +180,7 @@ const App: React.FC = () => {
       
       {/* Bottom Search Bar for Home Page */}
       {isHomePage && (
-        <div className="fixed bottom-[80px] left-0 right-0 bg-white/90 backdrop-blur-lg z-20 border-t border-slate-200/80 shadow-top">
+        <div className="fixed bottom-[80px] left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg z-20 border-t border-slate-200/80 dark:border-slate-800/80 shadow-top">
           <div className="px-2.5 py-2 flex items-center gap-2">
             <div className="flex-grow">
               <HomeSearchBar />
@@ -173,22 +191,30 @@ const App: React.FC = () => {
       )}
 
       {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200/80 z-30 shadow-top">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-200/80 dark:border-slate-800/80 z-30 shadow-top">
         <div className="flex justify-around items-center h-20 px-2">
             {navTabs.map(tab => {
               const isActive = activeTab === tab.id;
+              const IconComponent = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex flex-col items-center justify-center gap-1.5 p-2 w-16 h-16 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-300 ${
-                    isActive ? 'bg-rose-100' : 'bg-transparent'
-                  }`}
+                  className={`relative flex flex-col items-center justify-center h-16 w-16 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900
+                    ${isActive
+                      ? `text-slate-800 dark:text-slate-100`
+                      : 'text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-105 active:scale-95'
+                    }`}
                   aria-label={tab.label}
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <tab.icon size={24} className={`transition-colors ${isActive ? CORAL_ICON_ACTIVE : 'text-slate-500'}`} />
-                  <span className={`text-[11px] leading-tight transition-colors ${isActive ? `${CORAL_TEXT_ACTIVE} font-semibold` : 'text-slate-600 font-medium'}`}>
+                  <IconComponent
+                    isActive={isActive}
+                    className="transition-all duration-300"
+                  />
+                  <span className={`mt-1 text-[10px] font-bold transition-all duration-300
+                    ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r ' + tab.gradient : ''}
+                  `}>
                     {tab.label}
                   </span>
                 </button>

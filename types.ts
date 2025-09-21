@@ -133,7 +133,8 @@ export interface NavTabType {
   // Fix: Changed id type from string to TabId to enforce type safety.
   id: TabId;
   label: string;
-  icon: LucideIcon; // Changed from React.ElementType to LucideIcon
+  // Changed from LucideIcon to a component that accepts isActive prop
+  icon: React.ComponentType<{ isActive: boolean; className?: string }>;
 }
 
 export interface ToastMessage {

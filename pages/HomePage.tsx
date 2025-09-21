@@ -8,7 +8,9 @@ import CategoryToggle from '../components/ui/CategoryToggle';
 import ListCard from '../components/ListCard';
 import ImageWithFallback from '../components/ImageWithFallback';
 import SocialCard from '../components/ui/SocialCard';
-import { Star, MapPin as MapPinIconLucide } from 'lucide-react';
+import { StarIcon, MapPinIcon } from '../components/icons/secondary';
+import { Calendar, HandHeart } from 'lucide-react';
+// FIX: Import SOCIAL_CARD_DATA to resolve reference error.
 import { SOCIAL_CARD_DATA } from '../constants';
 
 const HomePage: React.FC = () => {
@@ -36,18 +38,14 @@ const HomePage: React.FC = () => {
             })
             : [];
         
-        // Search filtering
         if (searchTerm.trim() !== '') {
             const lowercasedSearch = searchTerm.toLowerCase();
             filteredLocales = filteredLocales.filter(l => l.name.toLowerCase().includes(lowercasedSearch));
             filteredEvents = filteredEvents.filter(e => e.name.toLowerCase().includes(lowercasedSearch));
         }
 
-        // Fix: Redefined CombinedItem to include SocialCardType. This allows social cards to be
-        // part of the rendered list, fixing the type error where `item.itemType` could not be 'social'.
         type CombinedItem = (Locale & { itemType: 'locale' }) | (Event & { itemType: 'event' }) | SocialCardType;
 
-        // Conditionally add social cards to the list. They are not affected by search and only shown with events.
         const socialCards: SocialCardType[] = (searchTerm.trim() === '' && (displayCategory === 'all' || displayCategory === 'events')) 
             ? SOCIAL_CARD_DATA 
             : [];
@@ -58,20 +56,11 @@ const HomePage: React.FC = () => {
             ...filteredEvents.map(e => ({ ...e, itemType: 'event' as const }))
         ]
         .sort((a, b) => {
-            // Keep social cards at the top
-            if (a.itemType === 'social') {
-                return -1;
-            }
-            if (b.itemType === 'social') {
-                return 1;
-            }
-
-            // Fix for TypeScript error: ensure distance exists before parsing.
+            if (a.itemType === 'social') return -1;
+            if (b.itemType === 'social') return 1;
             const distanceA = a.itemType === 'locale' && a.distance ? parseFloat(a.distance) : Infinity;
             const distanceB = b.itemType === 'locale' && b.distance ? parseFloat(b.distance) : Infinity;
-            if (distanceA !== Infinity && distanceB !== Infinity) {
-                return distanceA - distanceB;
-            }
+            if (distanceA !== Infinity && distanceB !== Infinity) return distanceA - distanceB;
             return 0;
         });
         
@@ -116,22 +105,22 @@ const HomePage: React.FC = () => {
                             containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
                         />
                         <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
-                            <h3 className="font-bold text-base text-slate-800 truncate">{item.name}</h3>
+                            <h3 className="font-bold text-base text-slate-800 dark:text-slate-100 truncate">{item.name}</h3>
                             {isLocale ? (
                                 <>
-                                    <p className="text-xs text-slate-500 truncate">{locale.cuisine} • {locale.price}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{locale.cuisine} • {locale.price}</p>
                                     <div className="flex items-center text-xs">
-                                        <Star size={14} className="mr-1 fill-amber-500 text-amber-500 flex-shrink-0" />
+                                        <StarIcon size={14} className="mr-1 flex-shrink-0" />
                                         <span className="text-amber-600 font-bold">{locale.rating?.toFixed(1)}</span>
-                                        <span className="text-slate-400 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
+                                        <span className="text-slate-400 dark:text-slate-500 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
                                     </div>
-                                    <p className="text-xs text-slate-500 truncate"><MapPinIconLucide size={10} className="inline mr-1"/>{locale.distance} da te</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{locale.distance} da te</p>
                                 </>
                             ) : (
                                 <>
-                                    <p className="text-xs text-slate-500 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
-                                    <p className="text-xs text-slate-500 truncate"><MapPinIconLucide size={10} className="inline mr-1"/>{event.location || "N/D"}</p>
-                                    <div className="text-xs font-semibold text-rose-600 pt-1">{event.partecipationFee || 'Gratuito'}</div>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{event.location || "N/D"}</p>
+                                    <div className="text-xs font-semibold text-orange-600 dark:text-orange-400 pt-1">{event.partecipationFee || 'Gratuito'}</div>
                                 </>
                             )}
                         </div>
@@ -140,8 +129,8 @@ const HomePage: React.FC = () => {
             })}
              {filteredItems.length === 0 && (
                 <div className="text-center py-10">
-                    <p className="text-slate-500">Nessun risultato trovato.</p>
-                    <p className="text-xs text-slate-400 mt-1">Prova a modificare i filtri o la ricerca.</p>
+                    <p className="text-slate-500 dark:text-slate-400">Nessun risultato trovato.</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Prova a modificare i filtri o la ricerca.</p>
                 </div>
             )}
         </div>

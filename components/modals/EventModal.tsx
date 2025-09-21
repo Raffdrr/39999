@@ -17,7 +17,6 @@ type EventDetailTabId = 'details' | 'participants';
 
 const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const { locales } = useDataStore();
-  // Fix: Corrected property names from `userCredit` and `userAvatar` to `credit` and `avatar`.
   const { joinedEvents, credit, avatar, joinEvent, leaveEvent } = useUserStore();
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const { showToast, openModal } = useUIStore();
@@ -170,22 +169,22 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         {participantsDetails.length > 0 ? (
           <div className="flex flex-col space-y-3">
             {participantsDetails.map(p => (
-              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white rounded-lg shadow">
+              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white dark:bg-slate-800/80 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
                 <div className="relative flex-shrink-0">
-                  <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200" />
+                  <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200 dark:border-slate-700" />
                   {p.isHost && (
                     <span className="absolute -bottom-1 -right-1 bg-amber-400 text-black text-xs px-1.5 py-0.5 rounded-full font-semibold shadow-sm">Host</span>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-md font-semibold text-slate-800 truncate">{p.name}</p>
-                  <p className="text-xs text-slate-500">{p.age} anni • {p.city}</p>
+                  <p className="text-md font-semibold text-slate-800 dark:text-slate-100 truncate">{p.name}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{p.age} anni • {p.city}</p>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-slate-500 text-center py-8">Nessun partecipante ancora.</p>
+          <p className="text-slate-500 dark:text-slate-400 text-center py-8">Nessun partecipante ancora.</p>
         )}
       </div>
     );
@@ -194,9 +193,9 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   const renderEventDetailsContent = () => (
     <div className="p-4 space-y-4">
       {!event.isPublicVenue && (
-         <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className={`text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2`}><MapPinIconLucide size={20} className={`text-rose-500`}/>Luogo Evento</h3>
-            <p className="text-slate-600 text-sm mb-2">{event.location || "Luogo non specificato"}</p>
+         <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+            <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Luogo Evento</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{event.location || "Luogo non specificato"}</p>
             <ImageWithFallback 
                 itemKey={`map_event_${event.id}`} 
                 src={event.coords ? MAP_PLACEHOLDER_LOCALE_MODAL : MAP_PLACEHOLDER } 
@@ -206,45 +205,45 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
             />
         </div>
       )}
-      <div className="bg-white p-4 rounded-lg shadow">
-        <h3 className="text-lg font-semibold text-slate-700 mb-2">Descrizione Evento</h3>
-        <p className="text-slate-600 text-sm leading-relaxed">{event.description}</p>
+      <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+        <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Descrizione Evento</h3>
+        <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{event.description}</p>
       </div>
       {event.whatToBring && (
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-slate-700 mb-2">Cosa Portare</h3>
-          <p className="text-slate-600 text-sm">{event.whatToBring}</p>
+        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Cosa Portare</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">{event.whatToBring}</p>
         </div>
       )}
       {event.houseRules && (
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-slate-700 mb-2">Regole</h3>
-          <p className="text-slate-600 text-sm">{event.houseRules}</p>
+        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Regole</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">{event.houseRules}</p>
         </div>
       )}
       {event.generalInfo && (
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-slate-700 mb-2">Info Generali</h3>
-          <p className="text-slate-600 text-sm">{event.generalInfo}</p>
+        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Info Generali</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">{event.generalInfo}</p>
         </div>
       )}
       {(!event.whatToBring && !event.houseRules && !event.generalInfo && (event.isPublicVenue || (!event.isPublicVenue && !event.location))) && (
-           <p className="text-slate-500 text-sm p-4 text-center">Nessun dettaglio aggiuntivo fornito per questo evento.</p>
+           <p className="text-slate-500 dark:text-slate-400 text-sm p-4 text-center">Nessun dettaglio aggiuntivo fornito per questo evento.</p>
       )}
     </div>
   );
 
   const renderLocaleDetailsContent = () => {
-    if (!headerLocale) return <p className="text-slate-500 p-4">Dettagli locale non disponibili.</p>;
+    if (!headerLocale) return <p className="text-slate-500 dark:text-slate-400 p-4">Dettagli locale non disponibili.</p>;
     return (
       <div className="p-4 space-y-4">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className={`text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2`}><Building size={20} className={`text-rose-500`}/>Descrizione Locale</h3>
-          <p className="text-slate-600 text-sm leading-relaxed">{headerLocale.description}</p>
+        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><Building size={20} className="text-orange-500"/>Descrizione Locale</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{headerLocale.description}</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className={`text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2`}><MapPinIconLucide size={20} className={`text-rose-500`}/>Indirizzo</h3>
-          <p className="text-slate-600 text-sm">{headerLocale.address}</p>
+        <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Indirizzo</h3>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">{headerLocale.address}</p>
           <ImageWithFallback 
             itemKey={`map_loc_event_${headerLocale.id}`}
             src={MAP_PLACEHOLDER_LOCALE_MODAL} 
@@ -254,8 +253,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
           />
         </div>
         {headerLocale.galleryPhotos && headerLocale.galleryPhotos.length > 0 && (
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-lg font-semibold text-slate-700 mb-2">Galleria Locale</h3>
+          <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+            <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Galleria Locale</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {headerLocale.galleryPhotos.map((photo, index) => (
                 <ImageWithFallback key={index} src={photo} alt={`Foto locale ${index+1}`} imgClassName="w-full h-24 object-cover rounded" containerClassName="w-full h-24 rounded bg-slate-200" />
@@ -264,9 +263,9 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
           </div>
         )}
         {headerLocale.openingHours && (
-           <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-lg font-semibold text-slate-700 mb-2">Orari</h3>
-            <p className="text-slate-600 text-sm whitespace-pre-line">{headerLocale.openingHours}</p>
+           <div className="bg-white dark:bg-slate-800/80 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700/80">
+            <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Orari</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-line">{headerLocale.openingHours}</p>
           </div>
         )}
       </div>
@@ -279,7 +278,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         return (
           <button
             onClick={() => openModal('reviewModal', { type: 'event', item: event })}
-            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm"
+            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm"
             title="Lascia una recensione"
           > <Edit3 size={20} /> Lascia Recensione </button>
         );
@@ -291,7 +290,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
       return (
         <button
           onClick={() => openModal('donationModal', event.id)}
-          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm"
+          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm"
           title="Dona Ora"
         > <Gift size={20} /> Dona Ora </button>
       );
@@ -300,13 +299,13 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
     if (isJoined) {
        if (event.partecipationFee && !event.paidWithCredit && canPayFeeWithCreditConditionsMet) {
          return (
-            <button onClick={handleOpenPayFeeWithCreditModal} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm" title="Paga Quota con Credito">
+            <button onClick={handleOpenPayFeeWithCreditModal} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm" title="Paga Quota con Credito">
                 <Banknote size={20} /> Paga con Credito
             </button>
          );
        }
         return (
-            <button onClick={() => leaveEvent(event)} className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm" title="Lascia Evento">
+            <button onClick={() => leaveEvent(event)} className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm" title="Lascia Evento">
                 <X size={20} /> Lascia Evento
             </button>
         );
@@ -315,7 +314,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         const maxReached = headerLocale ? event.currentParticipants >= headerLocale.capacity : (event.maxParticipants > 0 && event.currentParticipants >= event.maxParticipants);
         if (maxReached && (headerLocale?.capacity > 0 || event.maxParticipants > 0)) {
             return (
-                <button className="bg-slate-500 text-white/80 font-semibold py-3 px-4 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center gap-2 text-sm" title="Evento Completo" disabled>
+                <button className="bg-slate-500 text-white/80 font-semibold py-3 px-4 rounded-xl shadow-lg cursor-not-allowed flex items-center justify-center gap-2 text-sm" title="Evento Completo" disabled>
                     <AlertTriangle size={20} /> Evento Completo
                 </button>
             );
@@ -323,22 +322,22 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         if (event.partecipationFee) {
             return ( 
                 <div className="flex flex-col space-y-2.5">
-                    <button onClick={handleSimulatedExternalPaymentAndJoin} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Paga e Partecipa">
+                    <button onClick={handleSimulatedExternalPaymentAndJoin} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Paga e Partecipa">
                         <CreditCard size={18} /> Paga e Partecipa
                     </button>
                     {canPayFeeWithCreditConditionsMet && (
-                        <button onClick={handleOpenPayFeeWithCreditModal} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Paga Quota con Credito">
+                        <button onClick={handleOpenPayFeeWithCreditModal} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Paga Quota con Credito">
                             <Banknote size={18} /> Paga con Credito
                         </button>
                     )}
-                    <button onClick={() => joinEvent(event, 'join_pay_later')} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Unisciti e paga più tardi/all'evento">
+                    <button onClick={() => joinEvent(event, 'join_pay_later')} className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm" title="Unisciti e paga più tardi/all'evento">
                         <Users2 size={18} /> Unisciti (Paga Dopo)
                     </button>
                 </div>
             );
         }
         return ( 
-            <button onClick={() => joinEvent(event)} className={`bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm`} title="Partecipa Gratuitamente">
+            <button onClick={() => joinEvent(event)} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-sm" title="Partecipa Gratuitamente">
                 <CheckCircle size={20} /> Partecipa Gratuitamente
             </button>
         );
@@ -347,12 +346,12 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
 
   return (
-    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-gradient-to-b from-white to-slate-50 text-slate-900 overflow-y-auto no-scrollbar animate-fade-in">
-        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
-             <button onClick={onClose} className="p-2 rounded-full text-slate-700 hover:bg-black/10" aria-label="Chiudi">
+    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in">
+        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+             <button onClick={onClose} className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/10" aria-label="Chiudi">
                 <ChevronLeft size={24} />
              </button>
-             <h2 className="text-lg font-bold text-slate-800 truncate mx-4 flex-1 text-center">{headerTitle}</h2>
+             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 truncate mx-4 flex-1 text-center">{headerTitle}</h2>
              <div className="w-10"></div>
         </div>
 
@@ -378,8 +377,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         </div>
       </div>
 
-      <div className="bg-white sticky top-16 z-10 shadow-md">
-        <div className="flex">
+      <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
+        <div className="flex border-b border-slate-200 dark:border-slate-800">
           {tabs.map(tab => {
             const IconComponent = tab.label === "Locale" ? Building : (tab.label === "Evento" ? TicketIcon : Users);
             return (
@@ -387,7 +386,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                 key={tab.id}
                 onClick={() => setActiveDetailTab(tab.id)}
                 className={`flex-1 py-3.5 px-2 text-center text-sm font-semibold transition-colors duration-200 focus:outline-none flex items-center justify-center gap-1.5
-                            ${activeDetailTab === tab.id ? `text-rose-600 border-b-2 border-rose-600` : 'text-slate-500 hover:text-slate-800'}`}
+                            ${activeDetailTab === tab.id ? `text-orange-600 dark:text-orange-500 border-b-2 border-orange-500` : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
               >
                 <IconComponent size={16} /> {tab.label}
               </button>
@@ -405,20 +404,20 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         {renderActionButton()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent z-30 pointer-events-none" />
+      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-30 pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 p-4 z-40 flex items-center justify-center gap-x-8">
-          <button onClick={onClose} className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto" aria-label="Indietro">
+          <button onClick={onClose} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Indietro">
               <ChevronLeft size={24} />
           </button>
           <FavoriteButton
             isFavorite={isFavorite(favId)}
             onToggle={() => toggleFavorite({ ...event, itemType: 'event' })}
-            className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto"
+            className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto"
             aria-label={isFavorite(favId) ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
             iconSize={24}
-            iconClassName={isFavorite(favId) ? 'fill-rose-500 text-rose-500' : 'text-slate-600'}
+            iconClassName={isFavorite(favId) ? 'fill-orange-500 text-orange-500' : 'text-slate-600 dark:text-slate-300'}
           />
-          <button onClick={handleShare} className="p-3 rounded-full bg-black/5 backdrop-blur-sm text-slate-700 hover:bg-black/10 transition-colors pointer-events-auto" aria-label="Condividi">
+          <button onClick={handleShare} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Condividi">
               <Share2 size={24} />
           </button>
       </div>

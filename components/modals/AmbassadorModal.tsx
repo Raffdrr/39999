@@ -11,19 +11,19 @@ interface AmbassadorModalProps {
 const AmbassadorModal: React.FC<AmbassadorModalProps> = ({ onClose, showToast }) => {
   return (
     <ModalWrapper open={true} onClose={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm rounded-t-2xl z-10">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2 sm:gap-2.5">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-t-2xl z-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 sm:gap-2.5">
             <Award size={26} className="text-amber-500" />Diventa Ambassador!
           </h2>
-          <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1 sm:p-1.5 rounded-full hover:bg-slate-200 transition-colors">
+          <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 sm:p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
             <X size={24} />
           </button>
         </div>
-        <div className="overflow-y-auto p-5 sm:p-6 space-y-4 sm:space-y-5 text-slate-700">
-          <p className="text-md sm:text-lg text-center font-semibold text-amber-600">Entra a far parte della nostra community esclusiva di Ambassador SocialMix!</p>
-          <div className="bg-amber-50/70 p-3.5 sm:p-4 rounded-lg border border-amber-200 shadow-sm">
-            <h4 className="font-semibold text-sm sm:text-md text-slate-800 mb-1.5 sm:mb-2">Vantaggi Esclusivi:</h4>
+        <div className="overflow-y-auto p-5 sm:p-6 space-y-4 sm:space-y-5 text-slate-700 dark:text-slate-300">
+          <p className="text-md sm:text-lg text-center font-semibold text-amber-600 dark:text-amber-400">Entra a far parte della nostra community esclusiva di Ambassador SocialMix!</p>
+          <div className="bg-amber-50/70 dark:bg-amber-500/10 p-3.5 sm:p-4 rounded-lg border border-amber-200 dark:border-amber-500/20 shadow-sm">
+            <h4 className="font-semibold text-sm sm:text-md text-slate-800 dark:text-slate-100 mb-1.5 sm:mb-2">Vantaggi Esclusivi:</h4>
             <ul className="list-disc list-inside space-y-1 sm:space-y-1.5 text-xs sm:text-sm">
               <li>Accesso anticipato a nuove funzionalità.</li>
               <li>Inviti speciali a eventi e degustazioni.</li>
@@ -32,8 +32,8 @@ const AmbassadorModal: React.FC<AmbassadorModalProps> = ({ onClose, showToast })
               <li>Collabora a contenuti e guide.</li>
             </ul>
           </div>
-          <div className="bg-sky-50/70 p-3.5 sm:p-4 rounded-lg border border-sky-200 shadow-sm">
-            <h4 className="font-semibold text-sm sm:text-md text-slate-800 mb-1.5 sm:mb-2">Chi stiamo cercando?</h4>
+          <div className="bg-sky-50/70 dark:bg-sky-500/10 p-3.5 sm:p-4 rounded-lg border border-sky-200 dark:border-sky-500/20 shadow-sm">
+            <h4 className="font-semibold text-sm sm:text-md text-slate-800 dark:text-slate-100 mb-1.5 sm:mb-2">Chi stiamo cercando?</h4>
             <ul className="list-disc list-inside space-y-1 sm:space-y-1.5 text-xs sm:text-sm">
               <li>Appassionati di cibo ed esperienze.</li>
               <li>Persone che amano scoprire e condividere.</li>
@@ -41,9 +41,9 @@ const AmbassadorModal: React.FC<AmbassadorModalProps> = ({ onClose, showToast })
               <li>Presenza social è un plus!</li>
             </ul>
           </div>
-          <p className="text-xs sm:text-sm text-center text-slate-500 pt-1.5 sm:pt-2">Se pensi di avere la stoffa giusta, non esitare!</p>
+          <p className="text-xs sm:text-sm text-center text-slate-500 dark:text-slate-400 pt-1.5 sm:pt-2">Se pensi di avere la stoffa giusta, non esitare!</p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 mt-auto sticky bottom-0 bg-white/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={() => {
               showToast("Candidatura inviata! Ti faremo sapere presto.", "success", <Send size={18} />);

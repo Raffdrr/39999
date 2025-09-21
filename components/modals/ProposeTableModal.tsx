@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Locale } from '../../types'; 
 import { ChevronLeft, ClipboardList, Send, AlertTriangle, Building, CalendarDays, Clock, Users, FileText, Info as InfoIconLucide } from 'lucide-react';
-import ImageWithFallback from '../ImageWithFallback';
 
 interface ProposeTableModalProps {
   onClose: () => void;
@@ -9,8 +8,6 @@ interface ProposeTableModalProps {
   locali: Locale[]; 
   showToast: (text: string, type?: "success" | "error" | "info", icon?: React.ReactNode) => void;
 }
-
-const HEADER_IMAGE_URL = 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80';
 
 const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropose, locali, showToast }) => { 
   const [localeName, setLocaleName] = useState(locali.length > 0 ? locali[0].name : ""); 
@@ -41,34 +38,26 @@ const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropos
   };
   
   return (
-    <div className="fixed inset-0 z-40 bg-slate-50 text-slate-900 animate-fade-in">
+    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 animate-fade-in">
       <form onSubmit={handleSubmit} className="h-full w-full flex flex-col">
-        <div className="flex-1 overflow-y-auto no-scrollbar">
-
-          <div className="relative h-[35vh] w-full">
-            <ImageWithFallback
-              src={HEADER_IMAGE_URL}
-              alt="Proponi un tavolo"
-              imgClassName="absolute inset-0 w-full h-full object-cover"
-              containerClassName="absolute inset-0 w-full h-full"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent z-10"></div>
-            
-            <button type="button" onClick={onClose} className="absolute top-4 left-4 z-20 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors pointer-events-auto" aria-label="Indietro">
-              <ChevronLeft size={24} />
+        
+        <header className="sticky top-0 z-20 flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+            <button type="button" onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Indietro">
+                <ChevronLeft size={24} className="text-slate-600 dark:text-slate-300" />
             </button>
-            
-            <div className="absolute bottom-4 left-4 right-4 z-20 p-2 text-white">
-              <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight drop-shadow-lg flex items-center gap-3">
-                <ClipboardList size={36} /> Proponi un Tavolo
-              </h1>
+            <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br from-sky-400 to-blue-500 shadow-md mb-1">
+                  <ClipboardList size={18} className="text-white" />
+                </div>
+                <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Proponi un Tavolo</h1>
             </div>
-          </div>
-          
-          <div className="p-4 sm:p-5 space-y-4 sm:space-y-5 bg-slate-50 -mt-4 rounded-t-2xl relative z-20 pb-28">
+            <div className="w-10"></div>
+        </header>
+
+        <div className="flex-1 overflow-y-auto no-scrollbar p-4 sm:p-5 space-y-4 sm:space-y-5 pb-28">
             <div>
               <label htmlFor="localeName" className="form-label"><Building />Nome Locale*</label>
-              <select id="localeName" value={localeName} onChange={e => setLocaleName(e.target.value)} required className="form-input bg-white"> 
+              <select id="localeName" value={localeName} onChange={e => setLocaleName(e.target.value)} required className="form-input bg-white dark:bg-slate-800"> 
                 {locali.map(l => <option key={l.id} value={l.name}>{l.name}</option>)} 
                 <option value="Altro">Altro (specifica nelle note)</option>
               </select>
@@ -95,15 +84,14 @@ const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropos
               <textarea id="tableNotes" value={notes} onChange={e => setNotes(e.target.value)} rows={3} placeholder="Es. Preferenze tavolo, allergie, nome per 'Altro' locale..." className="form-input leading-relaxed"></textarea>
             </div>
             
-            <div className="mt-3 sm:mt-4 p-3 bg-sky-50 border border-sky-200 rounded-lg text-xs text-sky-700 flex items-start gap-2 shadow-sm">
+            <div className="mt-3 sm:mt-4 p-3 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 rounded-lg text-xs text-sky-700 dark:text-sky-300 flex items-start gap-2 shadow-sm">
               <InfoIconLucide size={20} className="flex-shrink-0 mt-0.5 text-sky-500" />
               <span>Questa funzionalità simula una proposta di tavolo. Nella versione reale, contatteremmo il locale o useremmo un sistema di prenotazione integrato.</span>
             </div>
-          </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none">
-          <button type="submit" className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-95 pointer-events-auto">
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-transparent pointer-events-none">
+          <button type="submit" className="w-full bg-gradient-to-br from-sky-500 to-blue-500 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-xl transition-all duration-200 ease-out flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md pointer-events-auto">
             <Send size={20}/> Invia Proposta
           </button>
         </div>

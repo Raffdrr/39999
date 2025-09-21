@@ -15,8 +15,6 @@ interface CreateEventModalProps {
   invitedFriendsCount: number;
 }
 
-const HEADER_IMAGE_URL = 'https://images.unsplash.com/photo-1519167758481-83f550bb49b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80';
-
 const CreateEventModal: React.FC<CreateEventModalProps> = ({
   onClose,
   onCreate,
@@ -72,31 +70,23 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-40 bg-slate-50 text-slate-900 animate-fade-in">
+    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 animate-fade-in">
       <form onSubmit={handleSubmit} className="h-full w-full flex flex-col">
-        <div className="flex-1 overflow-y-auto no-scrollbar">
-          
-          <div className="relative h-[35vh] w-full">
-            <ImageWithFallback
-              src={HEADER_IMAGE_URL}
-              alt="Crea un evento"
-              imgClassName="absolute inset-0 w-full h-full object-cover"
-              containerClassName="absolute inset-0 w-full h-full"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent z-10"></div>
-            
-            <button type="button" onClick={onClose} className="absolute top-4 left-4 z-20 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors pointer-events-auto" aria-label="Indietro">
-              <ChevronLeft size={24} />
+        
+        <header className="sticky top-0 z-20 flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+            <button type="button" onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Indietro">
+                <ChevronLeft size={24} className="text-slate-600 dark:text-slate-300" />
             </button>
-            
-            <div className="absolute bottom-4 left-4 right-4 z-20 p-2 text-white">
-              <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight drop-shadow-lg flex items-center gap-3">
-                <Sparkles size={36} /> Crea il Tuo Evento
-              </h1>
+            <div className="flex flex-col items-center">
+                 <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br from-orange-400 to-red-500 shadow-md mb-1">
+                    <Sparkles size={18} className="text-white" />
+                 </div>
+                <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Crea Evento</h1>
             </div>
-          </div>
+            <div className="w-10"></div>
+        </header>
           
-          <div className="p-4 sm:p-5 space-y-4 sm:space-y-5 bg-slate-50 -mt-4 rounded-t-2xl relative z-20 pb-28">
+        <div className="flex-1 overflow-y-auto no-scrollbar p-4 sm:p-5 space-y-4 sm:space-y-5 pb-28">
             <div>
               <label htmlFor="eventName" className="form-label"><Type />Nome Evento*</label>
               <input type="text" id="eventName" value={eventName} onChange={e => setEventName(e.target.value)} required className="form-input" placeholder="Es. Aperitivo Social"/>
@@ -126,7 +116,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
             <div className="grid grid-cols-2 gap-3.5 sm:gap-4">
               <div>
                 <label htmlFor="eventCategory" className="form-label"><FileText />Categoria*</label>
-                <select id="eventCategory" value={category} onChange={e => setCategory(e.target.value)} required className="form-input bg-white">
+                <select id="eventCategory" value={category} onChange={e => setCategory(e.target.value)} required className="form-input bg-white dark:bg-slate-800">
                   <option>Social</option><option>Cibo</option><option>Musica</option><option>Sport</option><option>Cultura</option><option>Beneficenza</option><option>Altro</option>
                 </select>
               </div>
@@ -141,41 +131,40 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
               <input type="text" id="hashtags" value={hashtags} onChange={e => setHashtags(e.target.value)} className="form-input" placeholder="Es. aperitivo, amici (separati da virgola)"/>
             </div>
             
-            <div className="flex items-center gap-3.5 sm:gap-4 p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-3.5 sm:gap-4 p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                 <div className="flex-1">
-                  <p className="font-medium text-sm text-slate-800 flex items-center gap-1.5"><DollarSign size={16} className="text-green-500" />Quota di Partecipazione</p>
-                  <p className="text-xs text-slate-500">Lascia vuoto se l'evento è gratuito.</p>
+                  <p className="font-medium text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><DollarSign size={16} className="text-green-500" />Quota di Partecipazione</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Lascia vuoto se l'evento è gratuito.</p>
                 </div>
                 <input type="number" value={partecipationFee} min="0" step="0.50" onChange={(e) => setPartecipationFee(e.target.value)} placeholder="€" className="form-input w-24" />
             </div>
 
-            <div className="flex items-center p-3 pl-4 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <div className="flex items-center p-3 pl-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
               <div className="flex-1">
-                <p className="font-medium text-sm text-slate-800 flex items-center gap-1.5"><Gift size={16} className="text-pink-500"/>Evento Benefico?</p>
-                <p className="text-xs text-slate-500">Spunta se l'evento raccoglie fondi.</p>
+                <p className="font-medium text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><Gift size={16} className="text-pink-500"/>Evento Benefico?</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Spunta se l'evento raccoglie fondi.</p>
               </div>
               <label htmlFor="isCharity" className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="isCharity" checked={isCharityEvent} onChange={e => setIsCharityEvent(e.target.checked)} className="sr-only peer" />
-                <div className="w-11 h-6 bg-slate-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-pink-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
+                <div className="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-pink-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 dark:after:border-slate-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
               </label>
             </div>
 
             {isCharityEvent && (
-                <div className="p-3 bg-white rounded-lg border-2 border-pink-200 shadow-md animate-fade-in-up">
-                    <label htmlFor="donationGoal" className="form-label text-pink-700"><Target />Obiettivo Donazione (€)</label>
+                <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border-2 border-pink-200 dark:border-pink-500/50 shadow-md animate-fade-in-up">
+                    <label htmlFor="donationGoal" className="form-label text-pink-700 dark:text-pink-400"><Target />Obiettivo Donazione (€)</label>
                     <input type="number" id="donationGoal" value={donationGoal} min="0" onChange={e => setDonationGoal(e.target.value)} className="form-input focus:ring-pink-400 focus:border-pink-400" placeholder="Es. 500"/>
                 </div>
             )}
             
-            <button type="button" onClick={() => setShowInviteFriendsModal(true)} className="w-full mt-2 flex items-center justify-center gap-2 py-3 border border-indigo-400 text-indigo-600 rounded-lg bg-indigo-50/70 hover:bg-indigo-100 transition-colors text-sm font-semibold shadow-sm active:scale-95">
+            <button type="button" onClick={() => setShowInviteFriendsModal(true)} className="w-full mt-2 flex items-center justify-center gap-2 py-3 border border-indigo-400 text-indigo-600 dark:text-indigo-300 rounded-lg bg-indigo-50/70 dark:bg-indigo-500/20 transition-all duration-200 ease-out text-sm font-semibold shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95 active:shadow-sm">
               <UsersRound size={18} /> Invita Amici ({invitedFriendsCount})
             </button>
 
-          </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none">
-          <button type="submit" className={`w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-95 pointer-events-auto`}>
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-transparent pointer-events-none">
+          <button type="submit" className="w-full bg-gradient-to-br from-orange-500 to-red-500 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-xl transition-all duration-200 ease-out flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md pointer-events-auto">
             <Send size={20}/> Crea Evento
           </button>
         </div>

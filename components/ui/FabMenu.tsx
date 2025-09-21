@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
-import { Plus, ClipboardList, CalendarPlus } from 'lucide-react';
+import { CalendarPlusIcon, ClipboardIcon } from '../icons/secondary';
 import { useUIStore } from '../../stores';
+
+// Custom fluid icon component for a smoother animation between + and X
+const FluidIcon: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+  const lineBaseClasses = "absolute h-[3px] w-6 bg-white rounded-full transition-transform duration-300 ease-in-out";
+  return (
+    <div className="relative w-8 h-8 flex items-center justify-center">
+      <div
+        className={`${lineBaseClasses} ${isOpen ? 'rotate-45' : 'rotate-0'}`}
+      />
+      <div
+        className={`${lineBaseClasses} ${isOpen ? '-rotate-45' : 'rotate-90'}`}
+      />
+    </div>
+  );
+};
+
 
 const FabMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +32,6 @@ const FabMenu: React.FC = () => {
     setIsOpen(false);
   };
   
-  // Close menu if clicking outside
   React.useEffect(() => {
     const handleClickOutside = () => setIsOpen(false);
     if (isOpen) {
@@ -30,29 +45,29 @@ const FabMenu: React.FC = () => {
   return (
       <div className="relative flex-shrink-0" onClick={(e) => e.stopPropagation()}>
         {isOpen && (
-          <div className="absolute bottom-full right-0 mb-2 flex flex-col items-end gap-3 w-max animate-fab-menu-open">
+          <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end gap-4 w-max animate-fab-menu-open">
             <div className="flex items-center gap-3">
-              <span className="bg-white text-xs text-slate-700 font-semibold px-3 py-1.5 rounded-lg shadow-md">
+              <span className="bg-white dark:bg-slate-700 text-sm text-slate-700 dark:text-slate-200 font-semibold px-4 py-2 rounded-lg shadow-md">
                 Crea Evento
               </span>
               <button
                 onClick={() => handleActionClick('isCreateEventModalOpen')}
-                className="w-12 h-12 rounded-full bg-white text-rose-500 flex items-center justify-center shadow-lg hover:bg-rose-50 transition-colors"
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-200 ease-out hover:shadow-xl hover:-translate-y-1 active:scale-95 active:shadow-lg active:translate-y-0"
                 aria-label="Crea un nuovo evento"
               >
-                <CalendarPlus size={24} />
+                <CalendarPlusIcon size={28} />
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <span className="bg-white text-xs text-slate-700 font-semibold px-3 py-1.5 rounded-lg shadow-md">
+              <span className="bg-white dark:bg-slate-700 text-sm text-slate-700 dark:text-slate-200 font-semibold px-4 py-2 rounded-lg shadow-md">
                 Proponi Tavolo
               </span>
               <button
                 onClick={() => handleActionClick('isProposeTableModalOpen')}
-                className="w-12 h-12 rounded-full bg-white text-sky-500 flex items-center justify-center shadow-lg hover:bg-sky-50 transition-colors"
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 text-white flex items-center justify-center shadow-lg transition-all duration-200 ease-out hover:shadow-xl hover:-translate-y-1 active:scale-95 active:shadow-lg active:translate-y-0"
                 aria-label="Proponi un tavolo"
               >
-                <ClipboardList size={24} />
+                <ClipboardIcon size={28} />
               </button>
             </div>
           </div>
@@ -60,13 +75,11 @@ const FabMenu: React.FC = () => {
 
         <button
           onClick={handleToggle}
-          className="p-3 rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-sm transition-all duration-300 hover:bg-rose-600 active:scale-95"
+          className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:scale-105 active:scale-95 active:shadow-md"
           aria-expanded={isOpen}
           aria-label={isOpen ? "Chiudi menu azioni" : "Apri menu azioni"}
         >
-          <div className="transition-transform duration-300" style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}>
-            <Plus size={24} />
-          </div>
+          <FluidIcon isOpen={isOpen} />
         </button>
       </div>
   );

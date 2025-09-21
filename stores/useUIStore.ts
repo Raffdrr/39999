@@ -38,6 +38,7 @@ type ModalName = keyof ModalState;
 
 interface UIState extends ModalState {
   activeTab: TabId;
+  theme: 'light' | 'dark';
   toastMessage: ToastMessage | null;
   showFilterPanel: boolean;
   searchTerm: string;
@@ -46,6 +47,7 @@ interface UIState extends ModalState {
   activeEventFilters: Set<string>;
   
   setActiveTab: (tabId: TabId) => void;
+  toggleTheme: () => void;
   showToast: (text: string, type?: "success" | "error" | "info", icon?: React.ReactNode) => void;
   hideToast: () => void;
   
@@ -87,6 +89,7 @@ const initialModalState: ModalState = {
 export const useUIStore = create<UIState>((set, get) => ({
   ...initialModalState,
   activeTab: 'home',
+  theme: 'light',
   toastMessage: null,
   showFilterPanel: false,
   searchTerm: '',
@@ -100,6 +103,8 @@ export const useUIStore = create<UIState>((set, get) => ({
     }
     set({ activeTab: tabId });
   },
+
+  toggleTheme: () => set(state => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
   
   showToast: (text, type = 'info', icon) => {
     set({ toastMessage: { text, type, icon } });

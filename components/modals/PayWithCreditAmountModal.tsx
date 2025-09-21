@@ -93,24 +93,24 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
 
   return (
     <ModalWrapper open={!!data} onClose={onClose} customClasses="max-w-sm w-full">
-      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-orange-100 via-yellow-50 to-emerald-100 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-emerald-200 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm rounded-t-2xl z-10">
-          <h2 className="text-lg sm:text-xl font-bold text-emerald-700 flex items-center gap-1.5 sm:gap-2">
+      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-orange-100 via-yellow-50 to-emerald-100 dark:from-slate-900 dark:via-slate-800 dark:to-gray-900 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-emerald-200 dark:border-emerald-500/20 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-t-2xl z-10">
+          <h2 className="text-lg sm:text-xl font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5 sm:gap-2">
             <Banknote size={22} />{titleText}
           </h2>
-          <button type="button" onClick={onClose} className="text-slate-400 hover:text-emerald-600 p-1 sm:p-1.5 rounded-full hover:bg-emerald-100 transition-colors">
+          <button type="button" onClick={onClose} className="text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-300 p-1 sm:p-1.5 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors">
             <X size={22} />
           </button>
         </div>
         <div className="overflow-y-auto p-4 sm:p-5 space-y-3 sm:space-y-4">
-          <p className="text-xs sm:text-sm text-slate-700">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
             {itemDetailsText}
           </p>
-          <p className="text-xs sm:text-sm text-slate-600">
-            Credito disponibile: <span className="font-bold text-emerald-600">€{credit.toFixed(2)}</span>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            Credito disponibile: <span className="font-bold text-emerald-600 dark:text-emerald-400">€{credit.toFixed(2)}</span>
           </p>
           <div>
-            <label htmlFor="amountToPay" className="block text-xs sm:text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="amountToPay" className="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                 {data.isEventFee ? "Importo Quota (€)*" : "Credito da Applicare Ora (€)*"}
             </label>
             <input
@@ -124,18 +124,18 @@ const PayWithCreditAmountModal: React.FC<PayWithCreditAmountModalProps> = ({
               max={maxAllowedInput > 0 ? maxAllowedInput : undefined}
               required
               placeholder={placeholderText}
-              className={`form-input focus:ring-emerald-500 focus:border-emerald-500 ${data.isEventFee && !!data.maxAmount ? 'bg-slate-100' : ''}`}
+              className={`form-input focus:ring-emerald-500 focus:border-emerald-500 ${data.isEventFee && !!data.maxAmount ? 'bg-slate-100 dark:bg-slate-700' : ''}`}
               autoFocus
             />
           </div>
            {maxAllowedInput <= 0 && !data.isEventFee && (
-                <p className="text-[10px] text-orange-600">Il conto è già coperto o non hai credito sufficiente per il rimanente.</p>
+                <p className="text-[10px] text-orange-600 dark:text-orange-400">Il conto è già coperto o non hai credito sufficiente per il rimanente.</p>
            )}
            {amountToPay && parseFloat(amountToPay) > maxAllowedInput && maxAllowedInput > 0 && (
-             <p className="text-[10px] text-red-600">L'importo supera il massimo applicabile di €{maxAllowedInput.toFixed(2)}.</p>
+             <p className="text-[10px] text-red-600 dark:text-red-400">L'importo supera il massimo applicabile di €{maxAllowedInput.toFixed(2)}.</p>
            )}
         </div>
-        <div className="p-4 sm:p-5 border-t border-emerald-200 mt-auto sticky bottom-0 bg-white/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-emerald-200 dark:border-emerald-500/20 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-b-2xl">
           <button
             type="submit"
             className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg active:scale-95"

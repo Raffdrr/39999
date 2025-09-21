@@ -1,23 +1,22 @@
 import React from 'react';
-import { Heart, Trash2, Star, MapPin as MapPinIconLucide } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useFavoritesStore, useUIStore } from '../stores';
 import ListCard from '../components/ListCard';
 import ImageWithFallback from '../components/ImageWithFallback';
-// FIX: Import FavoriteItem to strongly type the list of favorite items.
 import { Locale, Event, FavoriteItem } from '../types';
+import { StarIcon, MapPinIcon, TrashIcon } from '../components/icons/secondary';
 
 const FavoritesPage: React.FC = () => {
     const { favorites, toggleFavorite } = useFavoritesStore();
     const { openModal } = useUIStore();
-    // FIX: Explicitly type `favoriteItems` as `FavoriteItem[]` to resolve type inference issues.
     const favoriteItems: FavoriteItem[] = Array.from(favorites.values());
 
     return (
         <div className="animate-page-content-enter flex flex-col flex-1 h-full">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-700 mb-4 sm:mb-5 px-1">I Tuoi Preferiti ({favoriteItems.length})</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4 sm:mb-5 px-1">I Tuoi Preferiti ({favoriteItems.length})</h2>
             {favoriteItems.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-slate-500 p-4">
-                    <Heart size={64} className="mb-4 opacity-30 text-rose-300" />
+                <div className="flex-1 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-4">
+                    <Heart size={64} className="mb-4 opacity-30 text-orange-300" />
                     <p className="text-center text-sm">Non hai ancora aggiunto preferiti.</p>
                 </div>
             ) : (
@@ -40,28 +39,28 @@ const FavoritesPage: React.FC = () => {
                                     containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
                                 />
                                 <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
-                                    <h3 className="font-bold text-base text-slate-800 truncate">{item.name}</h3>
+                                    <h3 className="font-bold text-base text-slate-800 dark:text-slate-100 truncate">{item.name}</h3>
                                     {isLocale ? (
                                         <>
-                                            <p className="text-xs text-slate-500 truncate">{(item as Locale).cuisine} • {(item as Locale).price}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{(item as Locale).cuisine} • {(item as Locale).price}</p>
                                             <div className="flex items-center text-xs">
-                                                <Star size={14} className="mr-1 fill-amber-500 text-amber-500 flex-shrink-0" />
+                                                <StarIcon size={14} className="mr-1 flex-shrink-0" />
                                                 <span className="text-amber-600 font-bold">{(item as Locale).rating?.toFixed(1)}</span>
                                             </div>
                                         </>
                                     ) : (
                                         <>
-                                            <p className="text-xs text-slate-500 truncate">{(item as Event).category} • {new Date((item as Event).date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
-                                            <p className="text-xs text-slate-500 truncate"><MapPinIconLucide size={10} className="inline mr-1"/>{(item as Event).location || "N/D"}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{(item as Event).category} • {new Date((item as Event).date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{(item as Event).location || "N/D"}</p>
                                         </>
                                     )}
                                 </div>
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); toggleFavorite(item); }} 
-                                    className="p-2 rounded-full hover:bg-red-100/80 self-center ml-2 flex-shrink-0"
+                                    className="p-2 rounded-full hover:bg-red-100/80 dark:hover:bg-red-500/20 self-center ml-2 flex-shrink-0 transition-all duration-200 ease-out active:scale-90 active:bg-red-200/80 dark:active:bg-red-500/30"
                                     aria-label={`Rimuovi ${item.name} dai preferiti`}
                                 >
-                                    <Trash2 size={18} className="text-red-500" />
+                                    <TrashIcon size={18} />
                                 </button>
                             </ListCard>
                         );
