@@ -9,6 +9,7 @@ import { useDataStore, useUIStore } from '../../stores';
 import { Locale, Event } from '../../types';
 import { MapPinIcon } from '../icons/secondary/MapPinIcon';
 import { EventPinIcon } from '../icons/secondary/EventPinIcon';
+import { MAP_PLACEHOLDER } from '../../constants';
 
 type CombinedItem = (Locale & { itemType: 'locale' }) | (Event & { itemType: 'event' });
 
@@ -89,19 +90,26 @@ const GlobalMapModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const renderContent = () => {
     if (!apiKey) {
       return (
-        <div className="flex flex-col items-center justify-center h-full w-full bg-slate-800 text-white">
-          <div className="text-center p-4">
-            <AlertTriangle size={48} className="mx-auto mb-4 text-amber-400" />
-            <h3 className="text-xl font-bold">Configurazione Mappa Mancante</h3>
-            <p className="text-slate-300 mt-2 max-w-sm">Per visualizzare la mappa, è necessario creare e impostare una chiave API di Google Maps nella variabile d'ambiente `API_KEY`.</p>
-             <a 
-              href="https://console.cloud.google.com/apis/credentials"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 bg-sky-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-colors"
-            >
-              Crea una Chiave API <ExternalLink size={16} />
-            </a>
+        <div className="relative h-full w-full bg-slate-800">
+          <img
+            src={MAP_PLACEHOLDER}
+            alt="Mappa non disponibile"
+            className="h-full w-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
+            <div className="text-center p-4">
+              <AlertTriangle size={48} className="mx-auto mb-4 text-amber-400" />
+              <h3 className="text-xl font-bold">Configurazione Mappa Mancante</h3>
+              <p className="text-slate-300 mt-2 max-w-sm">Per visualizzare la mappa, è necessario creare e impostare una chiave API di Google Maps nella variabile d'ambiente `API_KEY`.</p>
+               <a 
+                href="https://console.cloud.google.com/apis/credentials"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 bg-sky-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-colors"
+              >
+                Crea una Chiave API <ExternalLink size={16} />
+              </a>
+            </div>
           </div>
         </div>
       );
@@ -109,30 +117,37 @@ const GlobalMapModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     
     if (loadError) {
       return (
-        <div className="flex flex-col items-center justify-center h-full w-full bg-slate-800 text-white">
-          <div className="text-center p-4">
-            <AlertTriangle size={48} className="mx-auto mb-4 text-red-400" />
-            <h3 className="text-xl font-bold">Errore di Caricamento Mappa</h3>
-            <p className="text-slate-300 mt-2 max-w-md">
-              L'app ha ricevuto un errore da Google Maps (<code className="bg-slate-700 text-red-300 px-1 py-0.5 rounded text-xs font-mono">InvalidKeyMapError</code>), che indica un problema con la chiave API.
-            </p>
-            <p className="text-slate-300 mt-2 max-w-md">
-              Per favore, verifica i seguenti punti nel tuo progetto Google Cloud:
-            </p>
-            <ul className="list-disc list-inside text-left text-slate-400 text-sm mt-3 space-y-1 max-w-md mx-auto">
-                <li>La chiave API è corretta e non ha errori di battitura.</li>
-                <li>L'API "Maps JavaScript API" è abilitata.</li>
-                <li>La fatturazione è attiva per il progetto.</li>
-                <li>Le restrizioni della chiave (es. referrer HTTP) consentono a questo dominio di usarla.</li>
-            </ul>
-             <a 
-              href="https://console.cloud.google.com/apis/credentials"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 bg-sky-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-colors"
-            >
-              Vai alla Google Cloud Console <ExternalLink size={16} />
-            </a>
+        <div className="relative h-full w-full bg-slate-800">
+          <img
+            src={MAP_PLACEHOLDER}
+            alt="Mappa non disponibile"
+            className="h-full w-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
+            <div className="text-center p-4">
+              <AlertTriangle size={48} className="mx-auto mb-4 text-red-400" />
+              <h3 className="text-xl font-bold">Errore di Caricamento Mappa</h3>
+              <p className="text-slate-300 mt-2 max-w-md">
+                L'app ha ricevuto un errore da Google Maps (<code className="bg-slate-700 text-red-300 px-1 py-0.5 rounded text-xs font-mono">InvalidKeyMapError</code>), che indica un problema con la chiave API.
+              </p>
+              <p className="text-slate-300 mt-2 max-w-md">
+                Per favore, verifica i seguenti punti nel tuo progetto Google Cloud:
+              </p>
+              <ul className="list-disc list-inside text-left text-slate-400 text-sm mt-3 space-y-1 max-w-md mx-auto">
+                  <li>La chiave API è corretta e non ha errori di battitura.</li>
+                  <li>L'API "Maps JavaScript API" è abilitata.</li>
+                  <li>La fatturazione è attiva per il progetto.</li>
+                  <li>Le restrizioni della chiave (es. referrer HTTP) consentono a questo dominio di usarla.</li>
+              </ul>
+               <a 
+                href="https://console.cloud.google.com/apis/credentials"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 bg-sky-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-colors"
+              >
+                Vai alla Google Cloud Console <ExternalLink size={16} />
+              </a>
+            </div>
           </div>
         </div>
       );

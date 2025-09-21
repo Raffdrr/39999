@@ -23,17 +23,15 @@ const ListCard: React.FC<ListCardProps> = ({
   isFavorite,
   onToggleFavorite,
 }) => {
-  const typeStyles =
-    itemType === 'locale' ? { bg: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400', icon: MapPin } :
-    itemType === 'event' ? { bg: 'bg-orange-500', text: 'text-orange-700 dark:text-orange-400', icon: Calendar } :
-    itemType === 'past_event' ? { bg: 'bg-indigo-500', text: 'text-indigo-700 dark:text-indigo-400', icon: Calendar } :
-    { bg: 'bg-slate-300 dark:bg-slate-700', text: 'text-slate-700 dark:text-slate-300', icon: null };
-  
+  const typeInfo =
+    isCharity ? { bg: 'bg-pink-500', label: 'Benefico' } :
+    itemType === 'locale' ? { bg: 'bg-amber-500', label: 'Locale' } :
+    itemType === 'event' ? { bg: 'bg-orange-500', label: 'Evento' } :
+    itemType === 'past_event' ? { bg: 'bg-indigo-500', label: 'Passato' } :
+    { bg: 'bg-slate-400', label: 'Info' };
+
   let backgroundClass = 'bg-white dark:bg-slate-800';
   if (isCharity) {
-    typeStyles.bg = 'bg-pink-500';
-    typeStyles.text = 'text-pink-700 dark:text-pink-400';
-    typeStyles.icon = HandHeart;
     backgroundClass = 'bg-pink-50 dark:bg-pink-900/20';
   } else if (itemType === 'event') {
     backgroundClass = 'bg-orange-50 dark:bg-orange-900/20';
@@ -45,12 +43,32 @@ const ListCard: React.FC<ListCardProps> = ({
     <div
       onClick={onClick}
       style={{ animationDelay }}
-      className={`relative flex flex-row gap-3 ${backgroundClass} rounded-xl shadow-lg dark:shadow-lg dark:shadow-black/25 p-3 pl-5 transition-all duration-300 ease-out cursor-pointer hover:shadow-2xl dark:hover:shadow-2xl dark:hover:shadow-black/30 hover:-translate-y-1 active:scale-[0.98] active:shadow-lg border border-slate-200/80 dark:border-slate-700/80 ${className} animate-fade-in-up`}
+      className={`
+        relative flex flex-col gap-3 ${backgroundClass} 
+        rounded-2xl p-3
+        shadow-lg dark:shadow-md dark:shadow-black/30 
+        transition-transform transition-shadow duration-300 ease-out 
+        cursor-pointer 
+        hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 
+        active:scale-[0.98] active:shadow-md 
+        border border-slate-200/60 dark:border-slate-700/60 
+        ${className} animate-fade-in-up
+      `}
     >
-      <div className={`absolute left-0 top-1/4 h-1/2 w-1.5 rounded-r-full ${typeStyles.bg}`}></div>
+      {/* Pill Indicator */}
+      <div className="flex">
+        <span className={`px-2 py-0.5 text-[10px] font-bold text-white rounded-full ${typeInfo.bg} shadow`}>
+          {typeInfo.label}
+        </span>
+      </div>
       
+      {/* Content Wrapper */}
+      <div className="flex flex-row gap-3 items-center">
+        {children}
+      </div>
+
       {isFavorite !== undefined && onToggleFavorite && (
-        <div className="absolute top-1.5 right-1.5 z-10">
+        <div className="absolute top-2 right-2 z-10">
           <FavoriteButton
             isFavorite={isFavorite}
             onToggle={onToggleFavorite}
@@ -59,7 +77,6 @@ const ListCard: React.FC<ListCardProps> = ({
           />
         </div>
       )}
-      {children}
     </div>
   );
 };

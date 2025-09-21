@@ -188,7 +188,7 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen bg-slate-100 dark:bg-slate-950 flex flex-col font-sans antialiased overflow-hidden">
-      <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-40' : 'pb-24'}`}>
+      <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-32' : 'pb-18'}`}>
         {<ActivePageComponent />}
       </main>
       
@@ -213,7 +213,7 @@ const App: React.FC = () => {
       
       {/* Bottom Search Bar for Home Page */}
       {isHomePage && (
-        <div className="fixed bottom-[80px] left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg z-20 border-t border-slate-200/80 dark:border-slate-800/80 shadow-top">
+        <div className="fixed bottom-14 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg z-20 border-t border-slate-200/80 dark:border-slate-800/80 shadow-top">
           <div className="px-2.5 py-2 flex items-center gap-2">
             <div className="flex-grow">
               <HomeSearchBar />
@@ -225,7 +225,7 @@ const App: React.FC = () => {
 
       {/* Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-200/80 dark:border-slate-800/80 z-30 shadow-top">
-        <div className="flex justify-around items-center h-20 px-2">
+        <div className="flex justify-around items-center h-14 px-2">
             {navTabs.map(tab => {
               const isActive = activeTab === tab.id;
               const IconComponent = tab.icon;
@@ -233,7 +233,7 @@ const App: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex flex-col items-center justify-center h-16 w-16 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900
+                  className={`relative flex flex-col items-center justify-center h-12 w-12 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900
                     ${isActive
                       ? `text-slate-800 dark:text-slate-100`
                       : 'text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-105 active:scale-95'

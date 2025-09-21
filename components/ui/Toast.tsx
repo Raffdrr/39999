@@ -27,7 +27,7 @@ const Toast: React.FC<ToastProps> = ({ message, onHide, onHomePage = false }) =>
   };
 
   const styles = typeStyles[type];
-  const bottomPositionClass = onHomePage ? 'bottom-[150px]' : 'bottom-[90px]';
+  const bottomPositionClass = onHomePage ? 'bottom-[120px]' : 'bottom-[66px]';
 
   return (
     <div
