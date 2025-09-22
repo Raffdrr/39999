@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import ModalWrapper from './ModalWrapper';
 import { X, Award, Star, Send } from 'lucide-react';
@@ -11,8 +12,8 @@ interface AmbassadorModalProps {
 const AmbassadorModal: React.FC<AmbassadorModalProps> = ({ onClose, showToast }) => {
   return (
     <ModalWrapper open={true} onClose={onClose}>
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-t-2xl z-10">
+      <div className="bg-white dark:bg-black rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-t-2xl z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 sm:gap-2.5">
             <Award size={26} className="text-amber-500" />Diventa Ambassador!
           </h2>
@@ -43,7 +44,7 @@ const AmbassadorModal: React.FC<AmbassadorModalProps> = ({ onClose, showToast })
           </div>
           <p className="text-xs sm:text-sm text-center text-slate-500 dark:text-slate-400 pt-1.5 sm:pt-2">Se pensi di avere la stoffa giusta, non esitare!</p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={() => {
               showToast("Candidatura inviata! Ti faremo sapere presto.", "success", <Send size={18} />);

@@ -30,15 +30,6 @@ const ListCard: React.FC<ListCardProps> = ({
     itemType === 'past_event' ? { bg: 'bg-indigo-500', label: 'Passato' } :
     { bg: 'bg-slate-400', label: 'Info' };
 
-  let backgroundClass = 'bg-white dark:bg-slate-800';
-  if (isCharity) {
-    backgroundClass = 'bg-pink-50 dark:bg-pink-900/20';
-  } else if (itemType === 'event') {
-    backgroundClass = 'bg-orange-50 dark:bg-orange-900/20';
-  } else if (itemType === 'locale') {
-    backgroundClass = 'bg-slate-50 dark:bg-slate-800/70';
-  }
-
   const animationDelay = `${index * 75}ms`;
 
   return (
@@ -46,14 +37,17 @@ const ListCard: React.FC<ListCardProps> = ({
       onClick={onClick}
       style={{ animationDelay }}
       className={`
-        relative flex flex-col gap-3 ${backgroundClass} 
+        relative flex flex-col gap-3
         rounded-2xl p-3
-        shadow-md dark:shadow-md dark:shadow-black/20 
-        transition-transform transition-shadow duration-300 ease-out 
+        bg-white dark:bg-slate-950
+        border border-slate-200/80 dark:border-orange-500/30
+        shadow-md hover:shadow-lg
+        dark:shadow-[0_4px_14px_-1px_rgba(249,115,22,0.08)]
+        dark:hover:shadow-[0_8px_25px_-3px_rgba(249,115,22,0.12)]
+        transition-all duration-300 ease-out 
         cursor-pointer 
-        hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-black/30 hover:-translate-y-1 
+        hover:-translate-y-1 
         active:scale-[0.98] active:shadow-sm 
-        border border-slate-200/60 dark:border-slate-700/60 
         ${className} animate-fade-in-up
       `}
     >

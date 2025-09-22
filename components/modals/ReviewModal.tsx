@@ -30,8 +30,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ itemType, item, onClose }) =>
 
   return (
     <ModalWrapper open={true} onClose={onClose}>
-      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-orange-100 via-yellow-50 to-emerald-100 dark:from-slate-900 dark:via-slate-800 dark:to-gray-900 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-t-2xl z-10">
+      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-orange-100 via-yellow-50 to-emerald-100 dark:bg-black rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-t-2xl z-10">
           <h2 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 sm:gap-2">
             <ThumbsUp size={22} className="text-amber-500" />Recensione per {item.name}
           </h2>
@@ -65,7 +65,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ itemType, item, onClose }) =>
             />
           </div>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             type="submit"
             className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg active:scale-95"

@@ -6,38 +6,47 @@ interface SwipeInput {
 }
 
 const useSwipe = (input: SwipeInput) => {
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  // Use objects to store both x and y coordinates
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
   
-  // The minimum distance (in pixels) for a swipe to be registered
   const minSwipeDistance = 50; 
 
   const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(0); // Clear previous touch end
-    setTouchStart(e.targetTouches[0].clientX);
+    // Reset touchEnd and set touchStart coordinates for the new touch
+    setTouchEnd({ x: 0, y: 0 });
+    setTouchStart({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    // Update touchEnd coordinates as the finger moves
+    setTouchEnd({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    // If touchStart or touchEnd haven't been set properly (e.g., a simple tap), exit
+    if (touchStart.x === 0 || touchEnd.x === 0) return;
     
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    const dx = touchStart.x - touchEnd.x;
+    const dy = touchStart.y - touchEnd.y;
 
-    if (isLeftSwipe) {
-      input.onSwipedLeft();
-    }
-    if (isRightSwipe) {
-      input.onSwipedRight();
+    // IMPORTANT: Check if the swipe is primarily horizontal before triggering actions.
+    // This prevents conflicts with vertical scrolling or pull-to-dismiss gestures.
+    if (Math.abs(dx) > Math.abs(dy)) {
+      const isLeftSwipe = dx > minSwipeDistance;
+      const isRightSwipe = dx < -minSwipeDistance;
+
+      if (isLeftSwipe) {
+        input.onSwipedLeft();
+      }
+      if (isRightSwipe) {
+        input.onSwipedRight();
+      }
     }
     
-    // Reset values
-    setTouchStart(0);
-    setTouchEnd(0);
+    // Reset state for the next swipe action
+    setTouchStart({ x: 0, y: 0 });
+    setTouchEnd({ x: 0, y: 0 });
   };
 
   return {

@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import ModalWrapper from './ModalWrapper';
 import { X, QrCode as QrCodeIcon, Info } from 'lucide-react';
@@ -15,8 +16,8 @@ const PaymentCodeModal: React.FC<PaymentCodeModalProps> = ({ data, onClose }) =>
 
   return (
     <ModalWrapper open={!!data} onClose={onClose} customClasses="max-w-md w-full">
-      <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-gray-900 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col text-white">
-        <div className="p-4 sm:p-5 border-b border-slate-600 flex justify-between items-center sticky top-0 bg-slate-800/80 backdrop-blur-sm rounded-t-2xl z-10">
+      <div className="bg-gradient-to-br from-black via-gray-900 to-black rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col text-white">
+        <div className="p-4 sm:p-5 border-b border-slate-600 flex justify-between items-center sticky top-0 bg-black/80 backdrop-blur-sm rounded-t-2xl z-10">
           <h2 className="text-lg sm:text-xl font-bold flex items-center gap-1.5 sm:gap-2">
             <QrCodeIcon size={22} className="text-emerald-400" />Codice Pagamento
           </h2>
@@ -38,7 +39,7 @@ const PaymentCodeModal: React.FC<PaymentCodeModalProps> = ({ data, onClose }) =>
 
           <div className="text-center mt-3 sm:mt-4">
             <p className="text-xs text-slate-400">oppure usa il codice:</p>
-            <p className="text-2xl sm:text-3xl font-mono tracking-wider font-bold text-emerald-300 bg-slate-700 px-4 py-2 rounded-lg shadow-inner my-1 sm:my-2">
+            <p className="text-2xl sm:text-3xl font-mono tracking-wider font-bold text-emerald-300 bg-gray-900 px-4 py-2 rounded-lg shadow-inner my-1 sm:my-2">
               {data.paymentCode}
             </p>
           </div>
@@ -65,7 +66,7 @@ const PaymentCodeModal: React.FC<PaymentCodeModalProps> = ({ data, onClose }) =>
             <Info size={12} /> Questo è un codice di pagamento simulato.
           </p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-600 mt-auto sticky bottom-0 bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-600 mt-auto sticky bottom-0 bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={onClose}
             className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg active:scale-95"

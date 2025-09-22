@@ -212,30 +212,30 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
   
   const renderInfoTab = () => (
     <div className="p-4 space-y-4">
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+      <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
         <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Descrizione</h3>
         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{locale.description || "Nessuna descrizione fornita."}</p>
       </div>
        {locale.hashtags && locale.hashtags.length > 0 && ( 
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Tags</h3>
             <div className="flex flex-wrap gap-2">
             {locale.hashtags.map(tag => <span key={tag} className={`text-xs bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300 px-2.5 py-1 rounded-full font-medium`}>#{tag}</span>)} 
             </div>
         </div>
       )}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+      <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
         <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Indirizzo</h3>
         <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{locale.address || "Indirizzo non specificato"}</p>
         <ImageWithFallback itemKey={`map_loc_${locale.id}`} src={MAP_PLACEHOLDER_LOCALE_MODAL} alt="Mappa Locale" imgClassName="w-full h-40 object-cover rounded-md" containerClassName="w-full h-40 rounded-md" />
       </div>
       {locale.openingHours && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2`}>Orari di Apertura</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-line">{locale.openingHours}</p>
         </div>
       )}
-       <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+       <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-1`}>Persone al Tavolo</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{locale.currentGuests} / {locale.capacity}</p>
           {peopleAtTableForInfoTab.length > 0 ? (
@@ -256,7 +256,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
      <div className="p-4 space-y-4">
         {Object.keys(menuByCategory).length > 0 ? (
           Object.entries(menuByCategory).map(([category, items]) => (
-            <div key={category} className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+            <div key={category} className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
               <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3`}>{category}</h3>
               <ul className="space-y-2">
                 {items.map(item => (
@@ -272,7 +272,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
           <p className="text-slate-500 dark:text-slate-400 text-center py-8">Menu non disponibile.</p>
         )}
         {locale.menuPhotos && locale.menuPhotos.length > 0 && (
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+            <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
                  <h3 className={`text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3`}>Foto del Menu</h3>
                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {locale.menuPhotos.map((photoUrl, index) => ( 
@@ -297,7 +297,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
     <div className="p-4 space-y-4">
         {locale.userReviews && locale.userReviews.length > 0 ? ( 
             locale.userReviews.map((review: UserReviewType) => ( 
-              <div key={review.userId + review.date} className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+              <div key={review.userId + review.date} className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
                 <div className="flex items-start mb-1.5">
                   <img src={review.avatar || USER_AVATARS[0]} alt={review.name} className="w-9 h-9 rounded-full mr-3 border-2 border-slate-200 dark:border-slate-700" />
                   <div className="flex-1">
@@ -339,7 +339,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
       {detailedParticipantsList.length > 0 ? (
         <div className="flex flex-col space-y-3">
           {detailedParticipantsList.map(p => (
-            <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+            <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
               <div className="relative flex-shrink-0">
                 <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200 dark:border-slate-700" />
               </div>
@@ -367,12 +367,12 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         style={{
             transform: `translateY(${dragY}px)`,
             transition: dragStart ? 'none' : 'transform 0.3s ease-out',
-            backgroundColor: `rgba(${theme === 'dark' ? '2, 6, 23,' : '248, 250, 252,'} ${1 - Math.min(1, dragY / 500)})`
+            backgroundColor: `rgba(${theme === 'dark' ? '0, 0, 0,' : '248, 250, 252,'} ${1 - Math.min(1, dragY / 500)})`
         }}
         className="fixed inset-0 z-40 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in"
     >
         
-        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
              <button onClick={onClose} className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/10" aria-label="Chiudi">
                 <ChevronLeft size={24} />
              </button>
@@ -400,7 +400,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         </div>
       </div>
       
-      <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
+      <div className="bg-white dark:bg-black sticky top-16 z-10 shadow-sm">
         <div className="flex border-b border-slate-200 dark:border-slate-800">
           {TABS_CONFIG.map(tab => (
             <button
@@ -448,7 +448,7 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
         {renderMainActionButton()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-30 pointer-events-none" />
+      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-black dark:via-black/80 dark:to-transparent z-30 pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 p-4 z-40 flex items-center justify-center gap-x-8">
           <button onClick={onClose} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Indietro">
               <ChevronLeft size={24} />

@@ -55,10 +55,10 @@ const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropos
   };
   
   return (
-    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 animate-fade-in">
+    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 animate-fade-in">
       <form onSubmit={handleSubmit} className="h-full w-full flex flex-col">
         
-        <header className="sticky top-0 z-20 flex items-center justify-center py-2 px-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+        <header className="sticky top-0 z-20 flex items-center justify-center py-2 px-4 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-gradient-to-br from-sky-400 to-blue-500 text-white shadow-md">
                   <ProposeTableIcon size={18} />
@@ -70,7 +70,7 @@ const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropos
         <div className="flex-1 overflow-y-auto no-scrollbar p-4 sm:p-5 space-y-4 sm:space-y-5 pb-28">
             <div>
               <label htmlFor="localeName" className="form-label"><BuildingFluentIcon />Nome Locale*</label>
-              <select id="localeName" value={localeName} onChange={e => setLocaleName(e.target.value)} required className="form-input bg-white dark:bg-slate-800"> 
+              <select id="localeName" value={localeName} onChange={e => setLocaleName(e.target.value)} required className="form-input bg-white dark:bg-slate-950"> 
                 {locali.map(l => <option key={l.id} value={l.name}>{l.name}</option>)} 
                 <option value="Altro">Altro (specifica nelle note)</option>
               </select>
@@ -103,7 +103,7 @@ const ProposeTableModal: React.FC<ProposeTableModalProps> = ({ onClose, onPropos
             </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-transparent">
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-black dark:via-black/90 dark:to-transparent">
           <div className="flex items-center gap-3">
               <button type="button" onClick={onClose} className="flex-1 py-3 px-4 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all duration-200 ease-out active:scale-95 border border-slate-200 dark:border-slate-600 shadow hover:-translate-y-0.5 hover:shadow-lg active:shadow-sm active:translate-y-0">
                 Chiudi

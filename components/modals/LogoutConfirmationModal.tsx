@@ -10,7 +10,7 @@ interface LogoutConfirmationModalProps {
 const LogoutConfirmationModal: React.FC<LogoutConfirmationModalProps> = ({ onClose, onConfirm }) => {
   return (
     <ModalWrapper open={true} onClose={onClose} customClasses="max-w-sm w-full">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full">
+      <div className="bg-white dark:bg-black rounded-2xl shadow-2xl w-full">
         <div className="p-5 sm:p-6 flex flex-col items-center text-center">
             <div className="p-3 bg-red-100 dark:bg-red-500/20 rounded-full mb-3 sm:mb-4">
                 <AlertTriangle size={32} className="text-red-500" />

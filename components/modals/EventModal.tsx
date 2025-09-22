@@ -211,7 +211,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         {participantsDetails.length > 0 ? (
           <div className="flex flex-col space-y-3">
             {participantsDetails.map(p => (
-              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+              <div key={p.id} className="flex items-center gap-3 sm:gap-4 p-3 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
                 <div className="relative flex-shrink-0">
                   <img src={p.avatar} alt={p.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-md border-2 border-slate-200 dark:border-slate-700" />
                   {p.isHost && (
@@ -235,7 +235,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
   const renderEventDetailsContent = () => (
     <div className="p-4 space-y-4">
       {!event.isPublicVenue && (
-         <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+         <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Luogo Evento</h3>
             <p className="text-slate-600 dark:text-slate-300 text-sm mb-2">{event.location || "Luogo non specificato"}</p>
             <ImageWithFallback 
@@ -247,24 +247,24 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
             />
         </div>
       )}
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+      <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
         <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Descrizione Evento</h3>
         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{event.description}</p>
       </div>
       {event.whatToBring && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Cosa Portare</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.whatToBring}</p>
         </div>
       )}
       {event.houseRules && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Regole</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.houseRules}</p>
         </div>
       )}
       {event.generalInfo && (
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Info Generali</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{event.generalInfo}</p>
         </div>
@@ -279,11 +279,11 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
     if (!headerLocale) return <p className="text-slate-500 dark:text-slate-400 p-4">Dettagli locale non disponibili.</p>;
     return (
       <div className="p-4 space-y-4">
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><Building size={20} className="text-orange-500"/>Descrizione Locale</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{headerLocale.description}</p>
         </div>
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+        <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
           <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><MapPinIconLucide size={20} className="text-orange-500"/>Indirizzo</h3>
           <p className="text-slate-600 dark:text-slate-300 text-sm">{headerLocale.address}</p>
           <ImageWithFallback 
@@ -295,7 +295,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
           />
         </div>
         {headerLocale.galleryPhotos && headerLocale.galleryPhotos.length > 0 && (
-          <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+          <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Galleria Locale</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {headerLocale.galleryPhotos.map((photo, index) => (
@@ -305,7 +305,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
           </div>
         )}
         {headerLocale.openingHours && (
-           <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
+           <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/80 dark:border-slate-700/60">
             <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">Orari</h3>
             <p className="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-line">{headerLocale.openingHours}</p>
           </div>
@@ -397,11 +397,11 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         style={{
             transform: `translateY(${dragY}px)`,
             transition: dragStart ? 'none' : 'transform 0.3s ease-out',
-            backgroundColor: `rgba(${theme === 'dark' ? '2, 6, 23,' : '248, 250, 252,'} ${1 - Math.min(1, dragY / 500)})`
+            backgroundColor: `rgba(${theme === 'dark' ? '0, 0, 0,' : '248, 250, 252,'} ${1 - Math.min(1, dragY / 500)})`
         }}
         className="fixed inset-0 z-40 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in"
     >
-        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+        <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
              <button onClick={onClose} className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/10" aria-label="Chiudi">
                 <ChevronLeft size={24} />
              </button>
@@ -431,7 +431,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 sticky top-16 z-10 shadow-sm">
+      <div className="bg-white dark:bg-black sticky top-16 z-10 shadow-sm">
         <div className="flex border-b border-slate-200 dark:border-slate-800">
           {tabs.map(tab => {
             const IconComponent = tab.label === "Locale" ? Building : (tab.label === "Evento" ? TicketIcon : Users);
@@ -458,7 +458,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSwipeLeft, on
         {renderActionButton()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-30 pointer-events-none" />
+      <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-black dark:via-black/80 dark:to-transparent z-30 pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 p-4 z-40 flex items-center justify-center gap-x-8">
           <button onClick={onClose} className="p-3 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-sm text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/20 transition-colors pointer-events-auto" aria-label="Indietro">
               <ChevronLeft size={24} />

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Home, CalendarDays, MessagesSquare, Heart, CircleUserRound } from 'lucide-react';
 import { HomeIcon, CalendarIcon, ChatIcon, FavoritesIcon, ProfileIcon } from './components/icons';
@@ -43,9 +44,9 @@ interface NavTabWithGradient {
 
 
 const navTabs: NavTabWithGradient[] = [
-  { id: 'home', label: 'Home', icon: HomeIcon, gradient: 'from-sky-400 to-blue-500' },
   { id: 'calendar', label: 'Calendario', icon: CalendarIcon, gradient: 'from-purple-400 to-indigo-500' },
   { id: 'chat', label: 'Chat', icon: ChatIcon, gradient: 'from-emerald-400 to-green-500' },
+  { id: 'home', label: 'Home', icon: HomeIcon, gradient: 'from-sky-400 to-blue-500' },
   { id: 'favorites', label: 'Preferiti', icon: FavoritesIcon, gradient: 'from-red-500 to-orange-500' },
   { id: 'profile', label: 'Profilo', icon: ProfileIcon, gradient: 'from-amber-400 to-yellow-500' },
 ];
@@ -68,24 +69,26 @@ const App: React.FC = () => {
     isSupportModalOpen, isLogoutModalOpen, paymentCodeModal, payWithCreditAmountModal,
     inputModal,
     initiatePayBill, finalizeBill, cancelPayment,
-    theme
+    theme, // Get theme from the store
   } = useUIStore();
   const { locales, events, createEvent, setBillDetails, finalizeBillPayment, cancelPaymentAndRefund } = useDataStore();
   const { credit, processGamificationAction } = useUserStore();
 
   const [invitedFriends, setInvitedFriends] = useState<Set<string>>(new Set());
 
+  // Effect to sync the theme state with the DOM
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
   const donationEventData = events.find(e => e.id === donationModal);
   
   const isHomePage = activeTab === 'home';
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
   
   useEffect(() => {
     if (initiatePayBill) {
@@ -187,7 +190,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="h-screen w-screen bg-slate-100 dark:bg-slate-950 flex flex-col font-sans antialiased overflow-hidden">
+    <div className="h-screen w-screen bg-slate-100 dark:bg-black flex flex-col font-sans antialiased overflow-hidden">
       <main className={`flex-1 overflow-y-auto px-4 sm:px-5 flex flex-col pt-4 ${isHomePage ? 'pb-32' : 'pb-18'}`}>
         {<ActivePageComponent />}
       </main>
@@ -233,7 +236,7 @@ const App: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex flex-col items-center justify-center h-12 w-12 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900
+                  className={`relative flex flex-col items-center justify-center h-12 w-12 rounded-2xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-600 focus:ring-offset-2 dark:focus:ring-offset-slate-900
                     ${isActive
                       ? `text-slate-800 dark:text-slate-100`
                       : 'text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-105 active:scale-95'

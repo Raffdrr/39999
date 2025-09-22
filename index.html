@@ -11,6 +11,11 @@
   <meta name="theme-color" content="#f97316" />
   <link rel="apple-touch-icon" href="https://placehold.co/192x192/f97316/ffffff?text=SM" />
   
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style id="social-mix-app-styles" type="text/css">
     :root {
@@ -28,7 +33,7 @@
       background-color: #f1f5f9; /* Slate 100 */
     }
     .dark body {
-      background-color: #020617; /* Slate 950 */
+      background-color: #000000; /* AMOLED Black */
     }
     .form-label {
       display: flex;
@@ -70,8 +75,8 @@
       color: #1e293b;
     }
     .dark .form-input {
-      background-color: #1e293b; /* bg-slate-800 */
-      border-color: #475569; /* border-slate-600 */
+      background-color: #020617; /* bg-slate-950 for AMOLED */
+      border-color: #334155; /* border-slate-700 */
       color: #f1f5f9; /* text-slate-100 */
     }
     .dark .form-input::placeholder {
@@ -82,7 +87,9 @@
       border-color: var(--app-accent);
     }
     .dark .form-input:focus {
-      background-color: #0f172a; /* focus:bg-slate-900 */
+      background-color: #020617; /* focus:bg-slate-950 */
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.5);
+      border-color: var(--app-accent);
     }
     
     .profile-action-button {
@@ -95,15 +102,15 @@
       border-radius: 0.75rem; /* rounded-xl for softer Fluent feel */
       font-weight: 600;
       color: #1e293b;
-      transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+      transition: box-shadow 0.2s ease-out, transform 0.2s ease-out, border-color 0.2s ease-out;
       border: 1px solid #e2e8f0;
       /* Base shadow for Fluent depth */
       box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     }
     .dark .profile-action-button {
-      background-color: #1e293b;
+      background-color: #020617; /* slate-950 for AMOLED */
       color: #f1f5f9;
-      border: 1px solid #334155;
+      border: 1px solid rgba(249, 115, 22, 0.2); /* Orange accent contour */
       box-shadow: 0 2px 4px rgba(0,0,0,0.25);
     }
     .profile-action-button:hover {
@@ -112,7 +119,8 @@
       box-shadow: 0 5px 12px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
     }
     .dark .profile-action-button:hover {
-       box-shadow: 0 5px 12px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.2);
+       border-color: var(--app-accent);
+       box-shadow: 0 0 15px -3px rgba(249, 115, 22, 0.25);
     }
     .profile-action-button:active {
       /* Fluent tactile "press" */
@@ -134,6 +142,63 @@
                   0 4px 6px -1px rgb(0 0 0 / 0.1), 
                   0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
+
+    /* Styles for Profile Page Cards */
+    .profile-section-card {
+      background-color: #ffffff; /* Solid White */
+      border: 1px solid #e2e8f0; /* border-slate-200 */
+    }
+    .dark .profile-section-card {
+      background-color: #020617; /* AMOLED Slate 950 */
+      border: 1px solid rgba(249, 115, 22, 0.2); /* Orange accent contour */
+    }
+    .dark .profile-section-card h2 { color: #f1f5f9; /* slate-100 */ }
+    .dark .profile-section-card h3 { color: #94a3b8; /* slate-400 */ }
+    .dark .profile-section-card p { color: #94a3b8; /* slate-400 */ }
+    .dark .profile-section-card svg { color: #94a3b8; /* slate-400 */ }
+
+    .dark .profile-section-card-header:hover {
+      background-color: rgba(255, 255, 255, 0.05); /* dark:hover:bg-white/5 */
+    }
+    .profile-section-card-content {
+       background-color: #f8fafc; /* bg-slate-50 */
+    }
+    .dark .profile-section-card-content {
+      background-color: #020617; /* AMOLED dark:bg-slate-950 */
+    }
+
+    /* Styles for Home Page - AMOLED Dark Mode Fix */
+    /* -- ListCard -- (Styles moved to component via Tailwind) -- */
+    .dark .list-card-title { color: #f1f5f9; }
+    .dark .list-card-subtitle { color: #94a3b8; }
+    .dark .list-card-rating-reviews { color: #64748b; }
+    .dark .list-card-distance { color: #94a3b8; }
+    .dark .list-card-event-fee { color: #fb923c; }
+
+    /* -- SocialCard -- (Styles moved to component via Tailwind) -- */
+    .dark .social-card-text { color: #f1f5f9; }
+    .social-card-button { background-color: #ffffff; }
+    .dark .social-card-button { background-color: #1e293b; color: #a5b4fc; }
+    .dark .social-card-button:hover { background-color: #334155; }
+    .dark .social-card .avatar-border { border-color: #020617; }
+
+    /* -- CategoryToggle -- (Styles moved to component via Tailwind) -- */
+
+    /* -- SearchBar -- */
+    .search-bar-input { background-color: rgba(255, 255, 255, 0.8); border-color: rgba(226, 232, 240, 0.8); color: #1e293b; }
+    .dark .search-bar-input { background-color: rgba(15, 23, 42, 0.8); border-color: rgba(30, 41, 59, 0.8); color: #e2e8f0; }
+    .dark .search-bar-input::placeholder { color: #64748b; }
+    .search-bar-input:focus { background-color: #ffffff; }
+    .dark .search-bar-input:focus { background-color: rgba(30, 41, 59, 0.8); }
+    .search-bar-button { background-color: rgba(255, 255, 255, 0.8); border-color: rgba(226, 232, 240, 0.8); color: #475569; }
+    .dark .search-bar-button { background-color: rgba(15, 23, 42, 0.8); border-color: rgba(30, 41, 59, 0.8); color: #cbd5e1; }
+    .dark .active-filter-badge { border-color: #0f172a; }
+
+    /* -- StoriesSection -- */
+    .dark .stories-section-title { color: #f1f5f9; }
+    .dark .story-item-title { color: #cbd5e1; }
+    .dark .story-item-image-border { border-color: #f1f5f9; }
+
     .profile-action-button svg {
       width: 1.4rem; /* ~w-5.5 */
       height: 1.4rem; /* ~h-5.5 */
@@ -204,8 +269,9 @@
         flex-direction: column;
     }
     .dark .filter-panel-content {
-      background-color: rgba(15, 23, 42, 0.8); /* slate-900 w/ acrylic */
-      border-top: 1px solid rgba(30, 41, 59, 0.7); /* border-t-slate-800 */
+      background-color: rgba(10, 10, 10, 0.75); /* Dark Acrylic */
+      border-top: 1px solid var(--app-accent);
+      box-shadow: 0 -5px 25px -5px rgba(249, 115, 22, 0.2); /* Orange Glow */
     }
     @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
 

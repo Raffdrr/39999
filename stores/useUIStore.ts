@@ -91,11 +91,13 @@ const initialModalState: ModalState = {
   isLogoutModalOpen: false,
 };
 
+// Determine the initial theme based on system preference.
+const initialTheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 export const useUIStore = create<UIState>((set, get) => ({
   ...initialModalState,
   activeTab: 'home',
-  theme: 'light',
+  theme: initialTheme,
   toastMessage: null,
   showFilterPanel: false,
   searchTerm: '',

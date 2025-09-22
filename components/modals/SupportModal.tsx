@@ -38,8 +38,8 @@ const SupportModal: React.FC<SupportModalProps> = ({ onClose, showToast }) => {
 
   return (
     <ModalWrapper open={true} onClose={onClose} customClasses="max-w-lg w-full">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-t-2xl z-10">
+      <div className="bg-white dark:bg-black rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-lg rounded-t-2xl z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 sm:gap-2.5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br from-sky-400 to-blue-500 shadow-md">
                 <HelpCircle size={22} className="text-white" />
@@ -59,7 +59,7 @@ const SupportModal: React.FC<SupportModalProps> = ({ onClose, showToast }) => {
           </div>
           <p className="text-xs sm:text-sm text-center text-slate-500 dark:text-slate-400 pt-1.5 sm:pt-2">Non hai trovato una risposta? Contattaci direttamente.</p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={handleContact}
             className="w-full bg-gradient-to-br from-sky-500 to-blue-500 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-lg transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md"

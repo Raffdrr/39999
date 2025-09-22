@@ -1,17 +1,14 @@
 import React, { useMemo } from 'react';
 import { useDataStore, useUIStore, useFavoritesStore } from '../stores';
-import { Locale, Event, SocialCard as SocialCardType, FavoriteItem } from '../types';
+import { Locale, Event, FavoriteItem } from '../types';
 
 import StoriesSection from '../components/ui/StoriesSection';
 import MapPreview from '../components/ui/MapPreview';
+import WeatherWidget from '../components/ui/WeatherWidget';
 import CategoryToggle from '../components/ui/CategoryToggle';
 import ListCard from '../components/ListCard';
 import ImageWithFallback from '../components/ImageWithFallback';
-import SocialCard from '../components/ui/SocialCard';
 import { StarIcon, MapPinIcon } from '../components/icons/secondary';
-import { Calendar, HandHeart } from 'lucide-react';
-// FIX: Import SOCIAL_CARD_DATA to resolve reference error.
-import { SOCIAL_CARD_DATA } from '../constants';
 
 const HomePage: React.FC = () => {
     const { locales, events } = useDataStore();
@@ -88,20 +85,13 @@ const HomePage: React.FC = () => {
             filteredEvents = filteredEvents.filter(e => e.name.toLowerCase().includes(lowercasedSearch));
         }
 
-        type CombinedItem = (Locale & { itemType: 'locale' }) | (Event & { itemType: 'event' }) | SocialCardType;
-
-        const socialCards: SocialCardType[] = (searchTerm.trim() === '' && (displayCategory === 'all' || displayCategory === 'events')) 
-            ? SOCIAL_CARD_DATA 
-            : [];
+        type CombinedItem = (Locale & { itemType: 'locale' }) | (Event & { itemType: 'event' });
 
         const combined: CombinedItem[] = [
-            ...socialCards,
             ...filteredLocales.map(l => ({ ...l, itemType: 'locale' as const })), 
             ...filteredEvents.map(e => ({ ...e, itemType: 'event' as const }))
         ]
         .sort((a, b) => {
-            if (a.itemType === 'social') return -1;
-            if (b.itemType === 'social') return 1;
             const distanceA = a.itemType === 'locale' && a.distance ? parseFloat(a.distance) : Infinity;
             const distanceB = b.itemType === 'locale' && b.distance ? parseFloat(b.distance) : Infinity;
             if (distanceA !== Infinity && distanceB !== Infinity) return distanceA - distanceB;
@@ -109,7 +99,6 @@ const HomePage: React.FC = () => {
         });
 
         const ids = combined
-            .filter(item => item.itemType === 'locale' || item.itemType === 'event')
             .map(item => `${item.itemType}_${item.id}`);
         
         return { filteredItems: combined, itemIdsForModalView: ids };
@@ -132,12 +121,9 @@ const HomePage: React.FC = () => {
                 setDisplayCategory={setDisplayCategory}
                 resetAllFilters={resetAllFilters}
             />
+            <WeatherWidget />
             
             {filteredItems.map((item, index) => {
-                if (item.itemType === 'social') {
-                    return <SocialCard key={item.id} card={item as SocialCardType} index={index} />;
-                }
-                
                 const isLocale = item.itemType === 'locale';
                 const locale = item as Locale;
                 const event = item as Event;
@@ -161,22 +147,22 @@ const HomePage: React.FC = () => {
                             containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
                         />
                         <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
-                            <h3 className="font-bold text-base text-slate-800 dark:text-slate-100 truncate">{item.name}</h3>
+                            <h3 className="list-card-title font-bold text-base text-slate-800 truncate">{item.name}</h3>
                             {isLocale ? (
                                 <>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{locale.cuisine} • {locale.price}</p>
+                                    <p className="list-card-subtitle text-xs text-slate-500 truncate">{locale.cuisine} • {locale.price}</p>
                                     <div className="flex items-center text-xs">
                                         <StarIcon size={14} className="mr-1 flex-shrink-0" />
                                         <span className="text-amber-600 font-bold">{locale.rating?.toFixed(1)}</span>
-                                        <span className="text-slate-400 dark:text-slate-500 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
+                                        <span className="list-card-rating-reviews text-slate-400 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
                                     </div>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{locale.distance} da te</p>
+                                    <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{locale.distance} da te</p>
                                 </>
                             ) : (
                                 <>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{event.location || "N/D"}</p>
-                                    <div className="text-xs font-semibold text-orange-600 dark:text-orange-400 pt-1">{event.partecipationFee || 'Gratuito'}</div>
+                                    <p className="list-card-subtitle text-xs text-slate-500 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
+                                    <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{event.location || "N/D"}</p>
+                                    <div className="list-card-event-fee text-xs font-semibold text-orange-600 pt-1">{event.partecipationFee || 'Gratuito'}</div>
                                 </>
                             )}
                         </div>

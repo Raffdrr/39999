@@ -16,17 +16,17 @@ const HomeSearchBar: React.FC = () => {
                     placeholder="Cerca locali o eventi..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 rounded-xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-700/80 transition-all shadow-sm hover:shadow-md"
+                    className="search-bar-input w-full pl-10 pr-4 py-2.5 border rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all shadow-sm hover:shadow-md"
                 />
             </div>
             <button
                 onClick={toggleFilterPanel}
-                className="p-2.5 bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-slate-600 dark:text-slate-300 rounded-xl shadow-sm transition-all duration-200 ease-out hover:shadow-md hover:-translate-y-0.5 active:scale-95 active:shadow-sm active:translate-y-0 relative flex-shrink-0"
+                className="search-bar-button p-2.5 border rounded-xl shadow-sm transition-all duration-200 ease-out hover:shadow-md hover:-translate-y-0.5 active:scale-95 active:shadow-sm active:translate-y-0 relative flex-shrink-0"
                 aria-label="Apri filtri"
             >
                 <FilterIcon size={24} />
                 {totalActiveFilters > 0 && (
-                     <span className="absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-800">
+                     <span className="active-filter-badge absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
                         {totalActiveFilters}
                     </span>
                 )}

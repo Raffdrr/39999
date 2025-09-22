@@ -32,8 +32,8 @@ const WithdrawCreditModal: React.FC<WithdrawCreditModalProps> = ({ currentCredit
 
   return (
     <ModalWrapper open={true} onClose={onClose}>
-      <form onSubmit={handleSubmit} className="bg-slate-50 dark:bg-slate-800/90 dark:backdrop-blur-xl rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col border border-slate-200/80 dark:border-slate-700/60">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700/80 flex justify-between items-center sticky top-0 bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-t-2xl z-10">
+      <form onSubmit={handleSubmit} className="bg-slate-50 dark:bg-black/90 dark:backdrop-blur-xl rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col border border-slate-200/80 dark:border-slate-700/60">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700/80 flex justify-between items-center sticky top-0 bg-slate-50/80 dark:bg-black/80 backdrop-blur-lg rounded-t-2xl z-10">
           <h2 className="text-lg sm:text-xl font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5 sm:gap-2">
             <Banknote size={22} />Ritira Credito
           </h2>
@@ -61,7 +61,7 @@ const WithdrawCreditModal: React.FC<WithdrawCreditModalProps> = ({ currentCredit
             Il ritiro del credito è simulato.
           </p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700/80 mt-auto sticky bottom-0 bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700/80 mt-auto sticky bottom-0 bg-slate-50/80 dark:bg-black/80 backdrop-blur-lg rounded-b-2xl">
           <button
             type="submit"
             className="w-full bg-gradient-to-br from-emerald-500 to-green-500 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-xl transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95 active:shadow-md"

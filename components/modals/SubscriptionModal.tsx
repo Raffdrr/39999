@@ -10,8 +10,8 @@ interface SubscriptionModalProps {
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, showToast }) => {
   return (
     <ModalWrapper open={true} onClose={onClose}>
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-t-2xl z-10">
+      <div className="bg-white dark:bg-black rounded-2xl shadow-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-t-2xl z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 sm:gap-2.5">
             <Shield size={26} className="text-purple-500" />SocialMix Premium
           </h2>
@@ -61,7 +61,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, showToas
           </div>
           <p className="text-xs text-center text-slate-500 dark:text-slate-400 pt-2 sm:pt-3">Puoi annullare l'abbonamento in qualsiasi momento.</p>
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={onClose}
             className="w-full bg-slate-500 hover:bg-slate-600 text-white font-semibold py-3 sm:py-3.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg active:scale-95"

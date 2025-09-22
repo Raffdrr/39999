@@ -35,7 +35,7 @@ const FullScreenModalWrapper: React.FC<FullScreenModalWrapperProps> = ({
     <div
       ref={modalPaneRef}
       className={`fixed inset-0 z-40 flex flex-col 
-                  bg-gradient-to-br from-slate-100 via-slate-200 to-gray-200 
+                  bg-gradient-to-br from-slate-100 via-slate-200 to-gray-200 dark:bg-black
                   transition-transform duration-300 ease-in-out
                   ${open ? 'translate-y-0' : 'translate-y-full'}
                   ${open ? 'visible' : 'invisible'}`}

@@ -108,10 +108,10 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
   const stepTitles = ["Dettagli Principali", "Opzioni Aggiuntive"];
 
   return (
-    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 animate-fade-in">
+    <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 animate-fade-in">
       <form onSubmit={handleSubmit} className="h-full w-full flex flex-col">
         
-        <header className="sticky top-0 z-20 flex items-center justify-center py-2 px-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+        <header className="sticky top-0 z-20 flex items-center justify-center py-2 px-4 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-2">
                  <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-gradient-to-br from-orange-400 to-red-500 text-white shadow-md">
                     <CreateEventIcon size={18}/>
@@ -153,7 +153,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
                     </div>
                      <div>
                         <label htmlFor="eventCategory" className="form-label"><CategoryFluentIcon />Categoria*</label>
-                        <select id="eventCategory" value={category} onChange={e => setCategory(e.target.value)} required className="form-input bg-white dark:bg-slate-800">
+                        <select id="eventCategory" value={category} onChange={e => setCategory(e.target.value)} required className="form-input bg-white dark:bg-slate-950">
                             <option>Social</option><option>Cibo</option><option>Musica</option><option>Sport</option><option>Cultura</option><option>Beneficenza</option><option>Altro</option>
                         </select>
                     </div>
@@ -177,7 +177,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3.5 sm:gap-4 p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <div className="flex items-center gap-3.5 sm:gap-4 p-3 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                         <div className="flex-1">
                             <p className="font-medium text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><FeeFluentIcon />Quota di Partecipazione</p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">Lascia vuoto se l'evento è gratuito.</p>
@@ -185,7 +185,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
                         <input type="number" value={partecipationFee} min="0" step="0.50" onChange={(e) => setPartecipationFee(e.target.value)} placeholder="€" className="form-input w-24" />
                     </div>
 
-                    <div className="flex items-center p-3 pl-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <div className="flex items-center p-3 pl-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                         <div className="flex-1">
                             <p className="font-medium text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><CharityFluentIcon />Evento Benefico?</p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">Spunta se l'evento raccoglie fondi.</p>
@@ -197,7 +197,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
                     </div>
 
                     {isCharityEvent && (
-                        <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border-2 border-pink-200 dark:border-pink-500/50 shadow-md animate-fade-in-up">
+                        <div className="p-3 bg-white dark:bg-slate-950 rounded-lg border-2 border-pink-200 dark:border-pink-500/50 shadow-md animate-fade-in-up">
                             <label htmlFor="donationGoal" className="form-label text-pink-700 dark:text-pink-400"><GoalFluentIcon />Obiettivo Donazione (€)</label>
                             <input type="number" id="donationGoal" value={donationGoal} min="0" onChange={e => setDonationGoal(e.target.value)} className="form-input focus:ring-pink-400 focus:border-pink-400" placeholder="Es. 500"/>
                         </div>
@@ -213,7 +213,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({
             )}
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-transparent">
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-black dark:via-black/90 dark:to-transparent">
           {step === 1 && (
              <div className="flex items-center gap-3">
               <button type="button" onClick={onClose} className="flex-1 py-3 px-4 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all duration-200 ease-out active:scale-95 border border-slate-200 dark:border-slate-600 shadow hover:-translate-y-0.5 hover:shadow-lg active:shadow-sm active:translate-y-0">

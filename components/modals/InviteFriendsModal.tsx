@@ -13,8 +13,8 @@ interface InviteFriendsModalProps {
 const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({ onClose, currentInvited, onInviteToggle }) => {
   return (
     <ModalWrapper open={true} onClose={onClose} customClasses="max-w-md w-full">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-h-[80vh] flex flex-col">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-t-2xl z-10">
+      <div className="bg-white dark:bg-black rounded-2xl shadow-2xl max-h-[80vh] flex flex-col">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-t-2xl z-10">
           <h2 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 sm:gap-2">
             <UsersRound size={22} className="text-indigo-500" />Invita Amici
           </h2>
@@ -29,7 +29,7 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({ onClose, curren
               key={friend.id}
               onClick={() => onInviteToggle(friend.name)}
               className={`flex items-center justify-between p-2.5 sm:p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                currentInvited.has(friend.name) ? 'bg-indigo-100 dark:bg-indigo-500/30 border-indigo-400 dark:border-indigo-500 shadow-md ring-2 ring-indigo-300 dark:ring-indigo-600' : 'bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
+                currentInvited.has(friend.name) ? 'bg-indigo-100 dark:bg-indigo-500/30 border-indigo-400 dark:border-indigo-500 shadow-md ring-2 ring-indigo-300 dark:ring-indigo-600' : 'bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
               } border active:scale-[0.98]`}
             >
               <div className="flex items-center gap-2.5 sm:gap-3">
@@ -47,7 +47,7 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({ onClose, curren
             </div>
           ))}
         </div>
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-b-2xl">
+        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-700 mt-auto sticky bottom-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-b-2xl">
           <button
             onClick={onClose}
             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg active:scale-95"

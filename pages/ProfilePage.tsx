@@ -48,7 +48,7 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="animate-page-content-enter flex flex-col flex-1 h-full overflow-y-auto no-scrollbar pb-8">
       
-      <div className="relative flex flex-col items-center p-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg mb-5">
+      <div className="profile-section-card relative flex flex-col items-center p-5 backdrop-blur-lg rounded-2xl shadow-lg mb-5">
         <button onClick={handleAvatarChange} className="relative group">
           <img src={avatar} alt="User Avatar" className="w-24 h-24 rounded-full border-4 border-orange-400 object-cover shadow-md transition-transform group-hover:scale-105" />
           <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold">
@@ -69,7 +69,7 @@ const ProfilePage: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 p-4 rounded-2xl shadow-lg mb-5">
+      <div className="profile-section-card backdrop-blur-lg p-4 rounded-2xl shadow-lg mb-5">
         <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-3">Credito SocialMix</h3>
         <div className="flex items-center justify-between">
           <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">€{credit.toFixed(2)}</p>
@@ -81,14 +81,14 @@ const ProfilePage: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-          <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors" onClick={() => setIsBadgesOpen(!isBadgesOpen)} aria-expanded={isBadgesOpen}>
+        <div className="profile-section-card backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+          <div className="profile-section-card-header p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 transition-colors" onClick={() => setIsBadgesOpen(!isBadgesOpen)} aria-expanded={isBadgesOpen}>
             <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><AwardIcon size={16}/> I Tuoi Badge</h3>
             <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isBadgesOpen ? 'rotate-90' : ''}`} />
           </div>
           {isBadgesOpen && (
             <div className="animate-slide-down">
-                <div className="p-4 bg-slate-50/80 dark:bg-slate-900/50">
+                <div className="profile-section-card-content p-4">
                     <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
                         {AVAILABLE_BADGES.map((badge: BadgeType) => {
                             const Icon = badge.icon;
@@ -113,14 +113,14 @@ const ProfilePage: React.FC = () => {
           )}
         </div>
         
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-          <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors" onClick={() => setIsObjectivesOpen(!isObjectivesOpen)} aria-expanded={isObjectivesOpen}>
+        <div className="profile-section-card backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+          <div className="profile-section-card-header p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 transition-colors" onClick={() => setIsObjectivesOpen(!isObjectivesOpen)} aria-expanded={isObjectivesOpen}>
             <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><Target size={16}/> Obiettivi</h3>
             <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isObjectivesOpen ? 'rotate-90' : ''}`} />
           </div>
           {isObjectivesOpen && (
             <div className="animate-slide-down">
-              <div className="p-4 bg-slate-50/80 dark:bg-slate-900/50 space-y-3">
+              <div className="profile-section-card-content p-4 space-y-3">
                   {objectives.map((obj: GamificationObjective) => (
                       <div key={obj.id} className={`flex items-center p-3 rounded-lg border shadow-sm ${obj.isCompleted ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/20' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'}`}>
                           <div className={`mr-3 ${obj.isCompleted ? 'text-green-500' : 'text-slate-500 dark:text-slate-400'}`}>{obj.isCompleted ? <CheckCircle size={24} /> : obj.icon}</div>
@@ -144,14 +144,14 @@ const ProfilePage: React.FC = () => {
           )}
         </div>
 
-        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-          <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors" onClick={() => setIsRewardsOpen(!isRewardsOpen)} aria-expanded={isRewardsOpen}>
+        <div className="profile-section-card backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+          <div className="profile-section-card-header p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 transition-colors" onClick={() => setIsRewardsOpen(!isRewardsOpen)} aria-expanded={isRewardsOpen}>
             <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><Gift size={16}/> Premi Disponibili</h3>
             <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isRewardsOpen ? 'rotate-90' : ''}`} />
           </div>
           {isRewardsOpen && (
              <div className="animate-slide-down">
-              <div className="p-4 bg-slate-50/80 dark:bg-slate-900/50 space-y-3">
+              <div className="profile-section-card-content p-4 space-y-3">
                   {INITIAL_REWARDS_DATA.map((reward: RewardType) => {
                       const Icon = reward.icon;
                       const canAfford = levelDetails.xp >= reward.xpCost;
@@ -184,14 +184,14 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {pastEvents.length > 0 && (
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors" onClick={() => setIsPastEventsOpen(!isPastEventsOpen)} aria-expanded={isPastEventsOpen}>
+            <div className="profile-section-card backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+                <div className="profile-section-card-header p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 transition-colors" onClick={() => setIsPastEventsOpen(!isPastEventsOpen)} aria-expanded={isPastEventsOpen}>
                     <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><CalendarCheck size={16}/> Eventi Passati</h3>
                     <ChevronRight size={20} className={`text-slate-400 transition-transform duration-300 ${isPastEventsOpen ? 'rotate-90' : ''}`} />
                 </div>
                 {isPastEventsOpen && (
                     <div className="animate-slide-down">
-                      <div className="p-4 bg-slate-50/80 dark:bg-slate-900/50 space-y-3">
+                      <div className="profile-section-card-content p-4 space-y-3">
                         {pastEvents.map((event, index) => (
                             <div 
                                 key={event.id}
@@ -220,7 +220,7 @@ const ProfilePage: React.FC = () => {
         )}
       </div>
       
-      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-lg p-4 mt-5">
+      <div className="profile-section-card backdrop-blur-lg rounded-2xl shadow-lg p-4 mt-5">
         <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5 mb-3"><Settings size={16}/> Impostazioni</h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
