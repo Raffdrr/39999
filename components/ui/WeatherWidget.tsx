@@ -1,10 +1,10 @@
 import React from 'react';
 import { Sun, Cloud, CloudRain } from 'lucide-react';
 
-// Simulate weather data for Milan
+// Simulate weather data for Naples
 const weatherData = {
-  city: 'Milano',
-  temperature: 24,
+  city: 'Napoli',
+  temperature: 27,
   condition: 'Soleggiato', // 'Nuvoloso', 'Pioggia'
   icon: Sun, // Cloud, CloudRain
 };
