@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDataStore, useUIStore, useFavoritesStore } from '../stores';
-import { Locale, Event, FavoriteItem } from '../types';
+import { Locale, Event, FavoriteItem, DisplayCategory } from '../types';
+import useSwipe from '../hooks/useSwipe'; // Import the swipe hook
 
 import StoriesSection from '../components/ui/StoriesSection';
 import MapPreview from '../components/ui/MapPreview';
@@ -10,10 +11,32 @@ import ListCard from '../components/ListCard';
 import ImageWithFallback from '../components/ImageWithFallback';
 import { StarIcon, MapPinIcon } from '../components/icons/secondary';
 
+const CATEGORIES_ORDER: DisplayCategory[] = ['all', 'locali', 'events'];
+
 const HomePage: React.FC = () => {
     const { locales, events } = useDataStore();
     const { openModal, searchTerm, displayCategory, setDisplayCategory, resetAllFilters, activeLocaleFilters, activeEventFilters, activeDateFilter, activePriceFilters } = useUIStore();
     const { isFavorite, toggleFavorite } = useFavoritesStore();
+    
+    // Swipe handlers to change category
+    const handleSwipeLeft = () => {
+        const currentIndex = CATEGORIES_ORDER.indexOf(displayCategory);
+        const nextIndex = (currentIndex + 1) % CATEGORIES_ORDER.length;
+        setDisplayCategory(CATEGORIES_ORDER[nextIndex]);
+        resetAllFilters();
+    };
+
+    const handleSwipeRight = () => {
+        const currentIndex = CATEGORIES_ORDER.indexOf(displayCategory);
+        const prevIndex = (currentIndex - 1 + CATEGORIES_ORDER.length) % CATEGORIES_ORDER.length;
+        setDisplayCategory(CATEGORIES_ORDER[prevIndex]);
+        resetAllFilters();
+    };
+
+    const swipeHandlers = useSwipe({
+        onSwipedLeft: handleSwipeLeft,
+        onSwipedRight: handleSwipeRight,
+    });
     
     const { filteredItems, itemIdsForModalView } = useMemo(() => {
         const today = new Date();
@@ -123,58 +146,61 @@ const HomePage: React.FC = () => {
             />
             <WeatherWidget />
             
-            {filteredItems.map((item, index) => {
-                const isLocale = item.itemType === 'locale';
-                const locale = item as Locale;
-                const event = item as Event;
-                const favId = `${isLocale ? 'locale' : 'event'}_${item.id}`;
-                
-                return (
-                    <ListCard
-                        key={item.id}
-                        onClick={() => handleItemClick(`${item.itemType}_${item.id}`)}
-                        itemType={isLocale ? 'locale' : 'event'}
-                        index={index}
-                        isCharity={!isLocale && event.isCharityEvent}
-                        isFavorite={isFavorite(favId)}
-                        onToggleFavorite={() => toggleFavorite(item as FavoriteItem)}
-                    >
-                        <ImageWithFallback 
-                            itemKey={`list_img_${item.id}`} 
-                            src={item.img!} 
-                            alt={`Foto di ${item.name}`} 
-                            imgClassName="w-full h-full object-cover"
-                            containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
-                        />
-                        <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
-                            <h3 className="list-card-title font-bold text-base text-slate-800 truncate">{item.name}</h3>
-                            {isLocale ? (
-                                <>
-                                    <p className="list-card-subtitle text-xs text-slate-500 truncate">{locale.cuisine} • {locale.price}</p>
-                                    <div className="flex items-center text-xs">
-                                        <StarIcon size={14} className="mr-1 flex-shrink-0" />
-                                        <span className="text-amber-600 font-bold">{locale.rating?.toFixed(1)}</span>
-                                        <span className="list-card-rating-reviews text-slate-400 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
-                                    </div>
-                                    <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{locale.distance} da te</p>
-                                </>
-                            ) : (
-                                <>
-                                    <p className="list-card-subtitle text-xs text-slate-500 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
-                                    <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{event.location || "N/D"}</p>
-                                    <div className="list-card-event-fee text-xs font-semibold text-orange-600 pt-1">{event.partecipationFee || 'Gratuito'}</div>
-                                </>
-                            )}
+            <div {...swipeHandlers}>
+                {filteredItems.map((item, index) => {
+                    const isLocale = item.itemType === 'locale';
+                    const locale = item as Locale;
+                    const event = item as Event;
+                    const favId = `${isLocale ? 'locale' : 'event'}_${item.id}`;
+                    
+                    return (
+                        <div key={item.id} className="mb-4">
+                            <ListCard
+                                onClick={() => handleItemClick(`${item.itemType}_${item.id}`)}
+                                itemType={isLocale ? 'locale' : 'event'}
+                                index={index}
+                                isCharity={!isLocale && event.isCharityEvent}
+                                isFavorite={isFavorite(favId)}
+                                onToggleFavorite={() => toggleFavorite(item as FavoriteItem)}
+                            >
+                                <ImageWithFallback 
+                                    itemKey={`list_img_${item.id}`} 
+                                    src={item.img!} 
+                                    alt={`Foto di ${item.name}`} 
+                                    imgClassName="w-full h-full object-cover"
+                                    containerClassName="w-24 h-24 rounded-lg flex-shrink-0"
+                                />
+                                <div className="flex flex-col justify-center flex-1 min-w-0 space-y-0.5">
+                                    <h3 className="list-card-title font-bold text-base text-slate-800 truncate">{item.name}</h3>
+                                    {isLocale ? (
+                                        <>
+                                            <p className="list-card-subtitle text-xs text-slate-500 truncate">{locale.cuisine} • {locale.price}</p>
+                                            <div className="flex items-center text-xs">
+                                                <StarIcon size={14} className="mr-1 flex-shrink-0" />
+                                                <span className="text-amber-600 font-bold">{locale.rating?.toFixed(1)}</span>
+                                                <span className="list-card-rating-reviews text-slate-400 font-normal ml-1.5 truncate">({locale.reviews} reviews)</span>
+                                            </div>
+                                            <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{locale.distance} da te</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p className="list-card-subtitle text-xs text-slate-500 truncate">{event.category} • {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}</p>
+                                            <p className="list-card-distance text-xs text-slate-500 truncate flex items-center"><MapPinIcon size={12} className="inline mr-1"/>{event.location || "N/D"}</p>
+                                            <div className="list-card-event-fee text-xs font-semibold text-orange-600 pt-1">{event.partecipationFee || 'Gratuito'}</div>
+                                        </>
+                                    )}
+                                </div>
+                            </ListCard>
                         </div>
-                    </ListCard>
-                );
-            })}
-             {filteredItems.length === 0 && (
-                <div className="text-center py-10">
-                    <p className="text-slate-500 dark:text-slate-400">Nessun risultato trovato.</p>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Prova a modificare i filtri o la ricerca.</p>
-                </div>
-            )}
+                    );
+                })}
+                {filteredItems.length === 0 && (
+                    <div className="text-center py-10">
+                        <p className="text-slate-500 dark:text-slate-400">Nessun risultato trovato.</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Prova a modificare i filtri o la ricerca.</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
