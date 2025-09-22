@@ -15,7 +15,7 @@ import { SOCIAL_CARD_DATA } from '../constants';
 
 const HomePage: React.FC = () => {
     const { locales, events } = useDataStore();
-    const { openModal, searchTerm, displayCategory, setDisplayCategory, resetAllFilters, activeLocaleFilters, activeEventFilters } = useUIStore();
+    const { openModal, searchTerm, displayCategory, setDisplayCategory, resetAllFilters, activeLocaleFilters, activeEventFilters, activeDateFilter, activePriceFilters } = useUIStore();
     const { isFavorite, toggleFavorite } = useFavoritesStore();
     
     const { filteredItems, itemIdsForModalView } = useMemo(() => {
@@ -25,16 +25,60 @@ const HomePage: React.FC = () => {
         const upcomingEvents = events.filter(e => new Date(e.date) >= today);
 
         let filteredLocales = (displayCategory === 'all' || displayCategory === 'locali')
-            ? locales.filter(l => activeLocaleFilters.size === 0 || activeLocaleFilters.has(l.cuisine))
+            ? locales.filter(l => {
+                const cuisineMatch = activeLocaleFilters.size === 0 || activeLocaleFilters.has(l.cuisine);
+                const priceMatch = activePriceFilters.size === 0 || activePriceFilters.has(l.price);
+                return cuisineMatch && priceMatch;
+            })
             : [];
 
         let filteredEvents = (displayCategory === 'all' || displayCategory === 'events')
             ? upcomingEvents.filter(e => {
-                if (activeEventFilters.size === 0) return true;
-                const costFilter = e.partecipationFee ? 'A Pagamento' : 'Gratuito';
-                const hasCategory = activeEventFilters.has(e.category);
-                const hasCost = activeEventFilters.has(costFilter);
-                return hasCategory || hasCost;
+                let categoryAndCostMatch = true;
+                if (activeEventFilters.size > 0) {
+                    const costFilter = e.partecipationFee ? 'A Pagamento' : 'Gratuito';
+                    const hasCategory = activeEventFilters.has(e.category);
+                    const hasCost = activeEventFilters.has(costFilter);
+                    categoryAndCostMatch = hasCategory || hasCost;
+                }
+
+                let dateMatch = true;
+                if (activeDateFilter) {
+                    const eventDate = new Date(e.date);
+                    eventDate.setHours(0, 0, 0, 0);
+
+                    const tomorrow = new Date(today);
+                    tomorrow.setDate(today.getDate() + 1);
+                    
+                    const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon,...
+                    const startOfWeek = new Date(today);
+                    startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)); 
+                    
+                    const endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                    const saturday = new Date(today);
+                    if (dayOfWeek !== 0) { // If not Sunday
+                        saturday.setDate(today.getDate() - dayOfWeek + 6);
+                    } else { // If Sunday
+                        saturday.setDate(today.getDate() - 1);
+                    }
+                    const sunday = new Date(saturday);
+                    sunday.setDate(saturday.getDate() + 1);
+
+
+                    if (activeDateFilter === 'Oggi') {
+                        dateMatch = eventDate.getTime() === today.getTime();
+                    } else if (activeDateFilter === 'Domani') {
+                        dateMatch = eventDate.getTime() === tomorrow.getTime();
+                    } else if (activeDateFilter === 'Questa settimana') {
+                        dateMatch = eventDate >= startOfWeek && eventDate <= endOfWeek;
+                    } else if (activeDateFilter === 'Questo weekend') {
+                        dateMatch = eventDate.getTime() === saturday.getTime() || eventDate.getTime() === sunday.getTime();
+                    }
+                }
+
+                return categoryAndCostMatch && dateMatch;
             })
             : [];
         
@@ -69,7 +113,7 @@ const HomePage: React.FC = () => {
             .map(item => `${item.itemType}_${item.id}`);
         
         return { filteredItems: combined, itemIdsForModalView: ids };
-    }, [locales, events, displayCategory, activeLocaleFilters, activeEventFilters, searchTerm]);
+    }, [locales, events, displayCategory, activeLocaleFilters, activeEventFilters, activeDateFilter, activePriceFilters, searchTerm]);
     
     const handleItemClick = (clickedItemId: string) => {
         const itemIndex = itemIdsForModalView.indexOf(clickedItemId);

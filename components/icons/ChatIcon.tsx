@@ -46,12 +46,6 @@ export const ChatIcon: React.FC<IconProps> = ({ isActive, className }) => (
           strokeWidth="0.75"
           strokeLinejoin="round"
         />
-        {/* Gloss Highlight */}
-        <path
-          d="M5,5 C 10,4.5 18,6 20,10 C 18, 8 10,7 5,9 V5 Z"
-          fill="url(#chat-gloss-sculpted)"
-          opacity="0.9"
-        />
       </>
     ) : (
       <path

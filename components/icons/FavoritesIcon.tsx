@@ -54,17 +54,6 @@ export const FavoritesIcon: React.FC<IconProps> = ({ isActive, className }) => (
           stroke="rgba(255,255,255,0.4)"
           strokeWidth="0.75"
         />
-        {/* Inner Shadow for bevel */}
-         <path
-          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-          fill="url(#heart-inner-shadow-sculpted)"
-        />
-        {/* Gloss highlight */}
-        <path
-          d="M7.5,3 C 9,4 12,6 12,8.5 C 12,6 15,4 16.5,3 C 14,3 12,5 12,7 C 12,5 10,3 7.5,3 z"
-          fill="url(#heart-gloss-sculpted)"
-          opacity="0.9"
-        />
       </>
     )}
   </svg>

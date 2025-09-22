@@ -24,15 +24,21 @@ export const PANDA_AVATAR_REWARD_URL = "https://i.pravatar.cc/150?u=panda-avatar
 export const CHARITY_EVENT_PRESET_IMG = 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
 
 export const USER_AVATARS: string[] = [
-    'https://randomuser.me/api/portraits/women/68.jpg',
-    'https://randomuser.me/api/portraits/men/75.jpg',
-    'https://randomuser.me/api/portraits/women/44.jpg',
-    'https://randomuser.me/api/portraits/men/31.jpg',
-    'https://randomuser.me/api/portraits/women/23.jpg',
-    'https://randomuser.me/api/portraits/men/55.jpg',
-    'https://randomuser.me/api/portraits/women/11.jpg',
-    'https://randomuser.me/api/portraits/men/1.jpg',
-    'https://randomuser.me/api/portraits/men/32.jpg', // Main user avatar
+    'https://randomuser.me/api/portraits/women/68.jpg', // 0
+    'https://randomuser.me/api/portraits/men/75.jpg',   // 1 Luca Bianchi
+    'https://randomuser.me/api/portraits/women/44.jpg', // 2 Giulia Verdi
+    'https://randomuser.me/api/portraits/men/31.jpg',   // 3 Marco Neri
+    'https://randomuser.me/api/portraits/women/23.jpg', // 4 Sofia Romano
+    'https://randomuser.me/api/portraits/men/55.jpg',   // 5
+    'https://randomuser.me/api/portraits/women/11.jpg', // 6
+    'https://randomuser.me/api/portraits/men/1.jpg',    // 7
+    'https://randomuser.me/api/portraits/men/32.jpg',   // 8 Main user avatar (Mario Rossi)
+    'https://randomuser.me/api/portraits/women/50.jpg', // 9 Elena Ferrari
+    'https://randomuser.me/api/portraits/men/40.jpg',   // 10 Alessandro Conti
+    'https://randomuser.me/api/portraits/women/60.jpg', // 11 Chiara Gallo
+    'https://randomuser.me/api/portraits/men/20.jpg',   // 12 Davide Greco
+    'https://randomuser.me/api/portraits/women/33.jpg', // 13
+    'https://randomuser.me/api/portraits/men/15.jpg',   // 14
 ];
 
 export const MENU_PHOTO_PRESETS = [
@@ -49,6 +55,7 @@ export const EVENT_IMAGE_PRESETS = [
 
 // Filter Options
 export const EVENT_COST_OPTIONS = ['Gratuito', 'A Pagamento'];
+export const EVENT_DATE_OPTIONS = ['Oggi', 'Domani', 'Questa settimana', 'Questo weekend'];
 
 // Mock Data: Friends
 export const NEARBY_FRIENDS_DATA: FriendData[] = [
@@ -56,13 +63,22 @@ export const NEARBY_FRIENDS_DATA: FriendData[] = [
   { id: 'friend2', name: 'Giulia Verdi', distance: '2.5 km', avatar: USER_AVATARS[2] },
   { id: 'friend3', name: 'Marco Neri', distance: '3.1 km', avatar: USER_AVATARS[3] },
   { id: 'friend4', name: 'Sofia Romano', distance: '4.8 km', avatar: USER_AVATARS[4] },
+  { id: 'friend5', name: 'Elena Ferrari', distance: '0.8 km', avatar: USER_AVATARS[9] },
+  { id: 'friend6', name: 'Alessandro Conti', distance: '1.5 km', avatar: USER_AVATARS[10] },
+  { id: 'friend7', name: 'Chiara Gallo', distance: '2.1 km', avatar: USER_AVATARS[11] },
+  { id: 'friend8', name: 'Davide Greco', distance: '3.9 km', avatar: USER_AVATARS[12] },
 ];
 
 // Mock Data: User Reviews
 const sampleReviews: UserReview[] = [
-  { userId: 'user1', name: 'Giulia Verdi', avatar: USER_AVATARS[2], rating: 5, text: "Posto fantastico! Atmosfera incredibile e cibo delizioso. Super consigliato per una serata tra amici.", date: "2023-10-26" },
-  { userId: 'user2', name: 'Luca Bianchi', avatar: USER_AVATARS[1], rating: 4, text: "Ottima esperienza, personale gentile e location molto curata. Tornerò sicuramente per provare altri piatti.", date: "2023-10-25" },
-  { userId: 'user3', name: 'Sofia Romano', avatar: USER_AVATARS[4], rating: 5, text: "Evento organizzatissimo, musica top e bella gente. Non vedo l'ora del prossimo!", date: "2023-09-15" },
+  { userId: 'user2', name: 'Giulia Verdi', avatar: USER_AVATARS[2], rating: 5, text: "Posto fantastico! Atmosfera incredibile e cibo delizioso. Super consigliato per una serata tra amici.", date: "2023-10-26" },
+  { userId: 'user1', name: 'Luca Bianchi', avatar: USER_AVATARS[1], rating: 4, text: "Ottima esperienza, personale gentile e location molto curata. Tornerò sicuramente per provare altri piatti.", date: "2023-10-25" },
+  { userId: 'user4', name: 'Sofia Romano', avatar: USER_AVATARS[4], rating: 5, text: "Evento organizzatissimo, musica top e bella gente. Non vedo l'ora del prossimo!", date: "2023-09-15" },
+  { userId: 'user5', name: 'Elena Ferrari', avatar: USER_AVATARS[9], rating: 4, text: "Pizza napoletana verace, una delle migliori di Milano. Un po' di fila ma ne vale assolutamente la pena.", date: "2023-10-28" },
+  { userId: 'user6', name: 'Alessandro Conti', avatar: USER_AVATARS[10], rating: 5, text: "Sushi di qualità eccellente, pesce freschissimo e abbinamenti ricercati. Ambiente elegante e moderno.", date: "2023-10-20" },
+  { userId: 'user7', name: 'Chiara Gallo', avatar: USER_AVATARS[11], rating: 3, text: "Il posto è carino e i cocktail non sono male, ma i prezzi sono un po' alti e il servizio è stato lento.", date: "2023-10-18" },
+  { userId: 'user8', name: 'Davide Greco', avatar: USER_AVATARS[12], rating: 5, text: "Il brunch perfetto! Vasta scelta tra dolce e salato, tutto buonissimo e presentato in modo impeccabile. Consigliatissimo!", date: "2023-10-22" },
+  { userId: 'user3', name: 'Marco Neri', avatar: USER_AVATARS[3], rating: 4, text: "Hamburger ottimi e bella selezione di birre. Il locale è un po' piccolo quindi si sta stretti, ma per una cena informale è perfetto.", date: "2023-10-24" },
 ];
 
 // Mock Data: Locales (Restaurants)
@@ -71,8 +87,13 @@ export const initialLocaleData: Locale[] = [
         id: 'loc1', name: 'Osteria del Corso', rating: 4.8, reviews: 124, cuisine: 'Italiana', price: '€€', distance: '1.2km',
         address: 'Corso Magenta 12, Milano', phone: '02 123456', website: 'osteriadelcorso.it',
         img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-        coords: { lat: 45.465, lng: 9.178 }, capacity: 30, currentGuests: 12, hashtags: ['tradizionale', 'romantico', 'pasta'],
-        menu: [{ dish: 'Spaghetti Carbonara', price: '€14', category: 'Primi' }, { dish: 'Tiramisù', price: '€7', category: 'Dolci' }],
+        coords: { lat: 45.465, lng: 9.178 }, capacity: 30, currentGuests: 22, hashtags: ['tradizionale', 'romantico', 'pasta'],
+        menu: [
+            { dish: 'Spaghetti Carbonara', price: '€14', category: 'Primi' }, 
+            { dish: 'Risotto alla Milanese', price: '€16', category: 'Primi' },
+            { dish: 'Cotoletta alla Milanese', price: '€22', category: 'Secondi' },
+            { dish: 'Tiramisù', price: '€7', category: 'Dolci' }
+        ],
         description: "Un'autentica osteria milanese che serve piatti della tradizione con un tocco moderno. Perfetto per cene intime e pranzi di lavoro.",
         menuPhotos: MENU_PHOTO_PRESETS.slice(0, 2), userReviews: sampleReviews.slice(0, 2),
         openingHours: "Lun-Sab: 12:00-15:00, 19:00-23:00\nDomenica: Chiuso",
@@ -80,17 +101,75 @@ export const initialLocaleData: Locale[] = [
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
             "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
         ],
-        joinedUserNames: ['Luca Bianchi', 'Giulia Verdi'],
+        joinedUserNames: ['Luca Bianchi', 'Giulia Verdi', 'Alessandro Conti'],
+    },
+    {
+        id: 'loc3', name: 'Pizzeria Sorbillo', rating: 4.9, reviews: 854, cuisine: 'Pizzeria', price: '€€', distance: '0.5km',
+        address: 'Largo Corsia dei Servi, 11, Milano', phone: '02 4537 5930', website: 'sorbillo.it',
+        img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+        coords: { lat: 45.466, lng: 9.192 }, capacity: 60, currentGuests: 58, hashtags: ['pizza', 'napoletana', 'popolare', 'fila'],
+        menu: [
+            { dish: 'Margherita', price: '€8', category: 'Pizze' }, 
+            { dish: 'Diavola', price: '€9.50', category: 'Pizze' },
+            { dish: 'Pizza Fritta', price: '€10', category: 'Specialità' },
+        ],
+        description: "L'autentica pizza napoletana nel cuore di Milano. Ingredienti di primissima qualità e un impasto leggero e digeribile. Preparatevi a fare un po' di coda!",
+        menuPhotos: [MENU_PHOTO_PRESETS[1]], userReviews: [sampleReviews[3]],
+        openingHours: "Tutti i giorni: 12:00-15:30, 19:00-23:30",
+        joinedUserNames: ['Elena Ferrari', 'Chiara Gallo'],
     },
     {
         id: 'loc2', name: 'The Burger Hub', rating: 4.5, reviews: 250, cuisine: 'Hamburger', price: '€', distance: '2.5km',
         address: 'Via Paolo Sarpi 50, Milano', phone: '02 789012', website: 'theburgerhub.com',
         img: 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-        coords: { lat: 45.481, lng: 9.174 }, capacity: 50, currentGuests: 45, hashtags: ['gourmet', 'veloce', 'birre'],
+        coords: { lat: 45.481, lng: 9.174 }, capacity: 25, currentGuests: 15, hashtags: ['gourmet', 'veloce', 'birre'],
         menu: [{ dish: 'Classic Cheeseburger', price: '€10', category: 'Hamburger' }, { dish: 'Patatine Fritte', price: '€4', category: 'Contorni' }],
         description: "I migliori hamburger gourmet della città, preparati con ingredienti freschi e di alta qualità. Ampia selezione di birre artigianali.",
-        menuPhotos: [MENU_PHOTO_PRESETS[1]], userReviews: [],
-        joinedUserNames: ['Marco Neri'],
+        menuPhotos: [MENU_PHOTO_PRESETS[1]], userReviews: [sampleReviews[7]],
+        joinedUserNames: ['Marco Neri', 'Davide Greco'],
+    },
+    {
+        id: 'loc4', name: 'Sushi Taka', rating: 4.7, reviews: 180, cuisine: 'Giapponese', price: '€€€', distance: '1.8km',
+        address: 'Via Ugo Foscolo, 4, Milano', phone: '02 8888 8888', website: 'sushitaka.it',
+        img: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        coords: { lat: 45.464, lng: 9.190 }, capacity: 40, currentGuests: 31, hashtags: ['sushi', 'elegante', 'pesce crudo'],
+        menu: [
+            { dish: 'Nigiri Mix (8 pz)', price: '€25', category: 'Sushi' }, 
+            { dish: 'Spicy Tuna Roll', price: '€18', category: 'Uramaki' },
+            { dish: 'Black Cod Miso', price: '€30', category: 'Piatti Caldi' },
+        ],
+        description: "Esperienza culinaria giapponese di alto livello. Materie prime eccellenti, creatività e un ambiente raffinato per una cena indimenticabile.",
+        menuPhotos: [], userReviews: [sampleReviews[4]],
+        openingHours: "Mar-Dom: 19:30-23:30\nLunedì: Chiuso",
+        joinedUserNames: [],
+    },
+    {
+        id: 'loc5', name: 'Terrazza Aperol', rating: 4.4, reviews: 550, cuisine: 'Cocktail Bar', price: '€€€', distance: '0.9km',
+        address: 'Piazza del Duomo, Milano', phone: '02 123123', website: 'terrazzaaperol.it',
+        img: 'https://images.unsplash.com/photo-1599511196323-7a2c745fe95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80',
+        coords: { lat: 45.464, lng: 9.189 }, capacity: 80, currentGuests: 75, hashtags: ['aperitivo', 'vista', 'duomo', 'turistico'],
+        menu: [
+            { dish: 'Aperol Spritz', price: '€15', category: 'Cocktail' }, 
+            { dish: 'Club Sandwich', price: '€20', category: 'Snack' },
+        ],
+        description: "Goditi un iconico Aperol Spritz con una vista mozzafiato su Piazza del Duomo. Il luogo perfetto per un aperitivo glamour.",
+        menuPhotos: [], userReviews: [sampleReviews[5]],
+        openingHours: "Tutti i giorni: 11:00-23:00",
+        joinedUserNames: ['Sofia Romano'],
+    },
+    {
+        id: 'loc6', name: 'Brunch & Cake', rating: 4.6, reviews: 310, cuisine: 'Brunch', price: '€€', distance: '3.2km',
+        address: 'Via Paolo Sarpi, 60, Milano', phone: '02 456456', website: 'brunchandcake.com',
+        img: 'https://images.unsplash.com/photo-1504754524776-8f4f37790774?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        coords: { lat: 45.482, lng: 9.175 }, capacity: 35, currentGuests: 20, hashtags: ['brunch', 'instagrammabile', 'pancake', 'avocado toast'],
+        menu: [
+            { dish: 'Pancakes con frutta', price: '€12', category: 'Dolce' },
+            { dish: 'Avocado Toast', price: '€14', category: 'Salato' }
+        ],
+        description: "Piatti da brunch spettacolari e colorati, perfetti per una foto e ancora di più per il palato. Un'esperienza unica per il weekend.",
+        menuPhotos: [MENU_PHOTO_PRESETS[2]], userReviews: [sampleReviews[6]],
+        openingHours: "Mer-Dom: 09:00-16:00\nLun-Mar: Chiuso",
+        joinedUserNames: [],
     },
 ];
 
@@ -102,7 +181,20 @@ export const initialEventData: Event[] = [
         img: 'https://images.unsplash.com/photo-1542648873-047071d48a86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
         coords: { lat: 45.451, lng: 9.171 }, description: "Unisciti a noi per un aperitivo rilassante lungo i Navigli! Ottimi cocktail, stuzzichini e buona compagnia. L'occasione perfetta per conoscere nuove persone.",
         maxParticipants: 20, currentParticipants: 12, hashtags: ['aperitivo', 'navigli', 'cocktail'], isUserCreated: false,
-        userReviews: sampleReviews.slice(2, 3), pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        userReviews: [sampleReviews[2]], pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        isPublicVenue: false,
+        organizerName: "SocialMix Team",
+    },
+    {
+        id: 'event_djset', name: 'DJ Set Esclusivo', date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), time: '23:00',
+        location: 'Apollo Club, Via Giosuè Borsi, 9/2, Milano', category: 'Musica',
+        img: 'https://images.unsplash.com/photo-1563212267-33424104e69b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        coords: { lat: 45.446, lng: 9.178 }, description: "Una notte di musica elettronica con DJ di fama internazionale. Posti limitati, evento imperdibile. Vietato mancare!",
+        maxParticipants: 100, currentParticipants: 100, hashtags: ['djset', 'clubbing', 'elettronica', 'notte'], isUserCreated: false,
+        userReviews: [], pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        partecipationFee: "€25,00",
+        isPublicVenue: false,
+        organizerName: "Apollo Club Milano",
     },
     {
         id: 'event_charity', name: 'Corsa Benefica al Parco', date: new Date(new Date().setDate(new Date().getDate() + 10)).toISOString(), time: '09:30',
@@ -116,9 +208,35 @@ export const initialEventData: Event[] = [
         location: 'Terrazza Triennale, Milano', category: 'Benessere',
         img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1220&q=80',
         description: "Una sessione di Vinyasa Flow con vista panoramica sulla città al calar del sole. Porta il tuo tappetino e la tua energia positiva!",
-        maxParticipants: 25, currentParticipants: 25, hashtags: ['yoga', 'relax', 'tramonto'], isUserCreated: true, userReviews: [],
+        maxParticipants: 25, currentParticipants: 22, hashtags: ['yoga', 'relax', 'tramonto'], isUserCreated: true, userReviews: [],
         pastAttendees: ['Sofia Romano', 'Luca Bianchi'], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
         partecipationFee: "€15,00",
+        // FIX: Removed duplicate isUserCreated property.
+        organizerName: "Mario Rossi",
+        whatToBring: "Tappetino da yoga, una borraccia d'acqua e un asciugamano.",
+        houseRules: "Si prega di arrivare 10 minuti in anticipo per prepararsi. Mantenere il silenzio durante la lezione.",
+    },
+    {
+        id: 'event_fotografia', name: 'Workshop Fotografia Street', date: new Date(new Date().setDate(new Date().getDate() + 14)).toISOString(), time: '14:30',
+        location: 'Quartiere Brera, Milano', category: 'Cultura',
+        img: 'https://images.unsplash.com/photo-1502920313556-c0bbbba00438?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        coords: { lat: 45.471, lng: 9.186 }, description: "Impara le basi della fotografia street con un fotografo professionista tra le vie di Brera. Workshop teorico e pratico.",
+        maxParticipants: 15, currentParticipants: 7, hashtags: ['fotografia', 'workshop', 'brera', 'creatività'], isUserCreated: false, userReviews: [],
+        pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        partecipationFee: "€50,00",
+        whatToBring: "Macchina fotografica (reflex, mirrorless o anche smartphone).",
+        organizerName: "Milano Photo Academy",
+    },
+    {
+        id: 'event_pasto_loc1', name: 'Cena da Osteria del Corso', date: new Date(new Date().setDate(new Date().getDate() + 8)).toISOString(), time: '20:30',
+        location: 'Osteria del Corso', category: 'Cibo',
+        img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+        localeId: 'loc1',
+        isPublicVenue: true,
+        description: "Una cena in compagnia per provare le specialità dell'Osteria del Corso. Prenotazione di gruppo per socializzare e gustare ottimo cibo.",
+        maxParticipants: 8, currentParticipants: 4, hashtags: ['cena', 'social', 'italiano'], isUserCreated: true, userReviews: [],
+        pastAttendees: [], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        organizerName: "Mario Rossi",
     },
     {
         id: 'event_past1', name: 'Concerto Acustico', date: '2023-10-15', time: '21:00',
@@ -126,7 +244,7 @@ export const initialEventData: Event[] = [
         img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
         description: "Serata intima con musica dal vivo.",
         maxParticipants: 50, currentParticipants: 50, hashtags: ['musica', 'live', 'indie'], isUserCreated: false, userReviews: [],
-        pastAttendees: ['Mario Rossi'], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        pastAttendees: ['Mario Rossi', 'Chiara Gallo', 'Davide Greco'], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
     },
     {
         id: 'event_past2', name: 'Cineforum all\'aperto', date: '2023-08-20', time: '21:30',
@@ -134,17 +252,19 @@ export const initialEventData: Event[] = [
         img: 'https://images.unsplash.com/photo-1620177114340-9a5a7b62309f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
         description: "Proiezione di un grande classico sotto le stelle.",
         maxParticipants: 100, currentParticipants: 100, hashtags: ['cinema', 'estate'], isUserCreated: false, userReviews: [],
-        pastAttendees: ['Mario Rossi', 'Giulia Verdi'], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
+        pastAttendees: ['Mario Rossi', 'Giulia Verdi', 'Marco Neri'], isCharityEvent: false, donationsReceived: 0, donationGoal: 0,
     },
 ];
 
+
 // Mock Data: Stories & Social Cards
 export const STORIES_DATA: Story[] = [
-    { id: 'story1', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=870', title: '2x1 Cocktail', type: 'promo' },
-    { id: 'story2', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=1172', title: 'Burger Scontati', type: 'promo' },
-    { id: 'story3', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1064', title: 'Happy Hour!', type: 'promo' },
-    { id: 'story4', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1074', title: 'Cena Speciale', type: 'promo' },
-    { id: 'story5', image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?q=80&w=987', title: 'Colazione Offerta', type: 'promo' },
+    { id: 'story1', image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=870', title: 'Pizza Sorbillo', type: 'promo' },
+    { id: 'story2', image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=870', title: 'Sushi Night', type: 'promo' },
+    { id: 'story3', image: 'https://images.unsplash.com/photo-1599511196323-7a2c745fe95f?q=80&w=870', title: 'Vista Duomo', type: 'promo' },
+    { id: 'story4', image: 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?q=80&w=870', title: 'Burger Scontati', type: 'promo' },
+    { id: 'story5', image: 'https://images.unsplash.com/photo-1504754524776-8f4f37790774?q=80&w=870', title: 'Weekend Brunch', type: 'promo' },
+    { id: 'story6', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1074', title: 'Cena Speciale', type: 'promo' },
 ];
 
 export const SOCIAL_CARD_DATA: SocialCard[] = [
@@ -153,6 +273,12 @@ export const SOCIAL_CARD_DATA: SocialCard[] = [
         text: 'Giulia, Luca e altri 2 amici parteciperanno a "Aperitivo sui Navigli". Ti unisci a loro?',
         friendAvatars: [USER_AVATARS[2], USER_AVATARS[1], USER_AVATARS[4], USER_AVATARS[5]],
         relatedEventId: 'event1',
+    },
+    {
+        itemType: 'social', id: 'social2',
+        text: 'Elena e Davide sono interessati al "Workshop Fotografia Street". Potrebbe piacere anche a te!',
+        friendAvatars: [USER_AVATARS[9], USER_AVATARS[12]],
+        relatedEventId: 'event_fotografia',
     }
 ];
 

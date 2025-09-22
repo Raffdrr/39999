@@ -29,15 +29,18 @@ const TAB_IDS = TABS_CONFIG.map(t => t.id);
 
 const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft, onSwipeRight, isFirstItem, isLastItem }) => {
   const { addMenuPhoto } = useDataStore();
-  // Fix: Corrected property name from `userAvatar` to `avatar`.
   const { joinedTables, joinTable, leaveTable, avatar } = useUserStore();
   const { isFavorite, toggleFavorite } = useFavoritesStore();
-  const { showToast, openModal } = useUIStore();
+  const { showToast, openModal, theme } = useUIStore();
   
   const [activeDetailTab, setActiveDetailTab] = useState<LocaleDetailTabId>(TABS_CONFIG[0].id);
   
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
+
+  // State for pull-to-dismiss gesture
+  const [dragStart, setDragStart] = useState<{ y: number; scrollTop: number } | null>(null);
+  const [dragY, setDragY] = useState(0);
 
   const handleTabSwipeLeft = () => {
     const currentIndex = TAB_IDS.indexOf(activeDetailTab);
@@ -54,18 +57,51 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
   const tabSwipeHandlers = useSwipe({ onSwipedLeft: handleTabSwipeLeft, onSwipedRight: handleTabSwipeRight });
   const itemSwipeHandlers = useSwipe({ onSwipedLeft: onSwipeLeft, onSwipedRight: onSwipeRight });
 
-
   const handleScroll = () => {
       if (scrollRef.current) {
           const threshold = window.innerHeight * 0.2;
           setIsHeaderCollapsed(scrollRef.current.scrollTop > threshold);
       }
   };
+  
+  // Handlers for pull-to-dismiss gesture
+  const handlePullDownStart = (e: React.TouchEvent) => {
+    if (scrollRef.current) {
+        setDragStart({ y: e.targetTouches[0].clientY, scrollTop: scrollRef.current.scrollTop });
+    }
+  };
+
+  const handlePullDownMove = (e: React.TouchEvent) => {
+      if (!dragStart || dragStart.scrollTop > 5) return; // Only drag if at the top (with a small tolerance)
+
+      const currentY = e.targetTouches[0].clientY;
+      const dy = currentY - dragStart.y;
+
+      if (dy > 0) { // Only allow pulling down
+          e.stopPropagation(); // Prevent horizontal swipe hooks from triggering
+          setDragY(dy);
+      }
+  };
+
+  const handlePullDownEnd = () => {
+      if (!dragStart) return;
+
+      const threshold = 150; // Min distance to trigger close
+      if (dragY > threshold) {
+          onClose();
+      } else {
+          setDragY(0); // Snap back
+      }
+      setDragStart(null);
+  };
+
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     setActiveDetailTab(TABS_CONFIG[0].id); 
     setIsHeaderCollapsed(false);
+    setDragY(0);
+    setDragStart(null);
     scrollRef.current?.scrollTo(0, 0);
     
     return () => {
@@ -322,7 +358,19 @@ const LocaleModal: React.FC<LocaleModalProps> = ({ locale, onClose, onSwipeLeft,
 
 
   return (
-    <div ref={scrollRef} onScroll={handleScroll} className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in">
+    <div 
+        ref={scrollRef} 
+        onScroll={handleScroll} 
+        onTouchStart={handlePullDownStart}
+        onTouchMove={handlePullDownMove}
+        onTouchEnd={handlePullDownEnd}
+        style={{
+            transform: `translateY(${dragY}px)`,
+            transition: dragStart ? 'none' : 'transform 0.3s ease-out',
+            backgroundColor: `rgba(${theme === 'dark' ? '2, 6, 23,' : '248, 250, 252,'} ${1 - Math.min(1, dragY / 500)})`
+        }}
+        className="fixed inset-0 z-40 text-slate-900 dark:text-white overflow-y-auto no-scrollbar animate-fade-in"
+    >
         
         <div className={`sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-md transition-all duration-300 ease-in-out ${isHeaderCollapsed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
              <button onClick={onClose} className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/10" aria-label="Chiudi">

@@ -195,13 +195,13 @@
         border-top: 1px solid rgba(226, 232, 240, 0.7); /* border-slate-200 */
         border-top-left-radius: 1.5rem; /* rounded-t-3xl */
         border-top-right-radius: 1.5rem;
-        padding: 1.25rem 1.25rem 5.5rem 1.25rem; /* bottom padding to clear nav bar */
         z-index: 40;
         box-shadow: 0 -10px 25px -5px rgb(0 0 0 / 0.1);
-        max-height: 80vh;
-        overflow-y: auto;
+        max-height: 65vh; /* Reduced height */
         transform: translateY(100%);
         animation: slide-up 0.35s ease-out forwards;
+        display: flex;
+        flex-direction: column;
     }
     .dark .filter-panel-content {
       background-color: rgba(15, 23, 42, 0.8); /* slate-900 w/ acrylic */

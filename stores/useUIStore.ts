@@ -43,6 +43,8 @@ interface UIState extends ModalState {
   displayCategory: DisplayCategory;
   activeLocaleFilters: Set<string>;
   activeEventFilters: Set<string>;
+  activeDateFilter: string | null;
+  activePriceFilters: Set<string>;
   
   setActiveTab: (tabId: TabId) => void;
   toggleTheme: () => void;
@@ -60,7 +62,11 @@ interface UIState extends ModalState {
   setDisplayCategory: (category: DisplayCategory) => void;
   toggleLocaleFilter: (filter: string) => void;
   toggleEventFilter: (filter: string) => void;
+  resetLocaleFilters: () => void;
+  resetEventFilters: () => void;
   resetAllFilters: () => void;
+  setDateFilter: (filter: string | null) => void;
+  togglePriceFilter: (filter: string) => void;
 }
 
 const initialModalState: ModalState = {
@@ -96,6 +102,8 @@ export const useUIStore = create<UIState>((set, get) => ({
   displayCategory: 'all',
   activeLocaleFilters: new Set(),
   activeEventFilters: new Set(),
+  activeDateFilter: null,
+  activePriceFilters: new Set(),
 
   setActiveTab: (tabId) => {
     if (get().showFilterPanel) {
@@ -158,6 +166,23 @@ export const useUIStore = create<UIState>((set, get) => ({
     else newSet.add(filter);
     return { activeEventFilters: newSet };
   }),
-  
-  resetAllFilters: () => set({ activeLocaleFilters: new Set(), activeEventFilters: new Set() }),
+
+  resetLocaleFilters: () => set({ activeLocaleFilters: new Set(), activePriceFilters: new Set() }),
+  resetEventFilters: () => set({ activeEventFilters: new Set(), activeDateFilter: null }),
+
+  resetAllFilters: () => {
+    get().resetLocaleFilters();
+    get().resetEventFilters();
+  },
+
+  setDateFilter: (filter) => set(state => ({
+    activeDateFilter: state.activeDateFilter === filter ? null : filter
+  })),
+
+  togglePriceFilter: (filter) => set(state => {
+    const newSet = new Set(state.activePriceFilters);
+    if (newSet.has(filter)) newSet.delete(filter);
+    else newSet.add(filter);
+    return { activePriceFilters: newSet };
+  }),
 }));

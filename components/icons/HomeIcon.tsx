@@ -55,12 +55,6 @@ export const HomeIcon: React.FC<IconProps> = ({ isActive, className }) => (
           strokeLinejoin="round"
           strokeLinecap="round"
         />
-        {/* Sculpted Gloss highlight */}
-        <path
-          d="M3,10 C 4,8 12,2.5 12,2.5 L21,10 C 18,9.5 12,8 3,10 Z"
-          fill="url(#home-gloss-sculpted)"
-          opacity="0.9"
-        />
       </>
     ) : (
       <path

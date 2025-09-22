@@ -41,8 +41,6 @@ export const CalendarIcon: React.FC<IconProps> = ({ isActive, className }) => (
         <rect x="3" y="4" width="18" height="18" rx="2.5" fill="url(#cal-grad-base)" stroke="rgba(255,255,255,0.3)" strokeWidth="0.75"/>
         {/* Header */}
         <path d="M3,6.5c0-1.38,1.12-2.5,2.5-2.5h13c1.38,0,2.5,1.12,2.5,2.5v3H3V6.5z" fill="url(#cal-grad-header)" />
-        {/* Header Gloss */}
-        <path d="M3,6.5c0-1.38,1.12-2.5,2.5-2.5h13c1.38,0,2.5,1.12,2.5,2.5v3H3V6.5z" fill="url(#cal-gloss-sculpted)" opacity="0.8" />
         {/* Rings */}
         <path d="M16,2.5 v4" strokeWidth="3" stroke="url(#cal-ring-grad)" strokeLinecap="round" />
         <path d="M8,2.5 v4" strokeWidth="3" stroke="url(#cal-ring-grad)" strokeLinecap="round" />

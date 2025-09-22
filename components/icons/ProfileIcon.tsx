@@ -67,10 +67,6 @@ export const ProfileIcon: React.FC<IconProps> = ({ isActive, className }) => (
           stroke="#fb923c"
           strokeWidth="0.75"
         />
-        {/* Inner shadow for sculpted effect */}
-        <circle cx="12" cy="7" r="4" fill="url(#profile-inner-shadow)" />
-        {/* Gloss Highlight */}
-        <circle cx="12" cy="7" r="4" fill="url(#profile-gloss-sculpted)" opacity="0.9" />
       </>
     ) : (
       <path
